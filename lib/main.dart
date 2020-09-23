@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/bottomnav.dart';
-import 'package:jiji/home.dart';
+import 'package:jiji/components/bottomnav.dart';
+import 'package:jiji/pages/home.dart';
 
 import 'package:flutter/material.dart';
 
