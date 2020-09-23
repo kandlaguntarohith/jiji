@@ -12,27 +12,31 @@ class MyAdsPage extends StatelessWidget {
           title: 'Smartwatch 1',
           price: 100,
           location: 'Mumbai',
+          image: 'assets/watch.jpg',
         ),
       ),
       MyAdItemWidget(
         itemModel: MyAdItemModel(
-          title: 'Smartwatch 2',
-          price: 150,
-          location: 'Delhi',
+          title: 'Smartwatch 1',
+          price: 100,
+          location: 'Mumbai',
+          image: 'assets/watch.jpg',
         ),
       ),
       MyAdItemWidget(
         itemModel: MyAdItemModel(
-          title: 'Smartwatch 3',
-          price: 200,
-          location: 'Bangalore',
+          title: 'Smartwatch 1',
+          price: 100,
+          location: 'Mumbai',
+          image: 'assets/watch.jpg',
         ),
       ),
       MyAdItemWidget(
         itemModel: MyAdItemModel(
-          title: 'Smartwatch 4',
-          price: 250,
-          location: 'Goa',
+          title: 'Smartwatch 1',
+          price: 100,
+          location: 'Mumbai',
+          image: 'assets/watch.jpg',
         ),
       ),
     ];
@@ -44,7 +48,36 @@ class MyAdsPage extends StatelessWidget {
       body: ListView.builder(
           itemCount: _itemsList.length,
           itemBuilder: (context, index) {
-            return _itemsList[index];
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  child: _itemsList[index],
+                ),
+                SizedBox(width: 20.0),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    IconButton(
+                        icon: Icon(Icons.edit),
+                        iconSize: 28.0,
+                        onPressed: null),
+                    Text('Edit'),
+                    IconButton(
+                        icon: Icon(Icons.share),
+                        iconSize: 28.0,
+                        onPressed: null),
+                    Text('Share'),
+                    IconButton(
+                        icon: Icon(Icons.send),
+                        iconSize: 28.0,
+                        onPressed: null),
+                    Text('Promote'),
+                  ],
+                ),
+              ],
+            );
           }),
     );
   }
