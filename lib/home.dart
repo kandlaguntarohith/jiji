@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'bottomnav.dart';
+import 'package:jiji/jijiappbar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -46,62 +46,8 @@ class _HomePageState extends State<HomePage> {
     final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.0), // here the desired height
-          child: AppBar(
-            backgroundColor: Hexcolor("#3DB83A"),
-            elevation: 0,
-            // centerTitle: false,
-            // titleSpacing: 0,
-            title: Row(children: <Widget>[
-              SizedBox(
-                height: pHeight * 0.1,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(8, 20, 8, 8),
-                child: Text(
-                  "Jiji",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-              ),
-              SizedBox(
-                height: pHeight * 0.1,
-              ),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 80, 0, 40),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        suffixIcon: Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 30.0),
-                          child: Icon(Icons.search),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintStyle:
-                            TextStyle(fontSize: 20.0, color: Colors.grey),
-                        hintText: "Search",
-                        contentPadding:
-                            EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 30.0),
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                ),
-              )
-            ]),
-
-            actions: <Widget>[
-              Container(
-                margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: Icon(Icons.notifications),
-              ),
-            ],
-          ),
+          child: JijiAppBar(),
+          preferredSize: Size.fromHeight(80.0),
         ),
         body: SingleChildScrollView(
             child: Stack(children: <Widget>[
