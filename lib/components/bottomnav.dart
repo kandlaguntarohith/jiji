@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/home.dart';
+import 'package:jiji/pages/home.dart';
 
 class BottomNav extends StatefulWidget {
   @override
