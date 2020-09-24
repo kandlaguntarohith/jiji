@@ -4,6 +4,7 @@ import 'package:jiji/components/bottomnav.dart';
 import 'package:jiji/pages/home.dart';
 
 import 'package:flutter/material.dart';
+import 'package:jiji/pages/OnBoardingScreens.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,6 +24,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: BottomNav());
+        home: GettingStartedScreen());
   }
 }
