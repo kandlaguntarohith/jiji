@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/models/ad_item.dart';
 import 'package:jiji/widgets/ad_item.dart';
+import 'package:share/share.dart';
 
 class MyAdsPage extends StatelessWidget {
   @override
@@ -67,12 +68,16 @@ class MyAdsPage extends StatelessWidget {
                     IconButton(
                         icon: Icon(Icons.share),
                         iconSize: 28.0,
-                        onPressed: null),
+                        onPressed: () {
+                          Share.share('Download Jiji now!');
+                        }),
                     Text('Share'),
                     IconButton(
                         icon: Icon(Icons.send),
                         iconSize: 28.0,
-                        onPressed: null),
+                        onPressed: () {
+                          Share.share('Download Jiji now!');
+                        }),
                     Text('Promote'),
                   ],
                 ),
