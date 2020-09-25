@@ -24,9 +24,9 @@ class SimilarProducts extends StatelessWidget {
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        crossAxisSpacing: 21,
-        mainAxisSpacing: 20,
-        childAspectRatio: 157 / 125,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 15,
+        childAspectRatio: 157 / 140,
       ),
       itemBuilder: (_, index) => SimilarProductCard(
         productImgUrl: productImgUrl[index],

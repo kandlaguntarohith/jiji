@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 
 import '../../ThemeData.dart';
 
-
 class SellerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 120,
       width: double.infinity,
       child: Card(
         child: Row(
@@ -27,7 +26,7 @@ class SellerCard extends StatelessWidget {
                 vertical: 12,
               ),
               child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

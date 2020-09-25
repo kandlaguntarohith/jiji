@@ -77,7 +77,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               height: 30,
               width: double.infinity,
               child: Text(
-                  "Electronics > Wearables > Smart Watch > Brand new ...."),
+                "Electronics > Wearables > Smart Watch > Brand new ....",
+                style: TextStyle(
+                  fontSize: 10,
+                ),
+              ),
             ),
             SizedBox(height: 20),
             Padding(
@@ -157,7 +161,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                       CustomButton(
                         icon: Icon(
-                          Icons.phone,
+                          Icons.message,
                           color: MyThemeData.primaryColor,
                         ),
                         isBorder: true,
@@ -210,6 +214,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     prices: prices,
                     place: place,
                   ),
+                  SizedBox(height: 50),
                 ],
               ),
             ),
