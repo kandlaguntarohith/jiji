@@ -158,16 +158,10 @@ class _MyAdsPageState extends State<MyAdsPage> {
                   ),
                   Text('Edit'),
                   IconButton(
-                    icon: Icon(Icons.share),
-                    iconSize: 28.0,
-                    onPressed: null,
-                  ),
+                      icon: Icon(Icons.share), iconSize: 28.0, onPressed: null),
                   Text('Share'),
                   IconButton(
-                    icon: Icon(Icons.send),
-                    iconSize: 28.0,
-                    onPressed: null,
-                  ),
+                      icon: Icon(Icons.send), iconSize: 28.0, onPressed: null),
                   Text('Promote'),
                 ],
               ),
