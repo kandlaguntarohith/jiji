@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:jiji/pages/add_product_screen.dart';
+import 'package:jiji/pages/chat_page.dart';
 import 'package:jiji/pages/home.dart';
 import 'package:jiji/pages/my_ads_page.dart';
 
@@ -63,7 +65,10 @@ class _BottomNavState extends State<BottomNav> {
               MaterialButton(
                 minWidth: 40,
                 onPressed: () {
-                  setState(() {});
+                  setState(() {
+                    currentTab = 1;
+                    currentScreen = ChatPage();
+                  });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -84,10 +89,17 @@ class _BottomNavState extends State<BottomNav> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(
-                      Icons.add_circle,
-                      color:
-                          currentTab == 1 ? Hexcolor("#3DB83A") : Colors.grey,
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => AddProductScreen(),
+                        ),
+                      ),
+                      child: Icon(
+                        Icons.add_circle,
+                        color:
+                            currentTab == 1 ? Hexcolor("#3DB83A") : Colors.grey,
+                      ),
                     ),
                   ],
                 ),
