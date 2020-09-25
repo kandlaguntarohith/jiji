@@ -10,16 +10,16 @@ import 'package:jiji/pages/Widgets/custom_textfield.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiji/pages/Widgets/item_images.dart';
 
-class AddProductScreen extends StatefulWidget {
-  static String routeName = '/AddProductScreen';
+class EditProductScreen extends StatefulWidget {
+  static String routeName = '/EditProductScreen';
   final Product product;
 
-  const AddProductScreen({Key key, this.product}) : super(key: key);
+  const EditProductScreen({Key key, this.product}) : super(key: key);
   @override
-  _AddProductScreenState createState() => _AddProductScreenState(product);
+  _EditProductScreenState createState() => _EditProductScreenState(product);
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class _EditProductScreenState extends State<EditProductScreen> {
   List<String> _states = [];
   List<String> _cities = [];
   List<String> _categories = [];
@@ -34,10 +34,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String category;
   String subCategory;
 
-  Product _product;
+  final Product _product;
   final picker = ImagePicker();
 
-  _AddProductScreenState(this._product);
+  _EditProductScreenState(this._product);
   @override
   void initState() {
     _states.add("Maharashtra");
@@ -67,11 +67,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   Future<void> addImage(ImageSource source) async {
-    print("func called!");
     final pickedFile = await picker.getImage(source: source);
     setState(() {
       if (pickedFile != null) {
-        images.add(File(pickedFile.path));
+        images.insert(0, File(pickedFile.path));
       }
     });
   }
@@ -124,7 +123,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "POST NEW AD",
+                    "Edit Ad",
                     style: TextStyle(
                       color: MyThemeData.inputPlaceHolder,
                       fontSize: 14,
@@ -171,7 +170,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
               ItemImages(
                 images: images,
                 addImageFunction: addImage,
-                productUrlImages: [],
+                productUrlImages:
+                    _product.imageUrl == null ? [] : _product.imageUrl,
               ),
               renderhHeading("Location"),
               Row(
@@ -252,6 +252,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   color: MyThemeData.primaryColor,
                 ),
               ),
+              SizedBox(height: 20),
               FlatButton(
                 onPressed: () {},
                 child: Text(
