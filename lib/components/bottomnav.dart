@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/pages/add_product_screen.dart';
+import 'package:jiji/pages/chat_page.dart';
 import 'package:jiji/pages/home.dart';
 import 'package:jiji/pages/my_ads_page.dart';
 
@@ -64,7 +65,10 @@ class _BottomNavState extends State<BottomNav> {
               MaterialButton(
                 minWidth: 40,
                 onPressed: () {
-                  setState(() {});
+                  setState(() {
+                    currentTab = 1;
+                    currentScreen = ChatPage();
+                  });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
