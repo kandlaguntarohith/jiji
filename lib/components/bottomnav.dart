@@ -64,7 +64,10 @@ class _BottomNavState extends State<BottomNav> {
               MaterialButton(
                 minWidth: 40,
                 onPressed: () {
-                  setState(() {});
+                  setState(() {
+                    currentTab = 1;
+                    currentScreen = ChatPage();
+                  });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
