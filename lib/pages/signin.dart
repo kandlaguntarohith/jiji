@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:jiji/pages/home.dart';
 import 'package:jiji/pages/otp.dart';
 
 class LoginPage extends StatefulWidget {
@@ -61,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Forgotten Password?",
+                    "Forgot Password?",
                     style: TextStyle(
                       color: Colors.black,
                     ),
@@ -132,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OTPScreen(),
+              builder: (context) => HomePage(),
             ),
           );
         },
