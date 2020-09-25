@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:jiji/components/bottomnav.dart';
 import 'package:jiji/pages/home.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
@@ -104,7 +105,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomePage(),
+                      builder: (context) => BottomNav(),
                     ),
                   );
                 },
