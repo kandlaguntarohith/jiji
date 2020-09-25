@@ -16,6 +16,9 @@ class _BottomNavState extends State<BottomNav> {
   int currentTab = 0; // to keep track of active tab index
   final List<Widget> screens = [
     HomePage(),
+    ChatPage(),
+    AddProductScreen(),
+    MyAdsPage(),
   ]; // to store nested tabs
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomePage(); // Our first view in viewport
