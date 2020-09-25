@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:jiji/pages/home.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
@@ -98,21 +99,31 @@ class _OTPScreenState extends State<OTPScreen> {
               SizedBox(
                 height: pHeight * 0.03,
               ),
-              Container(
-                width: pWidth * 0.85,
-                height: pHeight * 0.065,
-                decoration: BoxDecoration(
-                  color: Hexcolor("#3DB83A"),
-                  // color: kPrimaryColor
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text(
-                      "CONFIRM",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18.0,
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomePage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: pWidth * 0.85,
+                  height: pHeight * 0.065,
+                  decoration: BoxDecoration(
+                    color: Hexcolor("#3DB83A"),
+                    // color: kPrimaryColor
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text(
+                        "CONFIRM",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18.0,
+                        ),
                       ),
                     ),
                   ),
