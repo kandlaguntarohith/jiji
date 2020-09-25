@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/jijiappbar.dart';
+import 'package:jiji/pages/product_details.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -354,6 +355,11 @@ class _HomePageState extends State<HomePage> {
                             ),
                             clipBehavior: Clip.antiAlias,
                             child: InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProductDetailScreen()),
+                              ),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
@@ -410,68 +416,11 @@ class _HomePageState extends State<HomePage> {
                             ),
                             clipBehavior: Clip.antiAlias,
                             child: InkWell(
-                              // onTap: () =>
-                              // Navigator.of(context).pushNamed(MyHomePage2.routeName),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: (MediaQuery.of(context).size.width /
-                                            2) -
-                                        90,
-                                    width: double.infinity,
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage('assets/watch.jpg'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          150, 10, 0, 0),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        size: 15,
-                                        color: Hexcolor("#3DB83A"),
-                                      ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    title: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: Text(
-                                        'Brand New Smart Watch',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            fontFamily: 'Black Ops One'),
-                                      ),
-                                    ),
-                                    subtitle: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 20),
-                                      child: Text(
-                                        "\₹${13000}",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Hexcolor("#3DB83A")),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProductDetailScreen()),
                               ),
-                            )),
-                        Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: InkWell(
-                              // onTap: () =>
-                              // Navigator.of(context).pushNamed(MyHomePage2.routeName),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -530,8 +479,74 @@ class _HomePageState extends State<HomePage> {
                             ),
                             clipBehavior: Clip.antiAlias,
                             child: InkWell(
-                              // onTap: () =>
-                              // Navigator.of(context).pushNamed(MyHomePage2.routeName),
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProductDetailScreen()),
+                              ),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: (MediaQuery.of(context).size.width /
+                                            2) -
+                                        90,
+                                    width: double.infinity,
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage('assets/watch.jpg'),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          150, 10, 0, 0),
+                                      child: Icon(
+                                        Icons.favorite,
+                                        size: 15,
+                                        color: Hexcolor("#3DB83A"),
+                                      ),
+                                    ),
+                                  ),
+                                  ListTile(
+                                    title: Padding(
+                                      padding:
+                                          const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                                      child: Text(
+                                        'Brand New Smart Watch',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 12,
+                                            fontFamily: 'Black Ops One'),
+                                      ),
+                                    ),
+                                    subtitle: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 0, 0, 20),
+                                      child: Text(
+                                        "\₹${13000}",
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Hexcolor("#3DB83A")),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                        Card(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            clipBehavior: Clip.antiAlias,
+                            child: InkWell(
+                              onTap: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProductDetailScreen()),
+                              ),
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
