@@ -29,7 +29,9 @@ class ItemImages extends StatelessWidget {
               itemBuilder: (context, index) => itemImageContainer(
                 index < images.length
                     ? images[index]
-                    : index < imgCount ? productUrlImages[index - images.length] : null,
+                    : index < imgCount
+                        ? productUrlImages[index - images.length]
+                        : null,
               ),
               itemCount: max(imgCount, 3),
               // itemCount: imgCount,
