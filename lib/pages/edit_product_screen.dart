@@ -9,6 +9,7 @@ import 'package:jiji/pages/Widgets/custom_dropdrown.dart';
 import 'package:jiji/pages/Widgets/custom_textfield.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiji/pages/Widgets/item_images.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 class EditProductScreen extends StatefulWidget {
   static String routeName = '/EditProductScreen';
@@ -107,13 +108,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
         preferredSize: Size.fromHeight(80.0),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.symmetric(horizontal:SizeConfig.deviceWidth * 4),
         child: Form(
           key: _form,
           child: ListView(

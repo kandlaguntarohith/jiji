@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 import '../ThemeData.dart';
 import '../components/jijiappbar.dart';
@@ -62,6 +63,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
@@ -85,7 +87,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             ),
             SizedBox(height: 20),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20),
+              padding:
+                  EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
