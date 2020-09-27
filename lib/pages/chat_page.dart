@@ -50,7 +50,10 @@ class ChatPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: SizeConfig.deviceHeight * 1.5),
           ),
-          ChatCounter(avatarSize: SizeConfig.deviceWidth*3.35,count: 40,),
+          ChatCounter(
+            avatarSize: SizeConfig.deviceWidth * 3.35,
+            count: 40,
+          ),
         ],
       ),
     );
@@ -58,10 +61,9 @@ class ChatPage extends StatelessWidget {
 }
 
 class ChatCounter extends StatelessWidget {
-
   int count;
   double avatarSize;
-  ChatCounter({this.count,this.avatarSize}) ;
+  ChatCounter({this.count, this.avatarSize});
 
   @override
   Widget build(BuildContext context) {
@@ -110,11 +112,13 @@ class ChatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatBoxPage()));
+      onTap: () {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => ChatBoxPage()));
       },
       child: Container(
-        decoration: BoxDecoration(border: Border.all(color: Hexcolor("#F0F0F0"))),
+        decoration:
+            BoxDecoration(border: Border.all(color: Hexcolor("#F0F0F0"))),
         child: Padding(
           padding: EdgeInsets.symmetric(
               vertical: SizeConfig.deviceHeight * 2,
@@ -124,7 +128,7 @@ class ChatTile extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: SizeConfig.deviceWidth * 7.5,
-                backgroundImage: AssetImage('assets/profile_image.png'),
+                backgroundImage: AssetImage('assets/profile_image.jpeg'),
               ),
               Container(
                 width: SizeConfig.deviceWidth * 50,
@@ -172,10 +176,9 @@ class ChatTile extends StatelessWidget {
                     height: SizeConfig.deviceHeight * 1.5,
                   ),
                   ChatCounter(
-                    avatarSize: SizeConfig.deviceWidth*3,
+                    avatarSize: SizeConfig.deviceWidth * 3,
                     count: 5,
                   ),
-
                 ],
               )
             ],
@@ -185,3 +188,4 @@ class ChatTile extends StatelessWidget {
     );
   }
 }
+

@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/jijiappbar.dart';
@@ -57,7 +58,6 @@ class ChatBoxPage extends StatelessWidget {
   }
 
   Widget sendMessageWidget() {
-
     final _messageController = TextEditingController();
 
     void _sendMessage() {
@@ -200,7 +200,7 @@ class TopRowWidget extends StatelessWidget {
               width: SizeConfig.deviceWidth * 5,
             ),
             CircleAvatar(
-              backgroundImage: AssetImage('assets/profile_image.png'),
+              backgroundImage: AssetImage('assets/profile_image.jpeg'),
               radius: SizeConfig.deviceWidth * 7.5,
             ),
             Padding(

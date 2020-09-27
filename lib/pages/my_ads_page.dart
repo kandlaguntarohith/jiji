@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/models/ad_item.dart';
-import 'package:jiji/models/product.dart';
-import 'package:jiji/pages/edit_product_screen.dart';
+
+import 'package:jiji/utilities/size_config.dart';
+
 import 'package:jiji/widgets/ad_item.dart';
 import 'package:share/share.dart';
 
@@ -103,7 +104,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
-        preferredSize: Size.fromHeight(80.0),
+        preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
       ),
       body: Column(
         children: [

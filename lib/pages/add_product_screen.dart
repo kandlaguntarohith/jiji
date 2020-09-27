@@ -118,7 +118,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
-        preferredSize: Size.fromHeight(80.0),
+        preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: deviceHorizontalPadding),

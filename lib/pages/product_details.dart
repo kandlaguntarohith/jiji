@@ -82,7 +82,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
-        preferredSize: Size.fromHeight(80.0),
+        preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
       ),
       body: SingleChildScrollView(
         child: Column(

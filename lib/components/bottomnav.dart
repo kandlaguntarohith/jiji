@@ -146,7 +146,7 @@ class _BottomNavState extends State<BottomNav> {
                       children: <Widget>[
                         Icon(
                           Icons.person,
-                          color: currentTab == 4
+                          color: currentTab == null
                               ? Hexcolor("#3DB83A")
                               : Colors.grey,
                         ),

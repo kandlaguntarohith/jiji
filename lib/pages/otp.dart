@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/bottomnav.dart';
 import 'package:jiji/pages/home.dart';
+import 'package:jiji/utilities/size_config.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 
@@ -13,23 +14,12 @@ class OTPScreen extends StatefulWidget {
 class _OTPScreenState extends State<OTPScreen> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     final pHeight = MediaQuery.of(context).size.height;
     final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 0,
-            child: Container(
-              height: pHeight,
-              width: pWidth,
-              child: Image.asset(
-                'images/Background.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
           Column(
             children: <Widget>[
               SizedBox(
@@ -60,12 +50,13 @@ class _OTPScreenState extends State<OTPScreen> {
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',
-                        fontSize: pHeight * 0.035),
+                        fontSize: pHeight * 0.035,
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               SizedBox(
-                height: pHeight * 0.05,
+                height: pHeight * 0.03,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -78,27 +69,32 @@ class _OTPScreenState extends State<OTPScreen> {
                       style: TextStyle(
                           color: Colors.black.withOpacity(0.65),
                           fontFamily: 'Roboto',
-                          fontSize: pHeight * 0.02),
+                          fontSize: pHeight * 0.027),
                     ),
                   ),
                 ],
               ),
               SizedBox(
-                height: pHeight * 0.035,
+                height: pHeight * 0.065,
               ),
-              OTPTextField(
-                length: 4,
-                width: MediaQuery.of(context).size.width * 0.8,
-                fieldWidth: 60,
-                style: TextStyle(fontSize: 17),
-                textFieldAlignment: MainAxisAlignment.spaceAround,
-                fieldStyle: FieldStyle.underline,
-                onCompleted: (pin) {
-                  print("Completed: " + pin);
-                },
+              Container(
+                height: SizeConfig.deviceHeight * 6,
+                child: OTPTextField(
+                  length: 4,
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  fieldWidth: SizeConfig.deviceWidth * 10,
+                  style: TextStyle(
+                    fontSize: SizeConfig.deviceWidth * 5,
+                  ),
+                  textFieldAlignment: MainAxisAlignment.spaceAround,
+                  fieldStyle: FieldStyle.box,
+                  onCompleted: (pin) {
+                    print("Completed: " + pin);
+                  },
+                ),
               ),
               SizedBox(
-                height: pHeight * 0.03,
+                height: pHeight * 0.05,
               ),
               InkWell(
                 onTap: () {
@@ -113,9 +109,10 @@ class _OTPScreenState extends State<OTPScreen> {
                   width: pWidth * 0.85,
                   height: pHeight * 0.065,
                   decoration: BoxDecoration(
-                    color: Hexcolor("#3DB83A"),
-                    // color: kPrimaryColor
-                  ),
+                      color: Hexcolor("#3DB83A"),
+                      borderRadius: BorderRadius.circular(5)
+                      // color: kPrimaryColor
+                      ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
