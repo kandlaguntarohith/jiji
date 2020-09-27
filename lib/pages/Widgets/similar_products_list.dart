@@ -26,7 +26,7 @@ class SimilarProducts extends StatelessWidget {
         crossAxisCount: 2,
         crossAxisSpacing: 5,
         mainAxisSpacing: 15,
-        childAspectRatio: 150 / 140,
+        childAspectRatio: 1.2,
       ),
       itemBuilder: (_, index) => SimilarProductCard(
         productImgUrl: productImgUrl[index],

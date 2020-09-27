@@ -41,7 +41,7 @@ class SimilarProductCard extends StatelessWidget {
                   topRight: Radius.circular(5),
                 ),
                 child: Container(
-                  height: constraints.maxHeight * 0.6,
+                  height: constraints.maxHeight * 0.67,
                   width: double.infinity,
                   child: Image.network(
                     productImgUrl,
@@ -49,48 +49,49 @@ class SimilarProductCard extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 4,
-                ),
+              Expanded(
                 child: Container(
-                  // height: constraints.maxHeight * 0.5,
+                  padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+                  alignment: Alignment.center,
                   width: double.infinity,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: 1),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(productName,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: SizeConfig.deviceWidth * 2.5,
-                              ),
-                              overflow: TextOverflow.fade),
+                          Text(
+                            productName,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: constraints.maxWidth * 0.05,
+                            ),
+                            overflow: TextOverflow.fade,
+                          ),
                           Icon(
                             isFav ? Icons.favorite : Icons.favorite_border,
                             color: MyThemeData.primaryColor,
-                            size: 12,
+                            size: constraints.maxWidth * 0.06,
                           ),
                         ],
                       ),
-                      SizedBox(height: 2),
+                      SizedBox(height: constraints.maxHeight * 0.02),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
                             "₹ " + prices.toString(),
                             style: TextStyle(
-                              fontSize: SizeConfig.deviceWidth * 2.5,
+                              fontSize: constraints.maxWidth * 0.045,
                               color: MyThemeData.primaryColor,
                             ),
                           ),
                           Text(
                             place,
                             style: TextStyle(
-                              fontSize: SizeConfig.deviceWidth * 2,
+                              fontSize: constraints.maxWidth * 0.045,
                               color: MyThemeData.inputPlaceHolder,
                             ),
                           ),

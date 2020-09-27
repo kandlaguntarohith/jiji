@@ -16,14 +16,18 @@ class ItemImages extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+    final availableWidthSpace =
+        SizeConfig.deviceWidth * 100 - (2 * deviceHorizontalPadding);
+
     final int imgCount = images.length + productUrlImages.length;
     return Container(
-      height: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: SizeConfig.deviceWidth * 80,
+            width: availableWidthSpace * 0.9,
             child: ListView.builder(
               // shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -93,8 +97,8 @@ class ItemImages extends StatelessWidget {
                     Radius.circular(5),
                   ),
                   color: MyThemeData.primaryColor),
-              width: SizeConfig.deviceWidth * 12,
-              height: 100,
+              width: availableWidthSpace * 0.1,
+              height: double.infinity,
               child: Icon(
                 Icons.add,
                 color: Colors.white,

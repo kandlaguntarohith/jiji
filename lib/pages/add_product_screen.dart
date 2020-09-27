@@ -34,6 +34,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String city;
   String category;
   String subCategory;
+  double textSize;
 
   Product _product;
   final picker = ImagePicker();
@@ -98,7 +99,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           heading,
           style: TextStyle(
             color: MyThemeData.inputPlaceHolder,
-            fontSize: 14,
+            fontSize: textSize,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -110,13 +111,17 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+    final availableWidthSpace =
+        (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
+    textSize = availableWidthSpace * 0.03;
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
         preferredSize: Size.fromHeight(80.0),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 4),
+        padding: EdgeInsets.symmetric(horizontal: deviceHorizontalPadding),
         child: Form(
           key: _form,
           child: ListView(
@@ -126,10 +131,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "POST NEW AD",
+                    "POST NEW ADD",
                     style: TextStyle(
                       color: MyThemeData.inputPlaceHolder,
-                      fontSize: 14,
+                      fontSize: textSize,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -137,7 +142,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     "Need Help?",
                     style: TextStyle(
                       color: MyThemeData.primaryColor,
-                      fontSize: 14,
+                      fontSize: textSize,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -146,7 +151,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
               renderhHeading("Item Name"),
               CustomTextField(
                 value: title,
-                noOfLines: 1,
                 onSaved: (value) => setState(() => title = value),
                 validator: (value) {
                   if (value.isEmpty) return 'Enter title';
@@ -158,7 +162,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
               renderhHeading("Item Price"),
               CustomTextField(
                 value: price == null ? "" : price.toString(),
-                noOfLines: 1,
                 onSaved: (value) => setState(
                   () => price = double.parse(value),
                 ),
@@ -166,62 +169,70 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   if (value.isEmpty) return 'Enter price';
                   return null;
                 },
-                hintText: 'Item Price',
+                hintText: 'Price',
                 textInputType: TextInputType.number,
               ),
               renderhHeading("Item Images"),
-              ItemImages(
-                images: images,
-                addImageFunction: addImage,
-                productUrlImages: [],
+              AspectRatio(
+                aspectRatio: 3,
+                child: ItemImages(
+                  images: images,
+                  addImageFunction: addImage,
+                  productUrlImages: [],
+                ),
               ),
               renderhHeading("Location"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomDropDownMenu(
-                    hintText: "State",
-                    items: _states,
-                    value: state,
-                    updateProductDetails: (String newValue) => setState(
-                      () => state = newValue,
+              AspectRatio(
+                aspectRatio: 8 / 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomDropDownMenu(
+                      hintText: "State",
+                      items: _states,
+                      value: state,
+                      updateProductDetails: (String newValue) => setState(
+                        () => state = newValue,
+                      ),
                     ),
-                  ),
-                  CustomDropDownMenu(
-                    hintText: "City",
-                    items: _cities,
-                    value: city,
-                    updateProductDetails: (String newValue) =>
-                        setState(() => city = newValue),
-                  ),
-                ],
+                    CustomDropDownMenu(
+                      hintText: "City",
+                      items: _cities,
+                      value: city,
+                      updateProductDetails: (String newValue) =>
+                          setState(() => city = newValue),
+                    ),
+                  ],
+                ),
               ),
               renderhHeading("Item Category"),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomDropDownMenu(
-                    value: category,
-                    hintText: "Category",
-                    items: _categories,
-                    updateProductDetails: (String newValue) => setState(
-                      () => category = newValue,
+              AspectRatio(
+                aspectRatio: 8 / 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CustomDropDownMenu(
+                      value: category,
+                      hintText: "Category",
+                      items: _categories,
+                      updateProductDetails: (String newValue) => setState(
+                        () => category = newValue,
+                      ),
                     ),
-                  ),
-                  CustomDropDownMenu(
-                    value: subCategory,
-                    hintText: "Sub Category",
-                    items: _subCategories,
-                    updateProductDetails: (String newValue) => setState(
-                      () => subCategory = newValue,
-                    ),
-                  )
-                ],
+                    CustomDropDownMenu(
+                      value: subCategory,
+                      hintText: "Sub Category",
+                      items: _subCategories,
+                      updateProductDetails: (String newValue) => setState(
+                        () => subCategory = newValue,
+                      ),
+                    )
+                  ],
+                ),
               ),
               renderhHeading("Item Description"),
               CustomTextField(
                 value: description,
-                noOfLines: 5,
                 onSaved: (value) => setState(
                   () => description = value,
                 ),
@@ -229,38 +240,42 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   if (value.isEmpty) return 'Enter Description';
                   return null;
                 },
-                hintText: 'Item Description',
+                hintText: 'Description',
                 textInputType: TextInputType.multiline,
               ),
               SizedBox(height: 30),
-              ButtonTheme(
-                minWidth: double.infinity,
-                height: 50,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(5),
-                  ),
-                ),
-                child: RaisedButton(
-                  onPressed: _saveForm,
-                  child: Text(
-                    "POST AD",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
+              AspectRatio(
+                aspectRatio: 8,
+                child: ButtonTheme(
+                  minWidth: double.infinity,
+                  height: 50,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
                     ),
                   ),
-                  color: MyThemeData.primaryColor,
+                  child: RaisedButton(
+                    onPressed: _saveForm,
+                    child: Text(
+                      "POST AD",
+                      style: TextStyle(
+                        fontSize: textSize * 1.2,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                    color: MyThemeData.primaryColor,
+                  ),
                 ),
               ),
+              SizedBox(height: 10),
               FlatButton(
                 onPressed: () {},
                 child: Text(
                   "or Save as a Draft",
                   style: TextStyle(
                     fontWeight: FontWeight.w400,
-                    fontSize: 16,
+                    fontSize: textSize,
                     color: MyThemeData.primaryColor,
                   ),
                 ),

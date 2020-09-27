@@ -9,6 +9,16 @@ import 'Widgets/product_images.dart';
 import 'Widgets/seller_card.dart';
 import 'Widgets/similar_products_list.dart';
 
+List<String> pics = [
+  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80",
+  "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+  "https://www.sonatawatches.in/wps/wcm/connect/sonata/042cae70-4810-4a93-a996-4106c12f55b7/728x524-nxt.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_90IA1H80O04180QIVM4BVG00L3-042cae70-4810-4a93-a996-4106c12f55b7-mZlHd0u",
+  "https://assets.victorinox.com/medias/?context=bWFzdGVyfHRpbXw4MzgyM3xpbWFnZS9qcGVnfHRpbS9oZjYvaDJkLzEwMjYyMzk5NDE4Mzk4LmpwZ3w5NzRlMmIzYTQ3MDY3NWUwNWYyYzY3ZmEwOWEwNzE2ZDE4YzYzY2VlY2UzN2ZkZWI4YjUxNTZiNjFlNDBlMWEy",
+  "https://www.wareable.com/media/imager/202002/34779-original.jpg",
+  "https://www.hihonor.com/content/dam/honor/global/products/wearable/honor-magic-watch2-46mm/MagicWatch-2-46mm-facebookimg.jpg",
+  "https://casiocdn.com/casio-v2/resource/temp/images/Artwork-home/mdv106-mobile-banner.jpg",
+];
+
 class ProductDetailScreen extends StatefulWidget {
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
@@ -33,14 +43,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String imgUrl =
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80";
 
-  List<String> img = [];
+  List<String> img = pics;
   @override
   void initState() {
     isFavourite = true;
-    for (int i = 0; i < 7; i++) img.add(imgUrl);
+    // for (int i = 0; i < 7; i++) img.add(imgUrl);
     for (int i = 0; i < 4; i++) {
-      productImgUrl.add(
-          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80");
+      productImgUrl.add(pics[i]);
       productName.add("Brand New SmartWatch");
       isFav.add(i % 2 == 0);
       prices.add(i * 1000.0);
@@ -64,6 +73,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+    final availableWidthSpace =
+        (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
+    final textSize = availableWidthSpace * 0.045;
+    const imageAspectRatio = 335 / 190;
+    const callMessageButtonsAspectRatio = 9 / 1;
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
@@ -74,33 +89,80 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              alignment: Alignment.center,
               color: Color.fromRGBO(240, 240, 240, 1),
               height: 30,
               width: double.infinity,
-              child: Text(
-                "Electronics > Wearables > Smart Watch > Brand new ....",
-                style: TextStyle(
-                  fontSize: 10,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Electronics",
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    " > ",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: MyThemeData.primaryColor,
+                    ),
+                  ),
+                  Text(
+                    "Wearables",
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    " > ",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: MyThemeData.primaryColor,
+                    ),
+                  ),
+                  Text(
+                    "SmartWatches",
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                  ),
+                  Text(
+                    " > ",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: MyThemeData.primaryColor,
+                    ),
+                  ),
+                  Text(
+                    "Brand New...",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: MyThemeData.primaryColor,
+                    ),
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             Padding(
               padding:
                   EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 4),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 190,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(img[selectedImageIndex]),
-                        fit: BoxFit.cover,
+                  AspectRatio(
+                    aspectRatio: imageAspectRatio,
+                    child: Container(
+                      height: 190,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(img[selectedImageIndex]),
+                          fit: BoxFit.cover,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                   SizedBox(height: 10),
@@ -109,78 +171,79 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     selectedImageIndex: selectedImageIndex,
                     updateSelectedImage: updateSelectedImage,
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 20),
                   Container(
                     alignment: Alignment.centerLeft,
                     height: 30,
                     child: Text(
                       "Brand New Smart Watch",
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 24),
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: textSize,
+                      ),
                       textAlign: TextAlign.left,
                     ),
                   ),
                   SizedBox(height: 10),
-                  Container(
-                    height: 30,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "₹ 13,000",
+                        style: TextStyle(
+                          fontSize: textSize,
+                          fontWeight: FontWeight.w700,
+                          color: MyThemeData.primaryColor,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => toggleFavourite(),
+                        child: Icon(
+                          isFavourite ? Icons.favorite : Icons.favorite_border,
+                          color: MyThemeData.primaryColor,
+                          size: textSize * 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  SellerCard(),
+                  SizedBox(height: 20),
+                  AspectRatio(
+                    aspectRatio: callMessageButtonsAspectRatio,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "13,000",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: MyThemeData.primaryColor,
+                        CustomButton(
+                          icon: Icon(
+                            Icons.phone,
+                            color: Colors.white,
                           ),
+                          text: 'CALL',
+                          isBorder: false,
+                          color: MyThemeData.primaryColor,
                         ),
-                        GestureDetector(
-                          onTap: () => toggleFavourite(),
-                          child: Icon(
-                            isFavourite
-                                ? Icons.favorite
-                                : Icons.favorite_border,
+                        CustomButton(
+                          icon: Icon(
+                            Icons.message,
                             color: MyThemeData.primaryColor,
-                            size: 25,
                           ),
+                          isBorder: true,
+                          text: 'CHAT',
+                          color: MyThemeData.primaryColor,
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 11),
-                  SellerCard(),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomButton(
-                        icon: Icon(
-                          Icons.phone,
-                          color: Colors.white,
-                        ),
-                        text: 'CALL',
-                        isBorder: false,
-                        color: MyThemeData.primaryColor,
-                      ),
-                      CustomButton(
-                        icon: Icon(
-                          Icons.message,
-                          color: MyThemeData.primaryColor,
-                        ),
-                        isBorder: true,
-                        text: 'CHAT',
-                        color: MyThemeData.primaryColor,
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 25),
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "ITEM DESCRIPTION",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: textSize * 0.7,
                         color: MyThemeData.inputPlaceHolder,
                       ),
                     ),
@@ -192,19 +255,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       description,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 18,
+                        fontSize: textSize * 0.8,
                         color: Color.fromRGBO(58, 58, 58, 1),
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 25),
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       "SIMILAR PRODUCTS",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: textSize * 0.7,
                         color: MyThemeData.inputPlaceHolder,
                       ),
                     ),
@@ -217,7 +280,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     prices: prices,
                     place: place,
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(height: 30),
                 ],
               ),
             ),
