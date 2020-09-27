@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiji/ThemeData.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 class ItemImages extends StatelessWidget {
   final List<File> images;
@@ -22,7 +23,7 @@ class ItemImages extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width - 81,
+            width: SizeConfig.deviceWidth * 80,
             child: ListView.builder(
               // shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -92,7 +93,7 @@ class ItemImages extends StatelessWidget {
                     Radius.circular(5),
                   ),
                   color: MyThemeData.primaryColor),
-              width: 40,
+              width: SizeConfig.deviceWidth * 12,
               height: 100,
               child: Icon(
                 Icons.add,
