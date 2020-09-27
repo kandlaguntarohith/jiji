@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 import '../../ThemeData.dart';
 
@@ -12,18 +13,23 @@ class CustomButton extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+    final availableWidthSpace =
+        (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
+    final textSize = availableWidthSpace * 0.045;
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(5)),
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            width: isBorder == true ? 2:0,
+            width: isBorder == true ? 2 : 0,
             // width: 2,
             color: color,
           ),
         ),
-        height: 40,
-        width: 157,
+        height: double.infinity,
+        width: availableWidthSpace * 0.46,
         child: RaisedButton.icon(
           color: isBorder == true ? Colors.white : MyThemeData.primaryColor,
           onPressed: () {},
@@ -32,7 +38,7 @@ class CustomButton extends StatelessWidget {
             text,
             style: TextStyle(
               fontWeight: FontWeight.w700,
-              fontSize: 18,
+              fontSize: textSize,
               color: isBorder != true ? Colors.white : MyThemeData.primaryColor,
             ),
           ),

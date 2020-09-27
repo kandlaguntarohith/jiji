@@ -4,29 +4,42 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiji/ThemeData.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 class ItemImages extends StatelessWidget {
   final List<File> images;
   final Function addImageFunction;
+  final List<String> productUrlImages;
 
-  const ItemImages({Key key, this.images, this.addImageFunction})
+  const ItemImages(
+      {Key key, this.images, this.addImageFunction, this.productUrlImages})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+    final availableWidthSpace =
+        SizeConfig.deviceWidth * 100 - (2 * deviceHorizontalPadding);
+
+    final int imgCount = images.length + productUrlImages.length;
     return Container(
-      height: 100,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width - 81,
+            width: availableWidthSpace * 0.9,
             child: ListView.builder(
               // shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => itemImageContainer(
-                index < images.length ? images[index] : null,
+                index < images.length
+                    ? images[index]
+                    : index < imgCount
+                        ? productUrlImages[index - images.length]
+                        : null,
               ),
-              itemCount: max(images.length, 3),
+              itemCount: max(imgCount, 3),
+              // itemCount: imgCount,
             ),
           ),
           GestureDetector(
@@ -40,7 +53,6 @@ class ItemImages extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                        
                           SizedBox(
                             height: 40,
                             width: 200,
@@ -85,8 +97,8 @@ class ItemImages extends StatelessWidget {
                     Radius.circular(5),
                   ),
                   color: MyThemeData.primaryColor),
-              width: 40,
-              height: 100,
+              width: availableWidthSpace * 0.1,
+              height: double.infinity,
               child: Icon(
                 Icons.add,
                 color: Colors.white,
@@ -99,7 +111,7 @@ class ItemImages extends StatelessWidget {
   }
 }
 
-Widget itemImageContainer(File image) {
+Widget itemImageContainer(dynamic image) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5),
     child: ClipRRect(
@@ -117,10 +129,15 @@ Widget itemImageContainer(File image) {
           ),
           child: image == null
               ? SizedBox()
-              : Image.file(
-                  image,
-                  fit: BoxFit.cover,
-                ),
+              : image.runtimeType == String
+                  ? Image.network(
+                      image,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.file(
+                      image,
+                      fit: BoxFit.cover,
+                    ),
         ),
       ),
     ),

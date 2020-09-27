@@ -11,16 +11,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jiji/pages/Widgets/item_images.dart';
 import 'package:jiji/utilities/size_config.dart';
 
-class AddProductScreen extends StatefulWidget {
-  static String routeName = '/AddProductScreen';
+class EditProductScreen extends StatefulWidget {
+  static String routeName = '/EditProductScreen';
   final Product product;
 
-  const AddProductScreen({Key key, this.product}) : super(key: key);
+  const EditProductScreen({Key key, this.product}) : super(key: key);
   @override
-  _AddProductScreenState createState() => _AddProductScreenState(product);
+  _EditProductScreenState createState() => _EditProductScreenState(product);
 }
 
-class _AddProductScreenState extends State<AddProductScreen> {
+class _EditProductScreenState extends State<EditProductScreen> {
   List<String> _states = [];
   List<String> _cities = [];
   List<String> _categories = [];
@@ -34,12 +34,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String city;
   String category;
   String subCategory;
-  double textSize;
 
-  Product _product;
+  final Product _product;
   final picker = ImagePicker();
+  double textSize; 
 
-  _AddProductScreenState(this._product);
+  _EditProductScreenState(this._product);
   @override
   void initState() {
     _states.add("Maharashtra");
@@ -69,11 +69,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   }
 
   Future<void> addImage(ImageSource source) async {
-    print("func called!");
     final pickedFile = await picker.getImage(source: source);
     setState(() {
       if (pickedFile != null) {
-        images.add(File(pickedFile.path));
+        images.insert(0, File(pickedFile.path));
       }
     });
   }
@@ -99,7 +98,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           heading,
           style: TextStyle(
             color: MyThemeData.inputPlaceHolder,
-            fontSize: textSize,
+            fontSize: 14,
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -118,7 +117,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
-        preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
+        preferredSize: Size.fromHeight(80.0),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: deviceHorizontalPadding),

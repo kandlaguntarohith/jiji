@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/models/ad_item.dart';
+
 import 'package:jiji/utilities/size_config.dart';
+
 import 'package:jiji/widgets/ad_item.dart';
 import 'package:share/share.dart';
 
@@ -106,6 +108,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
       ),
       body: Column(
         children: [
+          SizedBox(height: 5),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -128,21 +131,14 @@ class _MyAdsPageState extends State<MyAdsPage> {
                   }).toList(),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(right: 20.0),
-                child: Text(
-                  '32 ads',
-                  style: TextStyle(
-                    color: Color(0xff3DB83A),
-                  ),
-                ),
-              ),
+              SizedBox(width: 20.0),
             ],
           ),
+          SizedBox(height: 5),
           _selectedItem == 'Listed Items'
-              ? Container(
-                  height: MediaQuery.of(context).size.height * 0.65,
+              ? Expanded(
                   child: ListView.builder(
+                    shrinkWrap: true,
                     itemCount: _listedItemsList.length,
                     itemBuilder: (context, index) {
                       return Row(
@@ -157,9 +153,29 @@ class _MyAdsPageState extends State<MyAdsPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               IconButton(
-                                  icon: Icon(Icons.edit),
-                                  iconSize: 28.0,
-                                  onPressed: null),
+                                icon: Icon(Icons.edit),
+                                iconSize: 28.0,
+                                onPressed: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => EditProductScreen(
+                                      product: new Product(
+                                        id: "id1",
+                                        description:
+                                            "This is a very good watch",
+                                        imageUrl: [
+                                          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
+                                        ],
+                                        price: 800.00,
+                                        title: "Mobile",
+                                        state: "Goa",
+                                        city: "Pune",
+                                        category: "Gadgets",
+                                        subCategory: "Mobiles",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                               Text('Edit'),
                               IconButton(
                                   icon: Icon(Icons.share),
@@ -183,9 +199,9 @@ class _MyAdsPageState extends State<MyAdsPage> {
                   ),
                 )
               : _selectedItem == 'Sold Items'
-                  ? Container(
-                      height: MediaQuery.of(context).size.height * 0.65,
+                  ? Expanded(
                       child: ListView.builder(
+                        shrinkWrap: true,
                         itemCount: _soldItemsList.length,
                         itemBuilder: (context, index) {
                           return Row(
@@ -201,9 +217,29 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   IconButton(
-                                      icon: Icon(Icons.edit),
-                                      iconSize: 28.0,
-                                      onPressed: null),
+                                    icon: Icon(Icons.edit),
+                                    iconSize: 28.0,
+                                    onPressed: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => EditProductScreen(
+                                          product: new Product(
+                                            id: "id1",
+                                            description:
+                                                "This is a very good watch",
+                                            imageUrl: [
+                                              "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
+                                            ],
+                                            price: 800.00,
+                                            title: "Mobile",
+                                            state: "Goa",
+                                            city: "Pune",
+                                            category: "Gadgets",
+                                            subCategory: "Mobiles",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                   Text('Edit'),
                                   IconButton(
                                       icon: Icon(Icons.share),
@@ -226,8 +262,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                         },
                       ),
                     )
-                  : Container(
-                      height: MediaQuery.of(context).size.height * 0.65,
+                  : Expanded(
                       child: ListView.builder(
                         itemCount: _draftItemsList.length,
                         itemBuilder: (context, index) {
@@ -244,9 +279,29 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   IconButton(
-                                      icon: Icon(Icons.edit),
-                                      iconSize: 28.0,
-                                      onPressed: null),
+                                    icon: Icon(Icons.edit),
+                                    iconSize: 28.0,
+                                    onPressed: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => EditProductScreen(
+                                          product: new Product(
+                                            id: "id1",
+                                            description:
+                                                "This is a very good watch",
+                                            imageUrl: [
+                                              "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
+                                            ],
+                                            price: 800.00,
+                                            title: "Mobile",
+                                            state: "Goa",
+                                            city: "Pune",
+                                            category: "Gadgets",
+                                            subCategory: "Mobiles",
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                   Text('Edit'),
                                   IconButton(
                                       icon: Icon(Icons.share),
