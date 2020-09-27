@@ -1,67 +1,59 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 class JijiAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
-    final pHeight = MediaQuery.of(context).size.height;
-    final pWidth = MediaQuery.of(context).size.width;
+    SizeConfig().init(context);
+    double appBarHeight = SizeConfig.deviceHeight * 10;
     return Scaffold(
         appBar: PreferredSize(
-      preferredSize: Size.fromHeight(80.0), // here the desired height
+      preferredSize: Size.fromHeight(appBarHeight),
       child: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Hexcolor("#3DB83A"),
-        elevation: 0,
+        elevation: 10,
         // centerTitle: false,
         // titleSpacing: 0,
-        title: Row(children: <Widget>[
-          SizedBox(
-            height: pHeight * 0.1,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(8, 30, 8, 8),
-            child: Text(
-              "Jiji",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-            ),
-          ),
-          SizedBox(
-            height: pHeight * 0.1,
-          ),
-          Expanded(
-            child: Container(
-              width: 100.0,
-              height: 100.0,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(10, 40, 0, 20),
-                child: TextField(
-                  decoration: InputDecoration(
-                      suffixIcon: Padding(
-                        padding:
-                            const EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 50.0),
-                        child: Icon(Icons.search),
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintStyle: TextStyle(fontSize: 20.0, color: Colors.grey),
-                      hintText: "Search",
-                      contentPadding:
-                          EdgeInsets.fromLTRB(10.0, 10.0, 20.0, 10.0),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      )),
+        title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                "Jiji",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: appBarHeight * 0.33),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.deviceWidth * 5),
+                child: Container(
+                  height: appBarHeight * 0.6,
+                  width: SizeConfig.deviceWidth * 60,
+                  child: TextField(
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(
+                            top: appBarHeight * 0.1,
+                            bottom: appBarHeight * 0.1,
+                            left: SizeConfig.deviceWidth * 4),
+                        suffixIcon: Icon(Icons.search),
+                        filled: true,
+                        fillColor: Hexcolor("#F0F0F0"),
+                        hintStyle: TextStyle(
+                          fontSize: appBarHeight * 0.25,
+                          color: Colors.grey,
+                        ),
+                        hintText: "Search",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                  ),
                 ),
               ),
-            ),
-          )
-        ]),
-
-        actions: <Widget>[
-          Container(
-            margin: EdgeInsets.fromLTRB(20, 22, 20, 20),
-            child: Icon(Icons.notifications),
-          ),
-        ],
+              Icon(
+                Icons.notifications,
+                size: SizeConfig.deviceWidth * 6.0,
+              ),
+            ]),
       ),
     ));
   }

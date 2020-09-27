@@ -3,7 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/bottomnav.dart';
 import 'package:jiji/pages/home.dart';
 import 'package:jiji/pages/otp.dart';
-import 'package:jiji/widgets/size_config.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,60 +21,80 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      body: Container(
-        padding:
-            EdgeInsets.only(top: 70.0, right: 20.0, left: 20.0, bottom: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'SIGN IN',
-              style: TextStyle(
-                  fontSize: 25.0,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Pacifico"),
-            ),
-            SizedBox(
-              height: 20.0,
-            ),
-            Text(
-              "Welcome back to the community!",
-              style: TextStyle(fontSize: 20.0, color: Colors.black),
-            ),
-            SizedBox(
-              height: 40.0,
-            ),
-            buildTextField("Phone or Email"),
-            SizedBox(
-              height: 20.0,
-            ),
-            buildTextField("Password"),
-            SizedBox(
-              height: 20.0,
-            ),
-            SizedBox(height: 20.0),
-            buildButtonContainer(),
-            SizedBox(
-              height: 20.0,
-            ),
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.deviceWidth * 5,
+              vertical: SizeConfig.deviceHeight * 6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    "Forgot Password?",
-                    style: TextStyle(
+                  IconButton(
+                    icon: Icon(
+                      Icons.close,
                       color: Colors.black,
                     ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 170, 0, 0),
-              child: Container(
+              Text(
+                'SIGN IN',
+                style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Pacifico"),
+              ),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 4,
+              ),
+              Text(
+                "Welcome back to the community!",
+                style: TextStyle(fontSize: 18.0, color: Colors.black),
+              ),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 8,
+              ),
+              buildTextField("Phone or Email"),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 2,
+              ),
+              buildTextField("Password"),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 3,
+              ),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 1,
+              ),
+              buildButtonContainer(),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 4,
+              ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Forgot Password?",
+                      style: TextStyle(
+                        color: Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 30,
+              ),
+              Container(
                 child: Center(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -91,8 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -101,6 +121,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget buildTextField(String hintText) {
     return TextField(
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.only(
+            top: SizeConfig.deviceHeight * 2,
+            bottom: SizeConfig.deviceHeight * 2,
+            left: SizeConfig.deviceWidth * 2),
         filled: true,
         hintText: hintText,
         hintStyle: TextStyle(
@@ -111,8 +135,6 @@ class _LoginPageState extends State<LoginPage> {
           borderSide: BorderSide.none,
           // borderRadius: BorderRadius.circular(0),
         ),
-        prefixIcon:
-            hintText == "Phone or Email" ? Icon(Icons.email) : Icon(Icons.lock),
         suffixIcon: hintText == "Password"
             ? IconButton(
                 onPressed: _toggleVisibility,
@@ -137,8 +159,8 @@ class _LoginPageState extends State<LoginPage> {
           );
         },
         child: Container(
-          height: 56.0,
-          width: MediaQuery.of(context).size.width,
+          height: SizeConfig.deviceHeight * 6,
+          width: SizeConfig.deviceWidth * 90,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             color: Hexcolor("#3DB83A"),
@@ -147,9 +169,9 @@ class _LoginPageState extends State<LoginPage> {
             child: Text(
               "SIGN IN",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ));
