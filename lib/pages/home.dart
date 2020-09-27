@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/pages/product_details.dart';
+import 'package:jiji/widgets/size_config.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -43,25 +45,54 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     final pHeight = MediaQuery.of(context).size.height;
     final pWidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-        appBar: PreferredSize(
-          child: JijiAppBar(),
-          preferredSize: Size.fromHeight(80.0),
-        ),
-        body: SingleChildScrollView(
-            child: Stack(children: <Widget>[
-          SizedBox(
-            height: pHeight * 0.0,
+    return WillPopScope(
+      onWillPop: () {
+        return showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Confirm Exit"),
+                content: Text("Are you sure you want to exit?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("YES"),
+                    onPressed: () {
+                      SystemNavigator.pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("NO"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+      },
+      child: Scaffold(
+          appBar: PreferredSize(
+            child: JijiAppBar(),
+            preferredSize: Size.fromHeight(80.0),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(150, 10, 0, 10),
-                child: Container(
-                  padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+          body: SingleChildScrollView(
+              child: Stack(children: <Widget>[
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  height: SizeConfig.blockSizeVertical * 10,
+                  width: SizeConfig.blockSizeHorizontal * 80,
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.blockSizeVertical * 20,
+                      right: SizeConfig.blockSizeVertical * 5),
                   child: DropdownButtonHideUnderline(
                     child: DropdownButton(
                         value: _selectedItem,
@@ -78,533 +109,755 @@ class _HomePageState extends State<HomePage> {
                         }),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: pHeight * 0.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(25, 60, 0, 0),
-                child: Text(
-                  'JIJI ASSIST',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: pHeight * 0.020),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: pHeight * 0.0,
-          ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(15, 90, 10, 0),
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        side: BorderSide(color: Hexcolor("#3DB83A"))),
-                    color: Colors.white,
-                    textColor: Hexcolor("#3DB83A"),
-                    padding: EdgeInsets.all(8.0),
-                    onPressed: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(25, 5, 25, 5),
-                      child: Text(
-                        "How to Buy",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: pHeight * 0.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 90, 20, 0),
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: BorderSide(color: Hexcolor("#3DB83A"))),
-                        color: Colors.white,
-                        textColor: Hexcolor("#3DB83A"),
-                        padding: EdgeInsets.all(8.0),
-                        onPressed: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(30, 5, 30, 5),
-                          child: Text(
-                            "Hot Deals",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ]),
-          SizedBox(
-            height: pHeight * 0.0,
-          ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 160, 10, 0),
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                        side: BorderSide(color: Hexcolor("#3DB83A"))),
-                    color: Colors.white,
-                    textColor: Hexcolor("#3DB83A"),
-                    padding: EdgeInsets.all(8.0),
-                    onPressed: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(25, 5, 25, 5),
-                      child: Text(
-                        "How to Sell",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: pHeight * 0.0,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 160, 27, 0),
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                            side: BorderSide(color: Hexcolor("#3DB83A"))),
-                        color: Colors.white,
-                        textColor: Hexcolor("#3DB83A"),
-                        padding: EdgeInsets.all(5.0),
-                        onPressed: () {},
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(42, 8, 42, 8),
-                          child: Text(
-                            "Games",
-                            style: TextStyle(
-                              fontSize: 20.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ]),
-          SizedBox(
-            height: pHeight * 0.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(25, 240, 0, 0),
-                child: Text(
-                  'CATEGORIES',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: pHeight * 0.020),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: pHeight * 0.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 240, 0, 0),
-                child: Text(
-                  'View All',
-                  style: TextStyle(
-                      color: Hexcolor("#3DB83A"),
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: pHeight * 0.020),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 240, 10, 0),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 20,
-                  color: Hexcolor("#3DB83A"),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: pHeight * 0.0,
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(25, 280, 0, 0),
-            child: Row(
+              ],
+            ),
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Card(
-                  child: new InkWell(
-                    onTap: () {
-                      print("tapped");
-                    },
-                    child: Container(
-                      width: 160.0,
-                      height: 100.0,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.safeBlockHorizontal * 5,
+                      top: SizeConfig.safeBlockHorizontal * 20),
+                  child: Text(
+                    'JIJI ASSIST',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold,
+                        fontSize: pHeight * 0.020),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeVertical * 1,
+                        top: SizeConfig.blockSizeHorizontal * 30,
+                        right: SizeConfig.blockSizeVertical * 1,
+                        bottom: SizeConfig.blockSizeHorizontal * 70),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          side: BorderSide(color: Hexcolor("#3DB83A"))),
+                      color: Colors.white,
+                      textColor: Hexcolor("#3DB83A"),
+                      // padding: EdgeInsets.all(8.0),
+                      onPressed: () {},
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 40),
-                        child: Image.asset(
-                          "assets/smartphone.png",
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.safeBlockHorizontal * 2,
+                            top: SizeConfig.safeBlockHorizontal * 3,
+                            right: SizeConfig.safeBlockHorizontal * 2,
+                            bottom: SizeConfig.safeBlockHorizontal * 3),
+                        child: Text(
+                          "How to Buy",
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: pHeight * 0.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 2,
+                            top: SizeConfig.blockSizeHorizontal * 30,
+                            right: SizeConfig.blockSizeVertical * 2,
+                            bottom: SizeConfig.blockSizeHorizontal * 70),
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              side: BorderSide(color: Hexcolor("#3DB83A"))),
+                          color: Colors.white,
+                          textColor: Hexcolor("#3DB83A"),
+                          // padding: EdgeInsets.all(8.0),
+                          onPressed: () {},
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.safeBlockHorizontal * 2,
+                                top: SizeConfig.safeBlockHorizontal * 3,
+                                right: SizeConfig.safeBlockHorizontal * 2,
+                                bottom: SizeConfig.safeBlockHorizontal * 3),
+                            child: Text(
+                              "Hot Deals",
+                              style: TextStyle(
+                                fontSize: 20.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ]),
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeVertical * 1,
+                        top: SizeConfig.blockSizeHorizontal * 50,
+                        right: SizeConfig.blockSizeVertical * 1,
+                        bottom: SizeConfig.blockSizeHorizontal * 70),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          side: BorderSide(color: Hexcolor("#3DB83A"))),
+                      color: Colors.white,
+                      textColor: Hexcolor("#3DB83A"),
+                      // padding: EdgeInsets.all(8.0),
+                      onPressed: () {},
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.safeBlockHorizontal * 2,
+                            top: SizeConfig.safeBlockHorizontal * 3,
+                            right: SizeConfig.safeBlockHorizontal * 2,
+                            bottom: SizeConfig.safeBlockHorizontal * 3),
+                        child: Text(
+                          "How to Sell",
+                          style: TextStyle(
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: pHeight * 0.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 2,
+                            top: SizeConfig.blockSizeHorizontal * 50,
+                            right: SizeConfig.blockSizeVertical * 2,
+                            bottom: SizeConfig.blockSizeHorizontal * 70),
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                              side: BorderSide(color: Hexcolor("#3DB83A"))),
+                          color: Colors.white,
+                          textColor: Hexcolor("#3DB83A"),
+                          // padding: EdgeInsets.all(5.0),
+                          onPressed: () {},
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.safeBlockHorizontal * 5,
+                                top: SizeConfig.safeBlockHorizontal * 3,
+                                right: SizeConfig.safeBlockHorizontal * 5,
+                                bottom: SizeConfig.safeBlockHorizontal * 3),
+                            child: Text(
+                              "Games",
+                              style: TextStyle(
+                                fontSize: 20.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ]),
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.safeBlockHorizontal * 5,
+                      top: SizeConfig.safeBlockHorizontal * 70),
+                  child: Text(
+                    'CATEGORIES',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold,
+                        fontSize: pHeight * 0.020),
+                  ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
+              ],
+            ),
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding:
+                      EdgeInsets.only(top: SizeConfig.safeBlockHorizontal * 70),
+                  child: Text(
+                    'View All',
+                    style: TextStyle(
+                        color: Hexcolor("#3DB83A"),
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold,
+                        fontSize: pHeight * 0.020),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      right: SizeConfig.safeBlockHorizontal * 5,
+                      top: SizeConfig.safeBlockHorizontal * 70),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 20,
+                    color: Hexcolor("#3DB83A"),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: SizeConfig.blockSizeVertical * 2,
+                  top: SizeConfig.blockSizeHorizontal * 80,
+                  right: SizeConfig.blockSizeVertical * 2,
+                  bottom: SizeConfig.blockSizeHorizontal * 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Stack(children: <Widget>[
+                    Card(
+                      child: new InkWell(
+                        onTap: () {
+                          print("tapped");
+                        },
+                        child: Container(
+                          height: SizeConfig.blockSizeVertical * 15,
+                          width: SizeConfig.blockSizeHorizontal * 35,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: SizeConfig.blockSizeVertical * 5,
+                                top: SizeConfig.blockSizeHorizontal * 3,
+                                right: SizeConfig.blockSizeVertical * 5,
+                                bottom: SizeConfig.blockSizeHorizontal * 10),
+                            child: Image.asset(
+                              "assets/smartphone.png",
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                            left: SizeConfig.blockSizeVertical * 5,
+                            top: SizeConfig.blockSizeHorizontal * 20,
+                            right: SizeConfig.blockSizeVertical * 5,
+                            bottom: SizeConfig.blockSizeHorizontal * 10),
+                        child: Text(
+                          "Mobile Phones",
+                          style: TextStyle(fontSize: 10),
+                        ),
+                      ),
+                    )
+                  ]),
+                  Expanded(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Card(
-                          child: new InkWell(
-                            onTap: () {
-                              print("tapped");
-                            },
-                            child: Container(
-                              width: 160.0,
-                              height: 100.0,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(20, 10, 20, 40),
-                                child: Image.asset(
-                                  "assets/smartphone.png",
+                        Stack(children: <Widget>[
+                          Card(
+                            child: new InkWell(
+                              onTap: () {
+                                print("tapped");
+                              },
+                              child: Container(
+                                height: SizeConfig.blockSizeVertical * 15,
+                                width: SizeConfig.blockSizeHorizontal * 35,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeVertical * 5,
+                                      top: SizeConfig.blockSizeHorizontal * 3,
+                                      right: SizeConfig.blockSizeVertical * 5,
+                                      bottom:
+                                          SizeConfig.blockSizeHorizontal * 10),
+                                  child: Image.asset(
+                                    "assets/smartphone.png",
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
+                          Container(
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  left: SizeConfig.blockSizeVertical * 5,
+                                  top: SizeConfig.blockSizeHorizontal * 20,
+                                  right: SizeConfig.blockSizeVertical * 5,
+                                  bottom: SizeConfig.blockSizeHorizontal * 10),
+                              child: Text(
+                                "Mobile Phones",
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            ),
+                          )
+                        ]),
                       ],
                     ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.safeBlockHorizontal * 5,
+                      top: SizeConfig.safeBlockHorizontal * 115),
+                  child: Text(
+                    'POPULAR PRODUCTS',
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.bold,
+                        fontSize: pHeight * 0.020),
                   ),
-                )
+                ),
               ],
             ),
-          ),
-          SizedBox(
-            height: pHeight * 0.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(25, 420, 0, 0),
-                child: Text(
-                  'POPULAR PRODUCTS',
-                  style: TextStyle(
-                      color: Colors.grey,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: pHeight * 0.020),
-                ),
+            SizedBox(
+              height: pHeight * 0.0,
+            ),
+            Expanded(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.blockSizeVertical * 0,
+                        top: SizeConfig.blockSizeHorizontal * 125,
+                        right: SizeConfig.blockSizeVertical * 0,
+                        bottom: SizeConfig.blockSizeHorizontal * 10),
+                    child: Container(
+                      child: GridView(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          children: <Widget>[
+                            Stack(children: <Widget>[
+                              Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: InkWell(
+                                    onTap: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProductDetailScreen()),
+                                    ),
+                                    child: Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          SizedBox(
+                                            height:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    25,
+                                            width:
+                                                SizeConfig.blockSizeVertical *
+                                                    35,
+                                            child: Image(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage(
+                                                  'assets/watch.jpg'),
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: ListTile(
+                                              title: Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: SizeConfig
+                                                            .safeBlockHorizontal *
+                                                        5,
+                                                    bottom: SizeConfig
+                                                            .safeBlockHorizontal *
+                                                        0,
+                                                    top: SizeConfig
+                                                            .safeBlockHorizontal *
+                                                        0),
+                                                child: Text(
+                                                  'Brand New Smart Watch',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12,
+                                                      fontFamily:
+                                                          'Black Ops One'),
+                                                ),
+                                              ),
+                                              subtitle: Padding(
+                                                padding: EdgeInsets.only(
+                                                  right: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      5,
+                                                  bottom: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      2,
+                                                ),
+                                                child: Text(
+                                                  "\₹${13000}",
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color:
+                                                          Hexcolor("#3DB83A")),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  right: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      1,
+                                                  bottom: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      6,
+                                                ),
+                                                child: IconButton(
+                                                    color: Hexcolor("#3DB83A"),
+                                                    onPressed: () {},
+                                                    icon: Icon(
+                                                      Icons.favorite,
+                                                      size: 12,
+                                                    )),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  )),
+                            ]),
+                            Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: InkWell(
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductDetailScreen()),
+                                  ),
+                                  child: Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  25,
+                                          width:
+                                              SizeConfig.blockSizeVertical * 35,
+                                          child: Image(
+                                            fit: BoxFit.cover,
+                                            image:
+                                                AssetImage('assets/watch.jpg'),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: ListTile(
+                                            title: Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      5,
+                                                  bottom: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      0,
+                                                  top: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      0),
+                                              child: Text(
+                                                'Brand New Smart Watch',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                    fontFamily:
+                                                        'Black Ops One'),
+                                              ),
+                                            ),
+                                            subtitle: Padding(
+                                              padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    5,
+                                                bottom: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    2,
+                                              ),
+                                              child: Text(
+                                                "\₹${13000}",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Hexcolor("#3DB83A")),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    1,
+                                                bottom: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    6,
+                                              ),
+                                              child: IconButton(
+                                                  color: Hexcolor("#3DB83A"),
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.favorite,
+                                                    size: 12,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )),
+                            Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: InkWell(
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductDetailScreen()),
+                                  ),
+                                  child: Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  25,
+                                          width:
+                                              SizeConfig.blockSizeVertical * 35,
+                                          child: Image(
+                                            fit: BoxFit.cover,
+                                            image:
+                                                AssetImage('assets/watch.jpg'),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: ListTile(
+                                            title: Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      5,
+                                                  bottom: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      0,
+                                                  top: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      0),
+                                              child: Text(
+                                                'Brand New Smart Watch',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                    fontFamily:
+                                                        'Black Ops One'),
+                                              ),
+                                            ),
+                                            subtitle: Padding(
+                                              padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    5,
+                                                bottom: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    2,
+                                              ),
+                                              child: Text(
+                                                "\₹${13000}",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Hexcolor("#3DB83A")),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    1,
+                                                bottom: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    6,
+                                              ),
+                                              child: IconButton(
+                                                  color: Hexcolor("#3DB83A"),
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.favorite,
+                                                    size: 12,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )),
+                            Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                clipBehavior: Clip.antiAlias,
+                                child: InkWell(
+                                  onTap: () => Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ProductDetailScreen()),
+                                  ),
+                                  child: Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  25,
+                                          width:
+                                              SizeConfig.blockSizeVertical * 35,
+                                          child: Image(
+                                            fit: BoxFit.cover,
+                                            image:
+                                                AssetImage('assets/watch.jpg'),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: ListTile(
+                                            title: Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      5,
+                                                  bottom: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      0,
+                                                  top: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      0),
+                                              child: Text(
+                                                'Brand New Smart Watch',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 12,
+                                                    fontFamily:
+                                                        'Black Ops One'),
+                                              ),
+                                            ),
+                                            subtitle: Padding(
+                                              padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    5,
+                                                bottom: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    2,
+                                              ),
+                                              child: Text(
+                                                "\₹${13000}",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Hexcolor("#3DB83A")),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                right: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    1,
+                                                bottom: SizeConfig
+                                                        .safeBlockHorizontal *
+                                                    6,
+                                              ),
+                                              child: IconButton(
+                                                  color: Hexcolor("#3DB83A"),
+                                                  onPressed: () {},
+                                                  icon: Icon(
+                                                    Icons.favorite,
+                                                    size: 12,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )),
+                          ]),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          SizedBox(
-            height: pHeight * 0.0,
-          ),
-          Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 450, 10, 0),
-                child: Container(
-                  child: GridView(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2),
-                      children: <Widget>[
-                        Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductDetailScreen()),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: (MediaQuery.of(context).size.width /
-                                            2) -
-                                        90,
-                                    width: double.infinity,
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage('assets/watch.jpg'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          150, 10, 0, 0),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        size: 15,
-                                        color: Hexcolor("#3DB83A"),
-                                      ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    title: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: Text(
-                                        'Brand New Smart Watch',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            fontFamily: 'Black Ops One'),
-                                      ),
-                                    ),
-                                    subtitle: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 20),
-                                      child: Text(
-                                        "\₹${13000}",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Hexcolor("#3DB83A")),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
-                        Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductDetailScreen()),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: (MediaQuery.of(context).size.width /
-                                            2) -
-                                        90,
-                                    width: double.infinity,
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage('assets/watch.jpg'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          150, 10, 0, 0),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        size: 15,
-                                        color: Hexcolor("#3DB83A"),
-                                      ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    title: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: Text(
-                                        'Brand New Smart Watch',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            fontFamily: 'Black Ops One'),
-                                      ),
-                                    ),
-                                    subtitle: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 20),
-                                      child: Text(
-                                        "\₹${13000}",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Hexcolor("#3DB83A")),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
-                        Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductDetailScreen()),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: (MediaQuery.of(context).size.width /
-                                            2) -
-                                        90,
-                                    width: double.infinity,
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage('assets/watch.jpg'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          150, 10, 0, 0),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        size: 15,
-                                        color: Hexcolor("#3DB83A"),
-                                      ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    title: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: Text(
-                                        'Brand New Smart Watch',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            fontFamily: 'Black Ops One'),
-                                      ),
-                                    ),
-                                    subtitle: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 20),
-                                      child: Text(
-                                        "\₹${13000}",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Hexcolor("#3DB83A")),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
-                        Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            clipBehavior: Clip.antiAlias,
-                            child: InkWell(
-                              onTap: () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProductDetailScreen()),
-                              ),
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    height: (MediaQuery.of(context).size.width /
-                                            2) -
-                                        90,
-                                    width: double.infinity,
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage('assets/watch.jpg'),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          150, 10, 0, 0),
-                                      child: Icon(
-                                        Icons.favorite,
-                                        size: 15,
-                                        color: Hexcolor("#3DB83A"),
-                                      ),
-                                    ),
-                                  ),
-                                  ListTile(
-                                    title: Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(0, 5, 0, 0),
-                                      child: Text(
-                                        'Brand New Smart Watch',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 12,
-                                            fontFamily: 'Black Ops One'),
-                                      ),
-                                    ),
-                                    subtitle: Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 0, 0, 20),
-                                      child: Text(
-                                        "\₹${13000}",
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Hexcolor("#3DB83A")),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )),
-                      ]),
-                ),
-              ),
-            ],
-          ),
-        ])));
+            ),
+          ]))),
+    );
   }
 }
 

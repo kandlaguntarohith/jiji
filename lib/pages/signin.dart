@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/bottomnav.dart';
 import 'package:jiji/pages/home.dart';
 import 'package:jiji/pages/otp.dart';
+import 'package:jiji/widgets/size_config.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -70,9 +71,6 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-            ),
-            SizedBox(
-              height: 100.0,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 170, 0, 0),

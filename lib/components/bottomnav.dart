@@ -49,7 +49,10 @@ class _BottomNavState extends State<BottomNav> {
                   MaterialButton(
                     minWidth: 40,
                     onPressed: () {
-                      setState(() {});
+                      setState(() {
+                        currentTab = 0;
+                        currentScreen = HomePage();
+                      });
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +90,10 @@ class _BottomNavState extends State<BottomNav> {
               MaterialButton(
                 minWidth: 40,
                 onPressed: () {
-                  setState(() {});
+                  setState(() {
+                    currentTab = 2;
+                    currentScreen = AddProductScreen();
+                  });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +107,7 @@ class _BottomNavState extends State<BottomNav> {
                       child: Icon(
                         Icons.add_circle,
                         color:
-                            currentTab == 1 ? Hexcolor("#3DB83A") : Colors.grey,
+                            currentTab == 2 ? Hexcolor("#3DB83A") : Colors.grey,
                       ),
                     ),
                   ],
@@ -111,7 +117,7 @@ class _BottomNavState extends State<BottomNav> {
                 minWidth: 40,
                 onPressed: () {
                   setState(() {
-                    currentTab = 2;
+                    currentTab = 3;
                     currentScreen = MyAdsPage();
                   });
                 },
@@ -121,7 +127,7 @@ class _BottomNavState extends State<BottomNav> {
                     Icon(
                       Icons.show_chart,
                       color:
-                          currentTab == 2 ? Hexcolor("#3DB83A") : Colors.grey,
+                          currentTab == 3 ? Hexcolor("#3DB83A") : Colors.grey,
                     ),
                   ],
                 ),
@@ -134,15 +140,13 @@ class _BottomNavState extends State<BottomNav> {
                 children: <Widget>[
                   MaterialButton(
                     minWidth: 40,
-                    onPressed: () {
-                      setState(() {});
-                    },
+                    onPressed: () {},
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
                           Icons.person,
-                          color: currentTab == 3
+                          color: currentTab == 4
                               ? Hexcolor("#3DB83A")
                               : Colors.grey,
                         ),

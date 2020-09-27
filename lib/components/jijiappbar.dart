@@ -9,6 +9,7 @@ class JijiAppBar extends StatelessWidget {
         appBar: PreferredSize(
       preferredSize: Size.fromHeight(80.0), // here the desired height
       child: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Hexcolor("#3DB83A"),
         elevation: 0,
         // centerTitle: false,
