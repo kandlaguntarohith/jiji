@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:jiji/ThemeData.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 class CustomTextField extends StatelessWidget {
   final String value;
-  final int noOfLines;
   final Function onSaved;
   final Function validator;
   final String hintText;
   final TextInputType textInputType;
-
   const CustomTextField(
       {Key key,
       @required this.value,
-      @required this.noOfLines,
       @required this.onSaved,
       @required this.validator,
       @required this.hintText,
@@ -21,32 +19,54 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Color.fromRGBO(240, 240, 240, 1),
-      ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        child: TextFormField(
-          initialValue: value,
-          decoration: InputDecoration(
-    
-            hintText: hintText,
-            hintStyle: TextStyle(
-              fontSize: 18,
+    SizeConfig().init(context);
+    final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+    final availableWidthSpace =
+        SizeConfig.deviceWidth * 100 - (2 * deviceHorizontalPadding);
+    final aspectRatio = 8 / 1;
+    final textFieldheight = availableWidthSpace / aspectRatio;
+    final textSize = textFieldheight * 0.3;
+
+    final textFieldPadding = EdgeInsets.symmetric(
+      horizontal: availableWidthSpace * 0.030,
+    );
+
+    return AspectRatio(
+      aspectRatio: textInputType == TextInputType.multiline
+          ? aspectRatio / 2.5
+          : aspectRatio,
+      child: Container(
+        alignment: Alignment.centerLeft,
+        padding: textFieldPadding,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          color: Color.fromRGBO(240, 240, 240, 1),
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: TextFormField(
+            initialValue: value,
+            decoration: InputDecoration.collapsed(
+              hintText: hintText,
+              hintStyle: TextStyle(
+                fontSize: textSize,
+                color: MyThemeData.inputPlaceHolder,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            // textAlign: TextAlign.center,
+            textAlignVertical: TextAlignVertical.center,
+            style: TextStyle(
+              fontSize: textSize,
               fontWeight: FontWeight.w400,
             ),
-            focusedBorder: InputBorder.none,
-            enabledBorder: InputBorder.none,
-            
+            keyboardType: textInputType,
+            maxLines: textInputType == TextInputType.multiline ? 5 : 1,
+            cursorColor: MyThemeData.primaryColor,
+            // focusNode: _descriptionFocusNode,
+            onSaved: (value) => onSaved(value),
+            validator: (value) => validator(value),
           ),
-          keyboardType: textInputType,
-          maxLines: noOfLines,
-          cursorColor: MyThemeData.primaryColor,
-          // focusNode: _descriptionFocusNode,
-          onSaved: (value) => onSaved(value),
-          validator: (value) => validator(value),
         ),
       ),
     );
