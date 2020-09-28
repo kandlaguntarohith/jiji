@@ -25,7 +25,7 @@ class CustomTextField extends StatelessWidget {
         SizeConfig.deviceWidth * 100 - (2 * deviceHorizontalPadding);
     final aspectRatio = 8 / 1;
     final textFieldheight = availableWidthSpace / aspectRatio;
-    final textSize = textFieldheight * 0.3;
+    final textSize = textFieldheight * 0.25;
 
     final textFieldPadding = EdgeInsets.symmetric(
       horizontal: availableWidthSpace * 0.030,
@@ -33,7 +33,7 @@ class CustomTextField extends StatelessWidget {
 
     return AspectRatio(
       aspectRatio: textInputType == TextInputType.multiline
-          ? aspectRatio / 2.5
+          ? aspectRatio / 3
           : aspectRatio,
       child: Container(
         alignment: Alignment.centerLeft,
@@ -61,7 +61,7 @@ class CustomTextField extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
             keyboardType: textInputType,
-            maxLines: textInputType == TextInputType.multiline ? 5 : 1,
+            maxLines: textInputType == TextInputType.multiline ? 7 : 1,
             cursorColor: MyThemeData.primaryColor,
             // focusNode: _descriptionFocusNode,
             onSaved: (value) => onSaved(value),
