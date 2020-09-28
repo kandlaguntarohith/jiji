@@ -94,7 +94,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 20),
+        SizedBox(height: textSize* 2),
         Text(
           heading,
           style: TextStyle(
@@ -103,7 +103,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             fontWeight: FontWeight.w400,
           ),
         ),
-        SizedBox(height: 5),
+        SizedBox(height: textSize),
       ],
     );
   }
@@ -126,7 +126,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           key: _form,
           child: ListView(
             children: <Widget>[
-              SizedBox(height: 30),
+              SizedBox(height: SizeConfig.deviceHeight * 4),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -243,12 +243,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 hintText: 'Description',
                 textInputType: TextInputType.multiline,
               ),
-              SizedBox(height: 30),
+              SizedBox(height: SizeConfig.deviceHeight * 4),
               AspectRatio(
                 aspectRatio: 8,
                 child: ButtonTheme(
-                  minWidth: double.infinity,
-                  height: 50,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(5),
@@ -268,7 +266,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: SizeConfig.deviceHeight),
               FlatButton(
                 onPressed: () {},
                 child: Text(
@@ -280,7 +278,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: SizeConfig.deviceHeight * 3),
             ],
           ),
         ),

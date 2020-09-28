@@ -23,7 +23,7 @@ class CustomDropDownMenu extends StatelessWidget {
         (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
     final aspectRatio = 8 / 1;
     final textFieldheight = availableWidthSpace / aspectRatio;
-    final textSize = textFieldheight * 0.3;
+    final textSize = textFieldheight * 0.25;
 
     final textFieldPadding = EdgeInsets.symmetric(
       horizontal: availableWidthSpace * 0.030,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:jiji/utilities/size_config.dart';
 
 import '../../ThemeData.dart';
@@ -49,7 +50,7 @@ class SellerCard extends StatelessWidget {
                         fontSize: textSize,
                       ),
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: fieldheight * 0.1),
                     Text(
                       "GOA, GA",
                       style: TextStyle(
@@ -58,7 +59,7 @@ class SellerCard extends StatelessWidget {
                         color: MyThemeData.inputPlaceHolder,
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: fieldheight * 0.1),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
