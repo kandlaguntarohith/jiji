@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/models/ad_item.dart';
-
+import 'package:jiji/models/product.dart';
+import 'package:jiji/pages/edit_product_screen.dart';
 import 'package:jiji/utilities/size_config.dart';
-
 import 'package:jiji/widgets/ad_item.dart';
 import 'package:share/share.dart';
 
@@ -15,6 +15,7 @@ class MyAdsPage extends StatefulWidget {
 class _MyAdsPageState extends State<MyAdsPage> {
   String _selectedItem;
   List<String> _itemTypes = [
+    'All Items',
     'Listed Items',
     'Sold Items',
     'Drafts',
@@ -99,6 +100,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
       ),
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -262,68 +264,142 @@ class _MyAdsPageState extends State<MyAdsPage> {
                         },
                       ),
                     )
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: _draftItemsList.length,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                child: _draftItemsList[index],
-                              ),
-                              SizedBox(width: 20.0),
-                              Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                  : _selectedItem == 'All Items'
+                      ? Expanded(
+                          child: ListView.builder(
+                            itemCount: _listedItemsList.length +
+                                _draftItemsList.length +
+                                _soldItemsList.length,
+                            itemBuilder: (context, index) {
+                              final _allItemsList = _listedItemsList +
+                                  _draftItemsList +
+                                  _soldItemsList;
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    iconSize: 28.0,
-                                    onPressed: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => EditProductScreen(
-                                          product: new Product(
-                                            id: "id1",
-                                            description:
-                                                "This is a very good watch",
-                                            imageUrl: [
-                                              "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
-                                            ],
-                                            price: 800.00,
-                                            title: "Mobile",
-                                            state: "Goa",
-                                            city: "Pune",
-                                            category: "Gadgets",
-                                            subCategory: "Mobiles",
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.7,
+                                    child: _allItemsList[index],
+                                  ),
+                                  SizedBox(width: 20.0),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.edit),
+                                        iconSize: 28.0,
+                                        onPressed: () =>
+                                            Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditProductScreen(
+                                              product: new Product(
+                                                id: "id1",
+                                                description:
+                                                    "This is a very good watch",
+                                                imageUrl: [
+                                                  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
+                                                ],
+                                                price: 800.00,
+                                                title: "Mobile",
+                                                state: "Goa",
+                                                city: "Pune",
+                                                category: "Gadgets",
+                                                subCategory: "Mobiles",
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
+                                      Text('Edit'),
+                                      IconButton(
+                                          icon: Icon(Icons.share),
+                                          iconSize: 28.0,
+                                          onPressed: () {
+                                            Share.share('Download Jiji now!');
+                                          }),
+                                      Text('Share'),
+                                      IconButton(
+                                          icon: Icon(Icons.send),
+                                          iconSize: 28.0,
+                                          onPressed: () {
+                                            Share.share('Download Jiji now!');
+                                          }),
+                                      Text('Promote'),
+                                    ],
                                   ),
-                                  Text('Edit'),
-                                  IconButton(
-                                      icon: Icon(Icons.share),
-                                      iconSize: 28.0,
-                                      onPressed: () {
-                                        Share.share('Download Jiji now!');
-                                      }),
-                                  Text('Share'),
-                                  IconButton(
-                                      icon: Icon(Icons.send),
-                                      iconSize: 28.0,
-                                      onPressed: () {
-                                        Share.share('Download Jiji now!');
-                                      }),
-                                  Text('Promote'),
                                 ],
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ),
+                              );
+                            },
+                          ),
+                        )
+                      : Expanded(
+                          child: ListView.builder(
+                            itemCount: _draftItemsList.length,
+                            itemBuilder: (context, index) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.7,
+                                    child: _draftItemsList[index],
+                                  ),
+                                  SizedBox(width: 20.0),
+                                  Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      IconButton(
+                                        icon: Icon(Icons.edit),
+                                        iconSize: 28.0,
+                                        onPressed: () =>
+                                            Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                EditProductScreen(
+                                              product: new Product(
+                                                id: "id1",
+                                                description:
+                                                    "This is a very good watch",
+                                                imageUrl: [
+                                                  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
+                                                ],
+                                                price: 800.00,
+                                                title: "Mobile",
+                                                state: "Goa",
+                                                city: "Pune",
+                                                category: "Gadgets",
+                                                subCategory: "Mobiles",
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Text('Edit'),
+                                      IconButton(
+                                          icon: Icon(Icons.share),
+                                          iconSize: 28.0,
+                                          onPressed: () {
+                                            Share.share('Download Jiji now!');
+                                          }),
+                                      Text('Share'),
+                                      IconButton(
+                                          icon: Icon(Icons.send),
+                                          iconSize: 28.0,
+                                          onPressed: () {
+                                            Share.share('Download Jiji now!');
+                                          }),
+                                      Text('Promote'),
+                                    ],
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
         ],
       ),
     );
