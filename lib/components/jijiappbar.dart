@@ -27,7 +27,7 @@ class JijiAppBar extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     horizontal: SizeConfig.deviceWidth * 5),
                 child: Container(
-                  height: appBarHeight * 60,
+                  height: appBarHeight * 0.60,
                   width: SizeConfig.deviceWidth * 60,
                   child: TextField(
                     decoration: InputDecoration(
@@ -39,7 +39,7 @@ class JijiAppBar extends StatelessWidget {
                         filled: true,
                         fillColor: Hexcolor("#F0F0F0"),
                         hintStyle: TextStyle(
-                          fontSize: appBarHeight * 0.22,
+                          fontSize: appBarHeight * 0.25,
                           color: Colors.grey,
                         ),
                         hintText: "Search",
