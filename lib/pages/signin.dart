@@ -49,66 +49,52 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'SIGN IN',
                 style: TextStyle(
-                    fontSize: 24.0,
+                    fontSize: SizeConfig.deviceHeight * 2.85,
                     fontWeight: FontWeight.bold,
                     fontFamily: "Pacifico"),
               ),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 4,
+              Padding(
+                padding:  EdgeInsets.only(top: SizeConfig.deviceHeight*4),
+                child: Text(
+                  "Welcome back to the community!",
+                  style: TextStyle(
+                      fontSize: SizeConfig.deviceHeight * 2.35,
+                      color: Colors.black,
+                  fontWeight: FontWeight.w600),
+                ),
               ),
-              Text(
-                "Welcome back to the community!",
-                style: TextStyle(fontSize: 18.0, color: Colors.black),
+              Padding(
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*6),
+                child: buildTextField("Phone or Email"),
               ),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 8,
+              Padding(
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*3),
+                child: buildTextField("Password"),
               ),
-              buildTextField("Phone or Email"),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 2,
+              Padding(
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*4),
+                child: buildButtonContainer(),
               ),
-              buildTextField("Password"),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 3,
+              Padding(
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*4),
+                child: Text(
+                  "Forgot Password?",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
               ),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 1,
-              ),
-              buildButtonContainer(),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 4,
-              ),
-              Container(
+              Padding(
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(
-                      "Forgot Password?",
-                      style: TextStyle(
-                        color: Colors.black,
-                      ),
-                    ),
+                    Text("Not a Member yet?"),
+                    Text("SIGN UP",
+                        style: TextStyle(
+                            color: Hexcolor("#3DB83A"),
+                            fontWeight: FontWeight.bold))
                   ],
-                ),
-              ),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 30,
-              ),
-              Container(
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text("Not a Member yet?"),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Text("SIGN UP",
-                          style: TextStyle(
-                              color: Hexcolor("#3DB83A"),
-                              fontWeight: FontWeight.bold))
-                    ],
-                  ),
                 ),
               ),
             ],
@@ -129,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
         hintText: hintText,
         hintStyle: TextStyle(
           color: Colors.grey,
-          fontSize: 16.0,
+          fontSize: SizeConfig.deviceWidth*4,
         ),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
@@ -139,8 +125,8 @@ class _LoginPageState extends State<LoginPage> {
             ? IconButton(
                 onPressed: _toggleVisibility,
                 icon: _isHidden
-                    ? Icon(Icons.visibility_off)
-                    : Icon(Icons.visibility),
+                    ? Icon(Icons.visibility_off,size: SizeConfig.deviceWidth*5,)
+                    : Icon(Icons.visibility,size: SizeConfig.deviceWidth*5,),
               )
             : null,
       ),

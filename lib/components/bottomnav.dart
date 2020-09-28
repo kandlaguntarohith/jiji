@@ -4,6 +4,7 @@ import 'package:jiji/pages/add_product_screen.dart';
 import 'package:jiji/pages/chat_page.dart';
 import 'package:jiji/pages/home.dart';
 import 'package:jiji/pages/my_ads_page.dart';
+import 'package:jiji/pages/profile_page.dart';
 
 class BottomNav extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class _BottomNavState extends State<BottomNav> {
     ChatPage(),
     AddProductScreen(),
     MyAdsPage(),
+    ProfilePage()
   ]; // to store nested tabs
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = HomePage(); // Our first view in viewport
@@ -140,13 +142,18 @@ class _BottomNavState extends State<BottomNav> {
                 children: <Widget>[
                   MaterialButton(
                     minWidth: 40,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        currentTab = 4;
+                        currentScreen = ProfilePage();
+                      });
+                    },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
                           Icons.person,
-                          color: currentTab == null
+                          color: currentTab == 4
                               ? Hexcolor("#3DB83A")
                               : Colors.grey,
                         ),

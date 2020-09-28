@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/jijiappbar.dart';
@@ -75,7 +74,7 @@ class ChatBoxPage extends StatelessWidget {
       child: Container(
         height: SizeConfig.deviceHeight * 6,
         decoration: BoxDecoration(
-            color: Colors.grey[400].withOpacity(0.5),
+            color: Colors.grey[400],
             borderRadius: BorderRadius.circular(SizeConfig.deviceWidth * 7)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,9 +191,14 @@ class TopRowWidget extends StatelessWidget {
         padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 7),
         child: Row(
           children: [
-            Icon(
-              Icons.arrow_back_ios,
-              size: SizeConfig.deviceWidth * 5,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: SizeConfig.deviceWidth * 5,
+              ),
             ),
             SizedBox(
               width: SizeConfig.deviceWidth * 5,

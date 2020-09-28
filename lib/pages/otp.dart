@@ -69,7 +69,7 @@ class _OTPScreenState extends State<OTPScreen> {
                       style: TextStyle(
                           color: Colors.black.withOpacity(0.65),
                           fontFamily: 'Roboto',
-                          fontSize: pHeight * 0.027),
+                          fontSize: pHeight * 0.026),
                     ),
                   ),
                 ],
@@ -137,7 +137,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     'Resending code in 01:03',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: Colors.black.withOpacity(0.75),
+                        color: Colors.grey,
                         fontFamily: 'Roboto',
                         fontSize: pHeight * 0.018),
                   ),

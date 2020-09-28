@@ -59,7 +59,7 @@ class _SignUpState extends State<SignUp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Sign Up',
+                      'SIGN UP',
                       style: TextStyle(
                           color: Colors.black,
                           fontFamily: 'Roboto',
@@ -174,6 +174,7 @@ class _SignUpState extends State<SignUp> {
                   width: pWidth * 0.85,
                   height: pHeight * 0.065,
                   child: TextFormField(
+                    obscureText: true,
                     controller: password,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -181,7 +182,7 @@ class _SignUpState extends State<SignUp> {
                       ),
                       filled: true,
                       hintText: 'Password',
-                      suffixIcon: Icon(Icons.lock),
+                      suffixIcon: Icon(Icons.visibility_off),
                       hintStyle: TextStyle(
                           fontFamily: 'Roboto', fontSize: pHeight * 0.025),
                     ),
@@ -213,9 +214,9 @@ class _SignUpState extends State<SignUp> {
                         child: Text(
                           "SIGN UP",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ),
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),

@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                   SizedBox(
-                    height: SizeConfig.deviceHeight * 4,
+                    height: SizeConfig.deviceHeight * 2,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -226,11 +226,6 @@ class _HomePageState extends State<HomePage> {
                                 price: "1200",
                                 productName:
                                     "Brand New Smart Watch from United States of America",
-                              ),
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName: "Brand New Smart Watch",
                               ),
                               ProductCard(
                                 location: "Goa, India",
