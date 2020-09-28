@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/pages/home.dart';
 import 'package:jiji/pages/otp.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController email = new TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     final pHeight = MediaQuery.of(context).size.height;
     final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -59,11 +61,11 @@ class _SignUpState extends State<SignUp> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      'Sign Up',
+                      'SIGN UP',
                       style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Roboto',
-                          fontSize: pHeight * 0.035),
+                          fontSize: SizeConfig.deviceHeight * 2.85,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Pacifico"),
                     ),
                   ],
                 ),
@@ -79,9 +81,9 @@ class _SignUpState extends State<SignUp> {
                         'Join a wonderful community!',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Colors.black.withOpacity(0.65),
-                            fontFamily: 'Roboto',
-                            fontSize: pHeight * 0.02),
+                          fontSize: SizeConfig.deviceHeight * 2.35,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ],
@@ -94,7 +96,7 @@ class _SignUpState extends State<SignUp> {
                   children: <Widget>[
                     Container(
                       width: pWidth * 0.40,
-                      height: pHeight * 0.065,
+                      height: pHeight * 0.055,
                       child: TextFormField(
                         controller: name,
                         decoration: InputDecoration(
@@ -105,13 +107,13 @@ class _SignUpState extends State<SignUp> {
                           filled: true,
                           hintText: 'First Name',
                           hintStyle: TextStyle(
-                              fontFamily: 'Roboto', fontSize: pHeight * 0.025),
+                              fontFamily: 'Roboto', fontSize: pHeight * 0.020),
                         ),
                       ),
                     ),
                     Container(
                       width: pWidth * 0.40,
-                      height: pHeight * 0.065,
+                      height: pHeight * 0.055,
                       child: TextFormField(
                         controller: lastname,
                         decoration: InputDecoration(
@@ -122,7 +124,7 @@ class _SignUpState extends State<SignUp> {
                           filled: true,
                           hintText: 'Last Name',
                           hintStyle: TextStyle(
-                              fontFamily: 'Roboto', fontSize: pHeight * 0.025),
+                              fontFamily: 'Roboto', fontSize: pHeight * 0.020),
                         ),
                       ),
                     ),
@@ -133,7 +135,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Container(
                   width: pWidth * 0.85,
-                  height: pHeight * 0.065,
+                  height: pHeight * 0.055,
                   child: TextFormField(
                     controller: email,
                     decoration: InputDecoration(
@@ -144,7 +146,7 @@ class _SignUpState extends State<SignUp> {
                       filled: true,
                       hintText: 'Email',
                       hintStyle: TextStyle(
-                          fontFamily: 'Roboto', fontSize: pHeight * 0.025),
+                          fontFamily: 'Roboto', fontSize: pHeight * 0.020),
                     ),
                   ),
                 ),
@@ -153,7 +155,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Container(
                   width: pWidth * 0.85,
-                  height: pHeight * 0.065,
+                  height: pHeight * 0.055,
                   child: TextFormField(
                     controller: phone,
                     decoration: InputDecoration(
@@ -163,7 +165,7 @@ class _SignUpState extends State<SignUp> {
                       filled: true,
                       hintText: 'Phone',
                       hintStyle: TextStyle(
-                          fontFamily: 'Roboto', fontSize: pHeight * 0.025),
+                          fontFamily: 'Roboto', fontSize: pHeight * 0.020),
                     ),
                   ),
                 ),
@@ -172,8 +174,9 @@ class _SignUpState extends State<SignUp> {
                 ),
                 Container(
                   width: pWidth * 0.85,
-                  height: pHeight * 0.065,
+                  height: pHeight * 0.055,
                   child: TextFormField(
+                    obscureText: true,
                     controller: password,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -181,9 +184,9 @@ class _SignUpState extends State<SignUp> {
                       ),
                       filled: true,
                       hintText: 'Password',
-                      suffixIcon: Icon(Icons.lock),
+                      suffixIcon: Icon(Icons.visibility_off),
                       hintStyle: TextStyle(
-                          fontFamily: 'Roboto', fontSize: pHeight * 0.025),
+                          fontFamily: 'Roboto', fontSize: pHeight * 0.020),
                     ),
                   ),
                 ),
@@ -200,12 +203,11 @@ class _SignUpState extends State<SignUp> {
                     );
                   },
                   child: Container(
-                    width: pWidth * 0.85,
-                    height: pHeight * 0.065,
+                    height: SizeConfig.deviceHeight * 5.5,
+                    width: SizeConfig.deviceWidth * 85,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(5.0),
                       color: Hexcolor("#3DB83A"),
-                      // color: kPrimaryColor
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -213,9 +215,9 @@ class _SignUpState extends State<SignUp> {
                         child: Text(
                           "SIGN UP",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                          ),
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),

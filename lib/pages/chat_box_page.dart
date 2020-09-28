@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/jijiappbar.dart';
@@ -71,11 +70,11 @@ class ChatBoxPage extends StatelessWidget {
     }
 
     return Padding(
-      padding: EdgeInsets.only(left: 0, right: SizeConfig.deviceWidth * 7),
+      padding: EdgeInsets.only(left: 0, right: SizeConfig.deviceWidth * 9),
       child: Container(
         height: SizeConfig.deviceHeight * 6,
         decoration: BoxDecoration(
-            color: Colors.grey[400].withOpacity(0.5),
+            color: Colors.grey[400],
             borderRadius: BorderRadius.circular(SizeConfig.deviceWidth * 7)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,7 +105,7 @@ class ChatBoxPage extends StatelessWidget {
               ],
             ),
             CircleAvatar(
-                radius: SizeConfig.deviceWidth * 5.5,
+                radius: SizeConfig.deviceWidth * 5,
                 backgroundColor: Hexcolor("3DB83A"),
                 child: IconButton(
                     icon: Icon(
@@ -192,9 +191,14 @@ class TopRowWidget extends StatelessWidget {
         padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 7),
         child: Row(
           children: [
-            Icon(
-              Icons.arrow_back_ios,
-              size: SizeConfig.deviceWidth * 5,
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: SizeConfig.deviceWidth * 5,
+              ),
             ),
             SizedBox(
               width: SizeConfig.deviceWidth * 5,
