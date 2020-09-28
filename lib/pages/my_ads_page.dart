@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/models/ad_item.dart';
 import 'package:jiji/models/product.dart';
@@ -118,7 +119,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                 padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 8),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
-                    hint: Text(_selectedItem ?? 'Select item'),
+                    hint: Text(_selectedItem ?? 'SELECT ITEM'),
                     value: _selectedItem,
                     onChanged: (String value) {
                       setState(() {
@@ -129,13 +130,22 @@ class _MyAdsPageState extends State<MyAdsPage> {
                     items: _itemTypes.map((String page) {
                       return DropdownMenuItem<String>(
                         value: page,
-                        child: Text(page),
+                        child: Text(page.toUpperCase()),
                       );
                     }).toList(),
                   ),
                 ),
               ),
               SizedBox(width: SizeConfig.deviceWidth * 8),
+              Padding(
+                padding: EdgeInsets.only(right: SizeConfig.deviceWidth * 8),
+                child: Text(
+                  '32 ads',
+                  style: TextStyle(
+                    color: Hexcolor("#3DB83A"),
+                  ),
+                ),
+              ),
             ],
           ),
           SizedBox(height: SizeConfig.deviceWidth * 2),
@@ -152,7 +162,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: _listedItemsList[index],
                           ),
-                          SizedBox(width: SizeConfig.deviceWidth * 8),
+                          SizedBox(width: SizeConfig.deviceWidth * 6),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -180,21 +190,21 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                   ),
                                 ),
                               ),
-                              Text('Edit'),
+                              Text('EDIT'),
                               IconButton(
                                   icon: Icon(Icons.share),
                                   iconSize: 28.0,
                                   onPressed: () {
                                     Share.share('Download Jiji now!');
                                   }),
-                              Text('Share'),
+                              Text('SHARE'),
                               IconButton(
                                   icon: Icon(Icons.send),
                                   iconSize: 28.0,
                                   onPressed: () {
                                     Share.share('Download Jiji now!');
                                   }),
-                              Text('Promote'),
+                              Text('PROMOTE'),
                             ],
                           ),
                         ],
@@ -215,7 +225,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                 width: MediaQuery.of(context).size.width * 0.7,
                                 child: _soldItemsList[index],
                               ),
-                              SizedBox(width: SizeConfig.deviceWidth * 8),
+                              SizedBox(width: SizeConfig.deviceWidth * 6),
                               Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -244,21 +254,21 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                       ),
                                     ),
                                   ),
-                                  Text('Edit'),
+                                  Text('EDIT'),
                                   IconButton(
                                       icon: Icon(Icons.share),
                                       iconSize: 28.0,
                                       onPressed: () {
                                         Share.share('Download Jiji now!');
                                       }),
-                                  Text('Share'),
+                                  Text('SHARE'),
                                   IconButton(
                                       icon: Icon(Icons.send),
                                       iconSize: 28.0,
                                       onPressed: () {
                                         Share.share('Download Jiji now!');
                                       }),
-                                  Text('Promote'),
+                                  Text('PROMOTE'),
                                 ],
                               ),
                             ],
@@ -284,7 +294,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                         MediaQuery.of(context).size.width * 0.7,
                                     child: _allItemsList[index],
                                   ),
-                                  SizedBox(width: SizeConfig.deviceWidth * 8),
+                                  SizedBox(width: SizeConfig.deviceWidth * 6),
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -315,21 +325,21 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                           ),
                                         ),
                                       ),
-                                      Text('Edit'),
+                                      Text('EDIT'),
                                       IconButton(
                                           icon: Icon(Icons.share),
                                           iconSize: 28.0,
                                           onPressed: () {
                                             Share.share('Download Jiji now!');
                                           }),
-                                      Text('Share'),
+                                      Text('SHARE'),
                                       IconButton(
                                           icon: Icon(Icons.send),
                                           iconSize: 28.0,
                                           onPressed: () {
                                             Share.share('Download Jiji now!');
                                           }),
-                                      Text('Promote'),
+                                      Text('PROMOTE'),
                                     ],
                                   ),
                                 ],
@@ -349,7 +359,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                         MediaQuery.of(context).size.width * 0.7,
                                     child: _draftItemsList[index],
                                   ),
-                                  SizedBox(width: SizeConfig.deviceWidth * 8),
+                                  SizedBox(width: SizeConfig.deviceWidth * 6),
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -380,21 +390,21 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                           ),
                                         ),
                                       ),
-                                      Text('Edit'),
+                                      Text('EDIT'),
                                       IconButton(
                                           icon: Icon(Icons.share),
                                           iconSize: 28.0,
                                           onPressed: () {
                                             Share.share('Download Jiji now!');
                                           }),
-                                      Text('Share'),
+                                      Text('SHARE'),
                                       IconButton(
                                           icon: Icon(Icons.send),
                                           iconSize: 28.0,
                                           onPressed: () {
                                             Share.share('Download Jiji now!');
                                           }),
-                                      Text('Promote'),
+                                      Text('PROMOTE'),
                                     ],
                                   ),
                                 ],
