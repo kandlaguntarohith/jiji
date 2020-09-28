@@ -90,7 +90,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           children: [
             Container(
               color: Color.fromRGBO(240, 240, 240, 1),
-              height: 30,
+              height: SizeConfig.deviceHeight * 3,
               width: double.infinity,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -98,53 +98,53 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Text(
                     "Electronics",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: textSize * 0.6,
                     ),
                   ),
                   Text(
                     " > ",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: textSize * 0.6,
                       color: MyThemeData.primaryColor,
                     ),
                   ),
                   Text(
                     "Wearables",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: textSize * 0.6,
                     ),
                   ),
                   Text(
                     " > ",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: textSize * 0.6,
                       color: MyThemeData.primaryColor,
                     ),
                   ),
                   Text(
                     "SmartWatches",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: textSize * 0.6,
                     ),
                   ),
                   Text(
                     " > ",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: textSize * 0.6,
                       color: MyThemeData.primaryColor,
                     ),
                   ),
                   Text(
                     "Brand New...",
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: textSize * 0.6,
                       color: MyThemeData.primaryColor,
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: SizeConfig.deviceHeight * 2),
             Padding(
               padding:
                   EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 4),
@@ -154,7 +154,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   AspectRatio(
                     aspectRatio: imageAspectRatio,
                     child: Container(
-                      height: 190,
                       width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -165,16 +164,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: SizeConfig.deviceHeight * 2),
                   ProductImages(
                     img: img,
                     selectedImageIndex: selectedImageIndex,
                     updateSelectedImage: updateSelectedImage,
                   ),
-                  SizedBox(height: 20),
-                  Container(
+                  SizedBox(height: SizeConfig.deviceHeight * 3),
+                  Align(
                     alignment: Alignment.centerLeft,
-                    height: 30,
                     child: Text(
                       "Brand New Smart Watch",
                       style: TextStyle(
@@ -184,7 +182,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: SizeConfig.deviceHeight * 2),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,9 +205,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: SizeConfig.deviceHeight * 2),
                   SellerCard(),
-                  SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.deviceHeight * 3),
                   AspectRatio(
                     aspectRatio: callMessageButtonsAspectRatio,
                     child: Row(
@@ -236,7 +234,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: SizeConfig.deviceHeight * 4),
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -248,19 +246,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.deviceHeight * 3),
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       description,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: textSize * 0.8,
+                        fontSize: textSize * 0.75,
                         color: Color.fromRGBO(58, 58, 58, 1),
                       ),
                     ),
                   ),
-                  SizedBox(height: 25),
+                  SizedBox(height: SizeConfig.deviceHeight * 4),
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -272,7 +270,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: SizeConfig.deviceHeight * 3),
                   SimilarProducts(
                     productImgUrl: productImgUrl,
                     productName: productName,
@@ -280,7 +278,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     prices: prices,
                     place: place,
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: SizeConfig.deviceHeight * 5),
                 ],
               ),
             ),

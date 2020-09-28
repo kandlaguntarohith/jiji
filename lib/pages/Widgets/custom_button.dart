@@ -17,7 +17,7 @@ class CustomButton extends StatelessWidget {
     final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
     final availableWidthSpace =
         (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
-    final textSize = availableWidthSpace * 0.045;
+    final textSize = availableWidthSpace * 0.04;
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(5)),
       child: Container(
