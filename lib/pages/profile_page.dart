@@ -83,8 +83,8 @@ class StrechedButton extends StatelessWidget {
             BoxDecoration(border: Border.all(color: Hexcolor("#F0F0F0"))),
         child: Padding(
           padding: EdgeInsets.symmetric(
-            vertical: SizeConfig.deviceHeight * 2.25,
-          ),
+              vertical: SizeConfig.deviceHeight * 2.25,
+              horizontal: SizeConfig.deviceWidth * 5),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -149,9 +149,18 @@ class TopRowWidget extends StatelessWidget {
             top: SizeConfig.deviceHeight * 4),
         child: Row(
           children: [
-            CircleAvatar(
-              backgroundImage: AssetImage('assets/profile_image.jpeg'),
-              radius: SizeConfig.deviceWidth * 8.5,
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Hexcolor("3DB83A"),
+              ),
+              child: Padding(
+                padding: EdgeInsets.all(SizeConfig.deviceWidth * 8.5 * 0.05),
+                child: CircleAvatar(
+                  backgroundImage: AssetImage('assets/profile_image.jpeg'),
+                  radius: SizeConfig.deviceWidth * 8.5,
+                ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 5),
@@ -165,7 +174,7 @@ class TopRowWidget extends StatelessWidget {
                         color: Colors.black,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.deviceHeight * 2.85),
+                        fontSize: SizeConfig.deviceHeight * 2.75),
                   ),
                   SizedBox(
                     height: SizeConfig.deviceHeight * 1,

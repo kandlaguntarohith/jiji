@@ -26,14 +26,19 @@ class SlideItem extends StatelessWidget {
         SizedBox(
           height: 40,
         ),
-        Text(
-          slideList[index].title,
-          textAlign: TextAlign.left,
-          style: TextStyle(
-              fontSize: 30.0,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Roboto'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              slideList[index].title,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 30.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Roboto'),
+            ),
+          ],
         ),
         SizedBox(
           height: 10,

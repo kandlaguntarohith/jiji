@@ -12,78 +12,82 @@ class EditProfilePage extends StatelessWidget {
         appBar: PreferredSize(
             preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
             child: JijiAppBar()),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            backPressWidget(context),
-            SizedBox(
-              height: SizeConfig.deviceHeight * 5,
-            ),
-            Center(child: ProfileImage()),
-            SizedBox(
-              height: SizeConfig.deviceHeight * 5,
-            ),
-            personalInfoEditTexts(),
-            SizedBox(
-              height: SizeConfig.deviceHeight * 3,
-            ),
-            Padding(
-              padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Hexcolor("3DB83A"), width: 2),
-                        borderRadius: BorderRadius.circular(5)),
-                    width: SizeConfig.deviceWidth * 42.5,
-                    child: MaterialButton(
-                      onPressed: () {},
-                      child: Center(
-                        child: Text(
-                          'CANCEL',
-                          style: TextStyle(
-                              color: Hexcolor("3DB83A"),
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                              fontSize: SizeConfig.deviceWidth * 3.75),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: SizeConfig.deviceWidth * 2,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(right: SizeConfig.deviceWidth * 5),
-                    child: Container(
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              backPressWidget(context),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 5,
+              ),
+              Center(child: ProfileImage()),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 5,
+              ),
+              personalInfoEditTexts(),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 3,
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
                       decoration: BoxDecoration(
-                          color: Hexcolor("3DB83A"),
+                          border:
+                              Border.all(color: Hexcolor("3DB83A"), width: 2),
                           borderRadius: BorderRadius.circular(5)),
                       width: SizeConfig.deviceWidth * 42.5,
                       child: MaterialButton(
                         onPressed: () {},
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: SizeConfig.deviceHeight * 1.5),
-                          child: Center(
-                            child: Text(
-                              'SAVE',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: SizeConfig.deviceWidth * 3.75),
+                        child: Center(
+                          child: Text(
+                            'CANCEL',
+                            style: TextStyle(
+                                color: Hexcolor("3DB83A"),
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: SizeConfig.deviceWidth * 3.75),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: SizeConfig.deviceWidth * 2,
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(right: SizeConfig.deviceWidth * 5),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Hexcolor("3DB83A"),
+                            borderRadius: BorderRadius.circular(5)),
+                        width: SizeConfig.deviceWidth * 42.5,
+                        child: MaterialButton(
+                          onPressed: () {},
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: SizeConfig.deviceHeight * 1.5),
+                            child: Center(
+                              child: Text(
+                                'SAVE',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: SizeConfig.deviceWidth * 3.75),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -229,9 +233,18 @@ class ProfileImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        CircleAvatar(
-          backgroundImage: AssetImage('assets/profile_image.png'),
-          radius: avatarRadius,
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Hexcolor("3DB83A"),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(avatarRadius * 0.05),
+            child: CircleAvatar(
+              backgroundImage: AssetImage('assets/profile_image.jpeg'),
+              radius: avatarRadius,
+            ),
+          ),
         ),
         Positioned(
           top: avatarRadius * 1.2,

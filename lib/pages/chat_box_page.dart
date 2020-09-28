@@ -70,7 +70,7 @@ class ChatBoxPage extends StatelessWidget {
     }
 
     return Padding(
-      padding: EdgeInsets.only(left: 0, right: SizeConfig.deviceWidth * 7),
+      padding: EdgeInsets.only(left: 0, right: SizeConfig.deviceWidth * 9),
       child: Container(
         height: SizeConfig.deviceHeight * 6,
         decoration: BoxDecoration(
@@ -105,7 +105,7 @@ class ChatBoxPage extends StatelessWidget {
               ],
             ),
             CircleAvatar(
-                radius: SizeConfig.deviceWidth * 5.5,
+                radius: SizeConfig.deviceWidth * 5,
                 backgroundColor: Hexcolor("3DB83A"),
                 child: IconButton(
                     icon: Icon(

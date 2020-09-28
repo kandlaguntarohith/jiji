@@ -78,7 +78,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 height: pHeight * 0.065,
               ),
               Container(
-                height: SizeConfig.deviceHeight * 6,
+                height: SizeConfig.deviceHeight * 5,
                 child: OTPTextField(
                   length: 4,
                   width: MediaQuery.of(context).size.width * 0.8,
@@ -107,7 +107,7 @@ class _OTPScreenState extends State<OTPScreen> {
                 },
                 child: Container(
                   width: pWidth * 0.85,
-                  height: pHeight * 0.065,
+                  height: pHeight * 0.055,
                   decoration: BoxDecoration(
                       color: Hexcolor("#3DB83A"),
                       borderRadius: BorderRadius.circular(5)
@@ -119,9 +119,9 @@ class _OTPScreenState extends State<OTPScreen> {
                       child: Text(
                         "CONFIRM",
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                        ),
+                            color: Colors.white,
+                            fontSize: SizeConfig.deviceHeight * 2.25,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -139,7 +139,7 @@ class _OTPScreenState extends State<OTPScreen> {
                     style: TextStyle(
                         color: Colors.grey,
                         fontFamily: 'Roboto',
-                        fontSize: pHeight * 0.018),
+                        fontSize: pHeight * 0.020),
                   ),
                   SizedBox(
                     width: pWidth * 0.01,
@@ -149,14 +149,14 @@ class _OTPScreenState extends State<OTPScreen> {
               SizedBox(
                 height: pHeight * 0.03,
               ),
-              Text(
-                'Resend code',
-                textAlign: TextAlign.center,
-                style: TextStyle(
+              Text('Resend code',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
                     color: Hexcolor("#3DB83A"),
                     fontFamily: 'Roboto',
-                    fontSize: pHeight * 0.018),
-              ),
+                    fontSize: pHeight * 0.020,
+                    fontWeight: FontWeight.bold,
+                  )),
             ],
           )
         ],
