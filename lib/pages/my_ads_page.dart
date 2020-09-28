@@ -110,33 +110,35 @@ class _MyAdsPageState extends State<MyAdsPage> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 5),
+          SizedBox(height: SizeConfig.deviceHeight * 2),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20.0),
-                child: DropdownButton<String>(
-                  hint: Text(_selectedItem ?? 'Select item'),
-                  value: _selectedItem,
-                  onChanged: (String value) {
-                    setState(() {
-                      _selectedItem = value;
-                      print(_selectedItem);
-                    });
-                  },
-                  items: _itemTypes.map((String page) {
-                    return DropdownMenuItem<String>(
-                      value: page,
-                      child: Text(page),
-                    );
-                  }).toList(),
+                padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 8),
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButton<String>(
+                    hint: Text(_selectedItem ?? 'Select item'),
+                    value: _selectedItem,
+                    onChanged: (String value) {
+                      setState(() {
+                        _selectedItem = value;
+                        print(_selectedItem);
+                      });
+                    },
+                    items: _itemTypes.map((String page) {
+                      return DropdownMenuItem<String>(
+                        value: page,
+                        child: Text(page),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
-              SizedBox(width: 20.0),
+              SizedBox(width: SizeConfig.deviceWidth * 8),
             ],
           ),
-          SizedBox(height: 5),
+          SizedBox(height: SizeConfig.deviceWidth * 2),
           _selectedItem == 'Listed Items'
               ? Expanded(
                   child: ListView.builder(
@@ -150,7 +152,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                             width: MediaQuery.of(context).size.width * 0.7,
                             child: _listedItemsList[index],
                           ),
-                          SizedBox(width: 20.0),
+                          SizedBox(width: SizeConfig.deviceWidth * 8),
                           Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -213,7 +215,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                 width: MediaQuery.of(context).size.width * 0.7,
                                 child: _soldItemsList[index],
                               ),
-                              SizedBox(width: 20.0),
+                              SizedBox(width: SizeConfig.deviceWidth * 8),
                               Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -282,7 +284,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                         MediaQuery.of(context).size.width * 0.7,
                                     child: _allItemsList[index],
                                   ),
-                                  SizedBox(width: 20.0),
+                                  SizedBox(width: SizeConfig.deviceWidth * 8),
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
@@ -347,7 +349,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                         MediaQuery.of(context).size.width * 0.7,
                                     child: _draftItemsList[index],
                                   ),
-                                  SizedBox(width: 20.0),
+                                  SizedBox(width: SizeConfig.deviceWidth * 8),
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
