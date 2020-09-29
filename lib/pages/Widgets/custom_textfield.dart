@@ -8,22 +8,66 @@ class CustomTextField extends StatelessWidget {
   final Function validator;
   final String hintText;
   final TextInputType textInputType;
-  const CustomTextField(
+  bool isAspectRatio;
+  double aspectRatioValue;
+  CustomTextField(
       {Key key,
       @required this.value,
       @required this.onSaved,
       @required this.validator,
       @required this.hintText,
-      @required this.textInputType})
+      @required this.textInputType,
+      this.isAspectRatio,
+      this.aspectRatioValue})
       : super(key: key);
+
+  Widget customWidget(EdgeInsetsGeometry textFieldPadding, double textSize) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: textFieldPadding,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        color: Color.fromRGBO(240, 240, 240, 1),
+      ),
+      child: Align(
+        alignment: Alignment.center,
+        child: TextFormField(
+          initialValue: value,
+          decoration: InputDecoration.collapsed(
+            hintText: hintText,
+            hintStyle: TextStyle(
+              fontSize: textSize,
+              color: MyThemeData.inputPlaceHolder,
+              fontWeight: FontWeight.w400,
+            ),
+          ).copyWith(
+              suffixIcon:
+                  hintText == "Password" ? Icon(Icons.visibility_off) : null),
+          obscureText: hintText == "Password" ? true : false,
+          textAlignVertical: TextAlignVertical.center,
+          style: TextStyle(
+            fontSize: textSize,
+            fontWeight: FontWeight.w400,
+          ),
+          keyboardType: textInputType,
+          maxLines: textInputType == TextInputType.multiline ? 7 : 1,
+          cursorColor: MyThemeData.primaryColor,
+          onSaved: (value) => onSaved(value),
+          validator: (value) => validator(value),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    isAspectRatio ??= true;
     SizeConfig().init(context);
     final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
-    final availableWidthSpace =
+    var availableWidthSpace =
         SizeConfig.deviceWidth * 100 - (2 * deviceHorizontalPadding);
-    final aspectRatio = 8 / 1;
+    // if (isSingleField) availableWidthSpace = availableWidthSpace * 0.45;
+    final aspectRatio = aspectRatioValue == null ? 8 / 1 : aspectRatioValue;
     final textFieldheight = availableWidthSpace / aspectRatio;
     final textSize = textFieldheight * 0.25;
 
@@ -31,44 +75,19 @@ class CustomTextField extends StatelessWidget {
       horizontal: availableWidthSpace * 0.030,
     );
 
-    return AspectRatio(
-      aspectRatio: textInputType == TextInputType.multiline
-          ? aspectRatio / 3
-          : aspectRatio,
-      child: Container(
-        alignment: Alignment.centerLeft,
-        padding: textFieldPadding,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          color: Color.fromRGBO(240, 240, 240, 1),
-        ),
-        child: Align(
-          alignment: Alignment.center,
-          child: TextFormField(
-            initialValue: value,
-            decoration: InputDecoration.collapsed(
-              hintText: hintText,
-              hintStyle: TextStyle(
-                fontSize: textSize,
-                color: MyThemeData.inputPlaceHolder,
-                fontWeight: FontWeight.w400,
-              ),
+    return isAspectRatio
+        ? AspectRatio(
+            aspectRatio: textInputType == TextInputType.multiline
+                ? aspectRatio / 3
+                : aspectRatio,
+            child: customWidget(
+              textFieldPadding,
+              textSize,
             ),
-            // textAlign: TextAlign.center,
-            textAlignVertical: TextAlignVertical.center,
-            style: TextStyle(
-              fontSize: textSize,
-              fontWeight: FontWeight.w400,
-            ),
-            keyboardType: textInputType,
-            maxLines: textInputType == TextInputType.multiline ? 7 : 1,
-            cursorColor: MyThemeData.primaryColor,
-            // focusNode: _descriptionFocusNode,
-            onSaved: (value) => onSaved(value),
-            validator: (value) => validator(value),
-          ),
-        ),
-      ),
-    );
+          )
+        : customWidget(
+            textFieldPadding,
+            textSize,
+          );
   }
 }
