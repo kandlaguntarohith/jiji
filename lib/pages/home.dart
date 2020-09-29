@@ -34,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         DropdownMenuItem(
           child: Text(
             listItem.name,
-            style: TextStyle(color: Hexcolor("#3DB83A")),
+            style: TextStyle(color: Hexcolor("#3DB83A"), fontSize: 15),
           ),
           value: listItem,
         ),

@@ -25,7 +25,7 @@ final slideList = [
         'Browse tons of local listings you will find everything you need.',
   ),
   Slide(
-    imageUrl: 'assets/welcome2.png',
+    imageUrl: 'assets/welcome3.png',
     title: 'Easy Connection',
     description: 'You can use text or voice and call sellers / buyers.',
   ),
