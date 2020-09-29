@@ -54,29 +54,29 @@ class _LoginPageState extends State<LoginPage> {
                     fontFamily: "Pacifico"),
               ),
               Padding(
-                padding:  EdgeInsets.only(top: SizeConfig.deviceHeight*4),
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 4),
                 child: Text(
                   "Welcome back to the community!",
                   style: TextStyle(
                       fontSize: SizeConfig.deviceHeight * 2.35,
                       color: Colors.black,
-                  fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w600),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*6),
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 6),
                 child: buildTextField("Phone or Email"),
               ),
               Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*3),
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 3),
                 child: buildTextField("Password"),
               ),
               Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*4),
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 4),
                 child: buildButtonContainer(),
               ),
               Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*4),
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 4),
                 child: Text(
                   "Forgot Password?",
                   style: TextStyle(
@@ -85,11 +85,14 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight*30),
+                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text("Not a Member yet?"),
+                    SizedBox(
+                      width: 4.0,
+                    ),
                     Text("SIGN UP",
                         style: TextStyle(
                             color: Hexcolor("#3DB83A"),
@@ -115,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
         hintText: hintText,
         hintStyle: TextStyle(
           color: Colors.grey,
-          fontSize: SizeConfig.deviceWidth*4,
+          fontSize: SizeConfig.deviceWidth * 4,
         ),
         border: OutlineInputBorder(
           borderSide: BorderSide.none,
@@ -125,8 +128,14 @@ class _LoginPageState extends State<LoginPage> {
             ? IconButton(
                 onPressed: _toggleVisibility,
                 icon: _isHidden
-                    ? Icon(Icons.visibility_off,size: SizeConfig.deviceWidth*5,)
-                    : Icon(Icons.visibility,size: SizeConfig.deviceWidth*5,),
+                    ? Icon(
+                        Icons.visibility_off,
+                        size: SizeConfig.deviceWidth * 5,
+                      )
+                    : Icon(
+                        Icons.visibility,
+                        size: SizeConfig.deviceWidth * 5,
+                      ),
               )
             : null,
       ),

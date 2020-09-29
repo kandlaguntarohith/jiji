@@ -21,6 +21,7 @@ class _SignUpState extends State<SignUp> {
     final pHeight = MediaQuery.of(context).size.height;
     final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
@@ -28,8 +29,9 @@ class _SignUpState extends State<SignUp> {
               top: 0,
               left: 0,
               child: Container(
-                height: pHeight,
-                width: pWidth,
+                padding: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.deviceWidth * 5,
+                    vertical: SizeConfig.deviceHeight * 6),
                 decoration: BoxDecoration(
                   color: Colors.white,
                 ),
@@ -107,7 +109,9 @@ class _SignUpState extends State<SignUp> {
                           filled: true,
                           hintText: 'First Name',
                           hintStyle: TextStyle(
-                              fontFamily: 'Roboto', fontSize: pHeight * 0.020),
+                              fontFamily: 'Roboto',
+                              fontSize: pHeight * 0.020,
+                              color: Colors.grey),
                         ),
                       ),
                     ),
@@ -124,7 +128,9 @@ class _SignUpState extends State<SignUp> {
                           filled: true,
                           hintText: 'Last Name',
                           hintStyle: TextStyle(
-                              fontFamily: 'Roboto', fontSize: pHeight * 0.020),
+                              fontFamily: 'Roboto',
+                              fontSize: pHeight * 0.020,
+                              color: Colors.grey),
                         ),
                       ),
                     ),
@@ -146,7 +152,9 @@ class _SignUpState extends State<SignUp> {
                       filled: true,
                       hintText: 'Email',
                       hintStyle: TextStyle(
-                          fontFamily: 'Roboto', fontSize: pHeight * 0.020),
+                          fontFamily: 'Roboto',
+                          fontSize: pHeight * 0.020,
+                          color: Colors.grey),
                     ),
                   ),
                 ),
@@ -165,7 +173,9 @@ class _SignUpState extends State<SignUp> {
                       filled: true,
                       hintText: 'Phone',
                       hintStyle: TextStyle(
-                          fontFamily: 'Roboto', fontSize: pHeight * 0.020),
+                          fontFamily: 'Roboto',
+                          fontSize: pHeight * 0.020,
+                          color: Colors.grey),
                     ),
                   ),
                 ),
@@ -184,9 +194,14 @@ class _SignUpState extends State<SignUp> {
                       ),
                       filled: true,
                       hintText: 'Password',
-                      suffixIcon: Icon(Icons.visibility_off),
+                      suffixIcon: Icon(
+                        Icons.visibility_off,
+                        color: Colors.grey,
+                      ),
                       hintStyle: TextStyle(
-                          fontFamily: 'Roboto', fontSize: pHeight * 0.020),
+                          fontFamily: 'Roboto',
+                          fontSize: pHeight * 0.020,
+                          color: Colors.grey),
                     ),
                   ),
                 ),
@@ -224,10 +239,10 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 SizedBox(
-                  height: pHeight * 0.04,
+                  height: pHeight * 0.08,
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 170, 0, 0),
+                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 20),
                   child: Container(
                     child: Center(
                       child: Row(
@@ -235,7 +250,7 @@ class _SignUpState extends State<SignUp> {
                         children: <Widget>[
                           Text("Already a Member?"),
                           SizedBox(
-                            width: 10.0,
+                            width: 4.0,
                           ),
                           Text("SIGN IN",
                               style: TextStyle(
