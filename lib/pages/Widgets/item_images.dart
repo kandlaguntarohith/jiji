@@ -46,16 +46,14 @@ class ItemImages extends StatelessWidget {
             onTap: () => showDialog(
                 context: context,
                 child: AlertDialog(
-                  content: SizedBox(
-                    height: 100,
-                    width: 100,
+                  content: AspectRatio(
+                    aspectRatio: 2,
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(
-                            height: 40,
-                            width: 200,
+                          AspectRatio(
+                            aspectRatio: 5,
                             child: RaisedButton(
                               color: MyThemeData.primaryColor,
                               onPressed: () {
@@ -68,10 +66,9 @@ class ItemImages extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
-                          SizedBox(
-                            height: 40,
-                            width: 200,
+                          SizedBox(height: SizeConfig.deviceHeight * 2),
+                          AspectRatio(
+                            aspectRatio: 5,
                             child: RaisedButton(
                               color: MyThemeData.primaryColor,
                               onPressed: () {
@@ -114,32 +111,52 @@ class ItemImages extends StatelessWidget {
 Widget itemImageContainer(dynamic image) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5),
-    child: ClipRRect(
-      borderRadius: BorderRadius.all(
-        Radius.circular(5),
-      ),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(5),
-            ),
-            color: Color.fromRGBO(240, 240, 240, 1),
-          ),
-          child: image == null
-              ? SizedBox()
-              : image.runtimeType == String
-                  ? Image.network(
-                      image,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.file(
-                      image,
-                      fit: BoxFit.cover,
+    child: LayoutBuilder(
+      builder: (context, constraints) {
+        final cancelButtonSize = constraints.maxHeight * 0.2;
+        return Stack(
+          overflow: Overflow.visible,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.all(
+                Radius.circular(5),
+              ),
+              child: AspectRatio(
+                aspectRatio: 1,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
                     ),
-        ),
-      ),
+                    color: Color.fromRGBO(240, 240, 240, 1),
+                  ),
+                  child: image == null
+                      ? SizedBox()
+                      : image.runtimeType == String
+                          ? Image.network(
+                              image,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              image,
+                              fit: BoxFit.cover,
+                            ),
+                ),
+              ),
+            ),
+            // if (image != null)
+            //   Positioned(
+            //     // left: -cancelButtonSize / 2,
+            //     // top: -cancelButtonSize / 2,
+            //     child: Icon(
+            //       Icons.cancel,
+            //       color: Colors.red[600],
+            //       size: cancelButtonSize,
+            //     ),
+            //   ),
+          ],
+        );
+      },
     ),
   );
 }
