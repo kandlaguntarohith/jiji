@@ -1,11 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/widgets/jiji_app_bar.dart';
 
 class SearchPage extends StatelessWidget {
-
   bool resultsFound = false;
 
   @override
@@ -17,78 +15,82 @@ class SearchPage extends StatelessWidget {
           child: JijiAppBar(),
           preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
         ),
-        body: resultsFound==true ? Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: SizeConfig.deviceHeight * 1,
-            ),
-            searchHistoryTitleWidget(),
-            SizedBox(
-              height: SizeConfig.deviceHeight * 1,
-            ),
-            SearchHistoryList(),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: SizeConfig.deviceWidth * 5,
-                  top: SizeConfig.deviceHeight * 3),
-              child: Text(
-                'RECOMMENDED',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                    fontSize: SizeConfig.deviceHeight * 1.45),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: SizeConfig.deviceWidth * 5,
-                  top: SizeConfig.deviceHeight * 2),
-              child: Row(
+        body: resultsFound == true
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  customChip('Phones'),
-                  customChip('Books'),
+                  SizedBox(
+                    height: SizeConfig.deviceHeight * 1,
+                  ),
+                  searchHistoryTitleWidget(),
+                  SizedBox(
+                    height: SizeConfig.deviceHeight * 1,
+                  ),
+                  SearchHistoryList(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.deviceWidth * 5,
+                        top: SizeConfig.deviceHeight * 3),
+                    child: Text(
+                      'RECOMMENDED',
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold,
+                          fontSize: SizeConfig.deviceHeight * 1.45),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.deviceWidth * 5,
+                        top: SizeConfig.deviceHeight * 2),
+                    child: Row(
+                      children: [
+                        customChip('Phones'),
+                        customChip('Books'),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: SizeConfig.deviceWidth * 5,
+                        top: SizeConfig.deviceHeight * 2),
+                    child: Row(
+                      children: [
+                        customChip('Tools'),
+                        customChip('Televisons'),
+                      ],
+                    ),
+                  )
                 ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: SizeConfig.deviceWidth * 5,
-                  top: SizeConfig.deviceHeight * 2),
-              child: Row(
-                children: [
-                  customChip('Tools'),
-                  customChip('Televisons'),
-                ],
-              ),
-            )
-          ],
-        ) : NoResultsFound(),
+              )
+            : NoResultsFound(),
       ),
     );
   }
 
   Widget customChip(String title) {
     return Padding(
-      padding:  EdgeInsets.only(left: SizeConfig.deviceWidth*4),
+      padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 4),
       child: Container(
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.grey.withOpacity(0.5),width: 2)
-        ),
+            border: Border.all(color: Colors.grey.withOpacity(0.5), width: 2)),
         child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.deviceWidth * 7.5,
-              vertical: SizeConfig.deviceWidth * 2,
-            ),
-            child: Text('$title',style: TextStyle(
+          padding: EdgeInsets.symmetric(
+            horizontal: SizeConfig.deviceWidth * 7.5,
+            vertical: SizeConfig.deviceWidth * 2,
+          ),
+          child: Text(
+            '$title',
+            style: TextStyle(
                 color: Colors.grey,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.bold,
-                fontSize: SizeConfig.deviceHeight * 1.75),),
+                fontSize: SizeConfig.deviceHeight * 1.75),
+          ),
         ),
       ),
     );
@@ -185,9 +187,7 @@ class NoResultsFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(
-          vertical: SizeConfig.deviceWidth * 5
-      ),
+      padding: EdgeInsets.symmetric(vertical: SizeConfig.deviceWidth * 5),
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -212,7 +212,6 @@ class NoResultsFound extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                   fontSize: SizeConfig.deviceHeight * 2),
             ),
-
           ],
         ),
       ),

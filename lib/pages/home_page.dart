@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/pages/product_details.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/widgets/jiji_app_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override

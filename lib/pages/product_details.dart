@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/widgets/custom_button.dart';
+import 'package:jiji/widgets/jiji_app_bar.dart';
+import 'package:jiji/widgets/product_images.dart';
+import 'package:jiji/widgets/seller_card.dart';
+import 'package:jiji/widgets/similar_products_list.dart';
 
-import '../ThemeData.dart';
-import '../components/jijiappbar.dart';
-import 'Widgets/custom_button.dart';
-import 'Widgets/product_images.dart';
-import 'Widgets/seller_card.dart';
-import 'Widgets/similar_products_list.dart';
+import '../utilities/theme_data.dart';
 
 List<String> pics = [
   "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80",

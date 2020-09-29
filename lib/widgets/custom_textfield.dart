@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiji/ThemeData.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/utilities/size_config.dart';
 
 class CustomTextField extends StatelessWidget {

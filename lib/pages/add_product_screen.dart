@@ -2,18 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jiji/ThemeData.dart';
-import 'package:jiji/components/jijiappbar.dart';
-import 'package:jiji/models/product.dart';
-import 'package:jiji/pages/Widgets/custom_dropdrown.dart';
-import 'package:jiji/pages/Widgets/custom_textfield.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jiji/pages/Widgets/item_images.dart';
+import 'package:jiji/utilities/theme_data.dart';
+import 'package:jiji/widgets/jiji_app_bar.dart';
+import 'package:jiji/models/product.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/widgets/custom_dropdrown.dart';
+import 'package:jiji/widgets/custom_textfield.dart';
+import 'package:jiji/widgets/item_images.dart';
 
 class AddProductScreen extends StatefulWidget {
   static String routeName = '/AddProductScreen';
-  final Product product;
+  final MyProductModel product;
 
   const AddProductScreen({Key key, this.product}) : super(key: key);
   @override
@@ -36,7 +36,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String subCategory;
   double textSize;
 
-  Product _product;
+  MyProductModel _product;
   final picker = ImagePicker();
 
   _AddProductScreenState(this._product);
@@ -94,7 +94,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: textSize* 2),
+        SizedBox(height: textSize * 2),
         Text(
           heading,
           style: TextStyle(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/components/bottomnav.dart';
-import 'package:jiji/pages/home.dart';
-import 'package:jiji/pages/otp.dart';
+import 'package:jiji/widgets/bottom_nav.dart';
+import 'package:jiji/pages/home_page.dart';
+import 'package:jiji/pages/otp_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 
 class LoginPage extends StatefulWidget {

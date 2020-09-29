@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jiji/utilities/theme_data.dart';
 
-import '../../ThemeData.dart';
 class ProductImages extends StatelessWidget {
   final int selectedImageIndex;
   final List<String> img;

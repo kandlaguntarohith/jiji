@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/utilities/size_config.dart';
-
-import '../../ThemeData.dart';
 
 class SellerCard extends StatelessWidget {
   @override

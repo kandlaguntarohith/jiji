@@ -2,18 +2,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:jiji/ThemeData.dart';
-import 'package:jiji/components/jijiappbar.dart';
-import 'package:jiji/models/product.dart';
-import 'package:jiji/pages/Widgets/custom_dropdrown.dart';
-import 'package:jiji/pages/Widgets/custom_textfield.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jiji/pages/Widgets/item_images.dart';
+import 'package:jiji/models/product.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/utilities/theme_data.dart';
+import 'package:jiji/widgets/custom_dropdrown.dart';
+import 'package:jiji/widgets/custom_textfield.dart';
+import 'package:jiji/widgets/item_images.dart';
+import 'package:jiji/widgets/jiji_app_bar.dart';
 
 class EditProductScreen extends StatefulWidget {
   static String routeName = '/EditProductScreen';
-  final Product product;
+  final MyProductModel product;
 
   const EditProductScreen({Key key, this.product}) : super(key: key);
   @override
@@ -35,7 +35,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   String category;
   String subCategory;
 
-  final Product _product;
+  final MyProductModel _product;
   final picker = ImagePicker();
   double textSize;
 
@@ -88,11 +88,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
       print(category + " " + subCategory);
     }
   }
-Widget renderhHeading(String heading) {
+
+  Widget renderhHeading(String heading) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: textSize* 2),
+        SizedBox(height: textSize * 2),
         Text(
           heading,
           style: TextStyle(
@@ -105,7 +106,6 @@ Widget renderhHeading(String heading) {
       ],
     );
   }
-
 
   @override
   Widget build(BuildContext context) {

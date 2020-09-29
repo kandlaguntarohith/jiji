@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:jiji/data/exceptions/network_exceptions.dart';
+import 'package:jiji/data/network_exceptions.dart';
 
 class ApiHelper {
   Future<dynamic> get(String url) async {

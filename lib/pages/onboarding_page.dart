@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/pages/signin.dart';
-import 'package:jiji/pages/signup.dart';
+import 'package:jiji/pages/signin_page.dart';
+import 'package:jiji/pages/signup_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 
 import '../widgets/slide_item.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class Product {
+class MyProductModel {
   String id;
   String title;
   String description;
@@ -10,7 +10,7 @@ class Product {
   String city;
   String category;
   String subCategory;
-  Product({
+  MyProductModel({
     @required this.id,
     @required this.description,
     @required this.imageUrl,

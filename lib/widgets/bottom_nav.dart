@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/pages/add_product_screen.dart';
 import 'package:jiji/pages/chat_page.dart';
-import 'package:jiji/pages/home.dart';
+import 'package:jiji/pages/home_page.dart';
 import 'package:jiji/pages/my_ads_page.dart';
 import 'package:jiji/pages/profile_page.dart';
 
