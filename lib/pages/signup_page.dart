@@ -4,266 +4,227 @@ import 'package:jiji/pages/home_page.dart';
 import 'package:jiji/pages/otp_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 
+import '../ThemeData.dart';
+import '../ThemeData.dart';
+import 'Widgets/custom_textfield.dart';
+
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
-  TextEditingController phone = new TextEditingController(text: '');
-  TextEditingController name = new TextEditingController(text: '');
-  TextEditingController lastname = new TextEditingController(text: '');
-  TextEditingController password = new TextEditingController(text: '');
-  TextEditingController email = new TextEditingController(text: '');
+  String phone = "";
+  String firstName = "";
+  String lastName = "";
+  String password = "";
+  String emailId = "";
+  final _form = GlobalKey<FormState>();
+
+  Future<void> _saveForm() async {
+    bool valid = _form.currentState.validate();
+    if (valid) {
+      _form.currentState.save();
+      print(firstName + " " + lastName);
+      print(password);
+      print(emailId);
+      print(phone);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+    final availableWidthSpace =
+        (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
+    final textSize = availableWidthSpace * 0.03;
     final pHeight = MediaQuery.of(context).size.height;
     final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      body: SingleChildScrollView(
-        child: Stack(
-          children: <Widget>[
-            Positioned(
-              top: 0,
-              left: 0,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: SizeConfig.deviceWidth * 5,
-                    vertical: SizeConfig.deviceHeight * 6),
-                decoration: BoxDecoration(
-                  color: Colors.white,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: deviceHorizontalPadding),
+        child: Form(
+          key: _form,
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                height: pHeight * 0.05,
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: IconButton(
+                  icon: Icon(
+                    Icons.close,
+                    color: Colors.black,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                 ),
               ),
-            ),
-            Column(
-              children: <Widget>[
-                SizedBox(
-                  height: pHeight * 0.06,
+              Text(
+                'SIGN UP',
+                style: TextStyle(
+                  fontSize: textSize * 1.5,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Pacifico",
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              ),
+              SizedBox(
+                height: pHeight * 0.02,
+              ),
+              Container(
+                width: pWidth,
+                child: Text(
+                  'Join a wonderful community!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: textSize * 1.2,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: pHeight * 0.07,
+              ),
+              AspectRatio(
+                aspectRatio: 9,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 16.0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          Navigator.pop(context);
+                    SizedBox(
+                      width: availableWidthSpace * 0.48,
+                      child: CustomTextField(
+                        value: firstName,
+                        onSaved: (value) => setState(() => firstName = value),
+                        validator: (value) {
+                          if (value.isEmpty) return 'Enter First Name';
+                          return null;
                         },
+                        hintText: 'First Name',
+                        textInputType: TextInputType.text,
+                        isAspectRatio: false,
                       ),
-                    )
+                    ),
+                    SizedBox(
+                      width: availableWidthSpace * 0.48,
+                      child: CustomTextField(
+                        value: lastName,
+                        onSaved: (value) => setState(() => lastName = value),
+                        validator: (value) {
+                          if (value.isEmpty) return 'Enter Last Name';
+                          return null;
+                        },
+                        hintText: 'Last Name',
+                        textInputType: TextInputType.text,
+                        isAspectRatio: false,
+                      ),
+                    ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'SIGN UP',
+              ),
+              SizedBox(
+                height: pHeight * 0.02,
+              ),
+              CustomTextField(
+                value: emailId,
+                onSaved: (value) => setState(() => emailId = value),
+                validator: (value) {
+                  if (value.isEmpty) return 'Enter Email';
+                  return null;
+                },
+                hintText: 'Email',
+                textInputType: TextInputType.text,
+                aspectRatioValue: 9,
+              ),
+              SizedBox(
+                height: pHeight * 0.02,
+              ),
+              CustomTextField(
+                value: phone,
+                onSaved: (value) => setState(() => phone = value),
+                validator: (value) {
+                  if (value.isEmpty) return 'Enter Phone Number';
+                  return null;
+                },
+                hintText: 'Phone',
+                textInputType: TextInputType.number,
+                aspectRatioValue: 9,
+              ),
+              SizedBox(
+                height: pHeight * 0.02,
+              ),
+              CustomTextField(
+                value: password,
+                onSaved: (value) => setState(() => password = value),
+                validator: (value) {
+                  if (value.isEmpty) return 'Enter Password';
+                  return null;
+                },
+                hintText: 'Password',
+                textInputType: TextInputType.text,
+                aspectRatioValue: 9,
+              ),
+              SizedBox(
+                height: pHeight * 0.04,
+              ),
+              AspectRatio(
+                aspectRatio: 9,
+                child: ButtonTheme(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
+                    ),
+                  ),
+                  child: RaisedButton(
+                    onPressed: _saveForm,
+                    child: Text(
+                      "SIGN UP",
                       style: TextStyle(
-                          fontSize: SizeConfig.deviceHeight * 2.85,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Pacifico"),
+                        fontSize: textSize * 1.2,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
                     ),
-                  ],
+                    color: MyThemeData.primaryColor,
+                  ),
                 ),
-                SizedBox(
-                  height: pHeight * 0.02,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: pWidth,
-                      child: Text(
-                        'Join a wonderful community!',
-                        textAlign: TextAlign.center,
+              ),
+              // SizedBox(
+              //   height: pHeight * 0.3,
+              // ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Already a Member?",
+                        style: TextStyle(fontSize: textSize),
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        "SIGN IN",
                         style: TextStyle(
-                          fontSize: SizeConfig.deviceHeight * 2.35,
-                          color: Colors.black,
+                          color: MyThemeData.primaryColor,
+                          fontSize: textSize * 1.1,
+                          fontWeight: FontWeight.bold,
                         ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: pHeight * 0.07,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      width: pWidth * 0.40,
-                      height: pHeight * 0.055,
-                      child: TextFormField(
-                        controller: name,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          // fillColor: kFormColor,
-                          filled: true,
-                          hintText: 'First Name',
-                          hintStyle: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: pHeight * 0.020,
-                              color: Colors.grey),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: pWidth * 0.40,
-                      height: pHeight * 0.055,
-                      child: TextFormField(
-                        controller: lastname,
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
-                          // fillColor: kFormColor,
-                          filled: true,
-                          hintText: 'Last Name',
-                          hintStyle: TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: pHeight * 0.020,
-                              color: Colors.grey),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: pHeight * 0.02,
-                ),
-                Container(
-                  width: pWidth * 0.85,
-                  height: pHeight * 0.055,
-                  child: TextFormField(
-                    controller: email,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                      // fillColor: kFormColor,
-                      filled: true,
-                      hintText: 'Email',
-                      hintStyle: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: pHeight * 0.020,
-                          color: Colors.grey),
-                    ),
+                      )
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: pHeight * 0.02,
-                ),
-                Container(
-                  width: pWidth * 0.85,
-                  height: pHeight * 0.055,
-                  child: TextFormField(
-                    controller: phone,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      hintText: 'Phone',
-                      hintStyle: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: pHeight * 0.020,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: pHeight * 0.02,
-                ),
-                Container(
-                  width: pWidth * 0.85,
-                  height: pHeight * 0.055,
-                  child: TextFormField(
-                    obscureText: true,
-                    controller: password,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      hintText: 'Password',
-                      suffixIcon: Icon(
-                        Icons.visibility_off,
-                        color: Colors.grey,
-                      ),
-                      hintStyle: TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: pHeight * 0.020,
-                          color: Colors.grey),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: pHeight * 0.03,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OTPScreen(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    height: SizeConfig.deviceHeight * 5.5,
-                    width: SizeConfig.deviceWidth * 85,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5.0),
-                      color: Hexcolor("#3DB83A"),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
-                        child: Text(
-                          "SIGN UP",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: pHeight * 0.08,
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 20),
-                  child: Container(
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text("Already a Member?"),
-                          SizedBox(
-                            width: 4.0,
-                          ),
-                          Text("SIGN IN",
-                              style: TextStyle(
-                                  color: Hexcolor("#3DB83A"),
-                                  fontWeight: FontWeight.bold))
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
+              ),
+              SizedBox(
+                height: SizeConfig.deviceHeight * 2,
+              )
+            ],
+          ),
         ),
       ),
     );
