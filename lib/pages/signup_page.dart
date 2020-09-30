@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jiji/Impl/impl%20.dart';
+import 'package:jiji/pages/signin_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/custom_textfield.dart';
@@ -15,8 +17,9 @@ class _SignUpState extends State<SignUp> {
   String password = "";
   String emailId = "";
   final _form = GlobalKey<FormState>();
+  double textSize;
 
-  Future<void> _saveForm() async {
+  Future<void> _saveForm(BuildContext context) async {
     bool valid = _form.currentState.validate();
     if (valid) {
       _form.currentState.save();
@@ -24,7 +27,58 @@ class _SignUpState extends State<SignUp> {
       print(password);
       print(emailId);
       print(phone);
-      
+      final Map<String, dynamic> response = await Impl().registerUser({
+        "name": firstName.trim() + " " + lastName.trim(),
+        "email": emailId.trim(),
+        "password": password.trim(),
+        "password1": password.trim(),
+        "phone": phone.trim(),
+      });
+      print(response);
+      if (response["statusCode"] == 200)
+        await showDialog(
+          context: context,
+          child: AlertDialog(
+            title: Text(
+              response["message"],
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: textSize * 1.2,
+              ),
+            ),
+            actions: [
+              FlatButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(
+                  'Okay',
+                  style: TextStyle(
+                    color: MyThemeData.primaryColor,
+                    fontSize: textSize,
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      if (response["statusCode"] == 200)
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ),
+        );
+      else
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text(
+            response["errors"],
+            style: TextStyle(
+              color: MyThemeData.primaryColor,
+              fontSize: textSize,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.black.withOpacity(0.8),
+        ));
+      print(response["errors"]);
     }
   }
 
@@ -34,7 +88,7 @@ class _SignUpState extends State<SignUp> {
     final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
     final availableWidthSpace =
         (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
-    final textSize = availableWidthSpace * 0.03;
+    textSize = availableWidthSpace * 0.03;
     final pHeight = MediaQuery.of(context).size.height;
     final pWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -135,8 +189,7 @@ class _SignUpState extends State<SignUp> {
                   if (value.isEmpty) return 'Enter Email';
                   if (!value.toString().contains("@") ||
                       !value.toString().toLowerCase().contains(".com") ||
-                      !(value.toString().length < 7))
-                    return "Enter Valid Email";
+                      (value.toString().length < 7)) return "Enter Valid Email";
                   return null;
                 },
                 hintText: 'Email',
@@ -178,25 +231,27 @@ class _SignUpState extends State<SignUp> {
               SizedBox(
                 height: pHeight * 0.04,
               ),
-              AspectRatio(
-                aspectRatio: 9,
-                child: ButtonTheme(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(5),
-                    ),
-                  ),
-                  child: RaisedButton(
-                    onPressed: _saveForm,
-                    child: Text(
-                      "SIGN UP",
-                      style: TextStyle(
-                        fontSize: textSize * 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+              Builder(
+                builder: (context) => AspectRatio(
+                  aspectRatio: 9,
+                  child: ButtonTheme(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(5),
                       ),
                     ),
-                    color: MyThemeData.primaryColor,
+                    child: RaisedButton(
+                      onPressed: () async => await _saveForm(context),
+                      child: Text(
+                        "SIGN UP",
+                        style: TextStyle(
+                          fontSize: textSize * 1.2,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
+                      color: MyThemeData.primaryColor,
+                    ),
                   ),
                 ),
               ),
