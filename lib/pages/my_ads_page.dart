@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/components/jijiappbar.dart';
 import 'package:jiji/models/ad_item.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/pages/edit_product_screen.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/ad_item.dart';
+import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:share/share.dart';
 
 class MyAdsPage extends StatefulWidget {
@@ -172,7 +172,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                 onPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) => EditProductScreen(
-                                      product: new Product(
+                                      product: new MyProductModel(
                                         id: "id1",
                                         description:
                                             "This is a very good watch",
@@ -236,7 +236,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                     onPressed: () => Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => EditProductScreen(
-                                          product: new Product(
+                                          product: new MyProductModel(
                                             id: "id1",
                                             description:
                                                 "This is a very good watch",
@@ -307,7 +307,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 EditProductScreen(
-                                              product: new Product(
+                                              product: new MyProductModel(
                                                 id: "id1",
                                                 description:
                                                     "This is a very good watch",
@@ -372,7 +372,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 EditProductScreen(
-                                              product: new Product(
+                                              product: new MyProductModel(
                                                 id: "id1",
                                                 description:
                                                     "This is a very good watch",

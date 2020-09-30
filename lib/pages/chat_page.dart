@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/components/jijiappbar.dart';
+import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/pages/chat_box_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 

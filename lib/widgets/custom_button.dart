@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/utilities/size_config.dart';
-
-import '../../ThemeData.dart';
 
 class CustomButton extends StatelessWidget {
   final Icon icon;

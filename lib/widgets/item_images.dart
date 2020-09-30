@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jiji/ThemeData.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/utilities/size_config.dart';
 
 class ItemImages extends StatelessWidget {

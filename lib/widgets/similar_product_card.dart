@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/pages/product_details.dart';
 import 'package:jiji/utilities/size_config.dart';
-
-import '../../ThemeData.dart';
 
 class SimilarProductCard extends StatelessWidget {
   final String productImgUrl;
@@ -51,7 +50,8 @@ class SimilarProductCard extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: constraints.maxWidth * 0.05),
                   alignment: Alignment.center,
                   width: double.infinity,
                   child: Column(

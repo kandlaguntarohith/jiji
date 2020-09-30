@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/components/jijiappbar.dart';
+import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/utilities/size_config.dart';
 
 class ChatBoxPage extends StatelessWidget {
@@ -74,7 +74,7 @@ class ChatBoxPage extends StatelessWidget {
       child: Container(
         height: SizeConfig.deviceHeight * 6,
         decoration: BoxDecoration(
-            color: Colors.grey[400],
+            color: Hexcolor("#F0F0F0"),
             borderRadius: BorderRadius.circular(SizeConfig.deviceWidth * 7)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,10 +96,11 @@ class ChatBoxPage extends StatelessWidget {
                         disabledBorder: InputBorder.none,
                         icon: Icon(
                           Icons.attach_file,
-                          color: Colors.black,
+                          color: Colors.grey,
                           size: SizeConfig.deviceWidth * 5,
                         ),
-                        hintText: "Enter Message"),
+                        hintText: "Enter Message",
+                        fillColor: Colors.grey),
                   ),
                 )
               ],
@@ -165,7 +166,7 @@ class MessageWidget extends StatelessWidget {
             child: Text(
               time,
               style: TextStyle(
-                  color: Colors.grey,
+                  color: Hexcolor("#F0F0F0"),
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.bold,
                   fontSize: SizeConfig.deviceHeight * 1.35),

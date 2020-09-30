@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:jiji/utilities/size_config.dart';
 
 import '../models/slide.dart';
 
@@ -8,13 +10,14 @@ class SlideItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Container(
-          width: 300,
-          height: 300,
+          width: SizeConfig.deviceWidth * 100,
+          height: SizeConfig.deviceHeight * 30,
           decoration: BoxDecoration(
             // shape: BoxShape.circle,
             image: DecorationImage(
@@ -24,7 +27,7 @@ class SlideItem extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 40,
+          height: SizeConfig.deviceHeight * 3,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -33,7 +36,7 @@ class SlideItem extends StatelessWidget {
               slideList[index].title,
               textAlign: TextAlign.left,
               style: TextStyle(
-                  fontSize: 30.0,
+                  fontSize: SizeConfig.deviceHeight * 4,
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Roboto'),
@@ -41,14 +44,14 @@ class SlideItem extends StatelessWidget {
           ],
         ),
         SizedBox(
-          height: 10,
+          height: SizeConfig.deviceHeight * 3,
         ),
         Text(
           slideList[index].description,
           textAlign: TextAlign.left,
           style: TextStyle(
               color: Colors.black.withOpacity(0.6),
-              fontSize: 20.0,
+              fontSize: SizeConfig.deviceHeight * 2.3,
               fontFamily: 'Roboto'),
         ),
       ],

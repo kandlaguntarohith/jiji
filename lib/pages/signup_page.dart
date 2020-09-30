@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/pages/otp.dart';
 import 'package:jiji/utilities/size_config.dart';
-
-import '../ThemeData.dart';
-import '../ThemeData.dart';
-import 'Widgets/custom_textfield.dart';
+import 'package:jiji/utilities/theme_data.dart';
+import 'package:jiji/widgets/custom_textfield.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -28,6 +24,7 @@ class _SignUpState extends State<SignUp> {
       print(password);
       print(emailId);
       print(phone);
+      
     }
   }
 
@@ -100,6 +97,8 @@ class _SignUpState extends State<SignUp> {
                         onSaved: (value) => setState(() => firstName = value),
                         validator: (value) {
                           if (value.isEmpty) return 'Enter First Name';
+                          if (value.toString().length < 2)
+                            return 'Enter valid Name';
                           return null;
                         },
                         hintText: 'First Name',
@@ -114,6 +113,8 @@ class _SignUpState extends State<SignUp> {
                         onSaved: (value) => setState(() => lastName = value),
                         validator: (value) {
                           if (value.isEmpty) return 'Enter Last Name';
+                          if (value.toString().length < 2)
+                            return 'Enter valid Last Name';
                           return null;
                         },
                         hintText: 'Last Name',
@@ -132,6 +133,10 @@ class _SignUpState extends State<SignUp> {
                 onSaved: (value) => setState(() => emailId = value),
                 validator: (value) {
                   if (value.isEmpty) return 'Enter Email';
+                  if (!value.toString().contains("@") ||
+                      !value.toString().toLowerCase().contains(".com") ||
+                      !(value.toString().length < 7))
+                    return "Enter Valid Email";
                   return null;
                 },
                 hintText: 'Email',
@@ -145,7 +150,9 @@ class _SignUpState extends State<SignUp> {
                 value: phone,
                 onSaved: (value) => setState(() => phone = value),
                 validator: (value) {
-                  if (value.isEmpty) return 'Enter Phone Number';
+                  if (value.isEmpty) return 'Enter phone number';
+                  if (value.toString().length < 10)
+                    return 'Enter valid phone number';
                   return null;
                 },
                 hintText: 'Phone',
@@ -160,6 +167,8 @@ class _SignUpState extends State<SignUp> {
                 onSaved: (value) => setState(() => password = value),
                 validator: (value) {
                   if (value.isEmpty) return 'Enter Password';
+                  if (value.toString().length < 7)
+                    return 'Password must be more than 6 characters';
                   return null;
                 },
                 hintText: 'Password',
@@ -220,7 +229,7 @@ class _SignUpState extends State<SignUp> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.deviceHeight * 2,
+                height: SizeConfig.deviceHeight * 4,
               )
             ],
           ),
