@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/pages/home_page.dart';
-import 'package:jiji/pages/otp_page.dart';
 import 'package:jiji/utilities/size_config.dart';
-
-import '../ThemeData.dart';
-import '../ThemeData.dart';
-import 'Widgets/custom_textfield.dart';
+import 'package:jiji/utilities/theme_data.dart';
+import 'package:jiji/widgets/custom_textfield.dart';
 
 class SignUp extends StatefulWidget {
   @override
