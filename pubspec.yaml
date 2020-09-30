@@ -18,10 +18,15 @@ dependencies:
   dio: ^3.0.10
   share: ^0.6.5+2
   image_picker: ^0.6.7+11
+  hive: ^1.4.4
+  hive_flutter: ^0.3.1
+  path_provider: ^1.6.18
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^0.7.2+1
+  build_runner: ^1.8.0
 
 flutter:
   uses-material-design: true
