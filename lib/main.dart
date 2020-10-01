@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         title: 'Jiji',
         theme: ThemeData(
           primarySwatch: Colors.green,
+          hintColor: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: GettingStartedScreen());
