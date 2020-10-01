@@ -17,12 +17,12 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return UserModel(
-      uid: fields[0] as String,
-      firstName: fields[1] as String,
-      lastName: fields[2] as String,
-      photoUrl: fields[3] as String,
-      emailId: fields[4] as String,
-      phone: fields[5] as int,
+      token: fields[0] as String,
+      uid: fields[1] as String,
+      name: fields[2] as String,
+      emailId: fields[3] as String,
+      phone: fields[4] as int,
+      role: fields[5] as int,
     );
   }
 
@@ -31,17 +31,17 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
     writer
       ..writeByte(6)
       ..writeByte(0)
-      ..write(obj.uid)
+      ..write(obj.token)
       ..writeByte(1)
-      ..write(obj.firstName)
+      ..write(obj.uid)
       ..writeByte(2)
-      ..write(obj.lastName)
+      ..write(obj.name)
       ..writeByte(3)
-      ..write(obj.photoUrl)
-      ..writeByte(4)
       ..write(obj.emailId)
+      ..writeByte(4)
+      ..write(obj.phone)
       ..writeByte(5)
-      ..write(obj.phone);
+      ..write(obj.role);
   }
 
   @override

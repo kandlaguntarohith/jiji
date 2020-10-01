@@ -143,7 +143,10 @@ class TopRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(context);
+    final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(
+      context,
+      listen: false,
+    );
     final UserModel _userModel = _userBox.values.first;
 
     return Container(
@@ -174,7 +177,7 @@ class TopRowWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${_userModel.firstName} ${_userModel.lastName}',
+                    _userModel.name,
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',

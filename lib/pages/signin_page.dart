@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         "email": phoneOrEmail,
         "password": password,
       });
-      print(response);
+
       if (response["statusCode"] != 200)
         Scaffold.of(context).showSnackBar(
           SnackBar(
@@ -40,11 +40,21 @@ class _LoginPageState extends State<LoginPage> {
               ),
               textAlign: TextAlign.center,
             ),
-            duration: Duration(seconds: 3),            
+            duration: Duration(seconds: 3),
             backgroundColor: Colors.black.withOpacity(0.8),
           ),
         );
-      else
+      else {
+        final UserModel userModel = UserModel(
+          token: response['token'],
+          uid: response['user']['_id'],
+          name: response['user']['name'],
+          emailId: response['user']['email'],
+          phone: response['user']['phone'],
+          role: response['user']['role'],
+        );
+        _saveUserToHive(userModel);
+
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -52,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           (Route<dynamic> route) => false,
         );
+      }
     }
   }
 
@@ -191,24 +202,14 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _saveUserToHive() {
-    final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(context);
-
-    final UserModel userModel = UserModel(
-      uid: '',
-      firstName: 'Amy',
-      lastName: 'Jackson',
-      photoUrl: '',
-      emailId: '',
-      phone: 0,
-    );
-
-    print('Saving user...');
+  void _saveUserToHive(UserModel userModel) {
+    final Box<UserModel> _userBox =
+        Provider.of<Box<UserModel>>(context, listen: false);
+    print('Saving user ${userModel.name}...');
     _userBox.add(userModel);
   }
 
   Widget buildButtonContainer(Function signInFunc, BuildContext context) {
-    // _saveUserToHive();
     return InkWell(
       onTap: () => signInFunc(context),
       child: Container(
