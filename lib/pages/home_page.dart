@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/pages/product_details.dart';
+import 'package:jiji/pages/view_all_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 
@@ -157,13 +158,21 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'View All',
-                            style: TextStyle(
-                                color: Hexcolor("#3DB83A"),
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: SizeConfig.deviceWidth * 3),
+                          GestureDetector(
+                            child: Text(
+                              'View All',
+                              style: TextStyle(
+                                  color: Hexcolor("#3DB83A"),
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: SizeConfig.deviceWidth * 3),
+                            ),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyViewAllPage(),
+                              ),
+                            ),
                           ),
                           Icon(
                             Icons.arrow_forward_ios,
@@ -322,6 +331,7 @@ class CategoryCard extends StatelessWidget {
             padding:
                 EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 2),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.symmetric(
