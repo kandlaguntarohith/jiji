@@ -6,7 +6,9 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/pages/onboarding_page.dart';
+import 'package:jiji/widgets/bottom_nav.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +33,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(
+      providers: [
+        Provider<Box<UserModel>>(create: (context) => userBox),
+      ],
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Jiji',
         theme: ThemeData(
@@ -39,6 +45,12 @@ class MyApp extends StatelessWidget {
           hintColor: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: GettingStartedScreen());
+        initialRoute: userBox.isEmpty ? '/login' : '/home',
+        routes: {
+          '/login': (context) => GettingStartedScreen(),
+          '/home': (context) => BottomNav(),
+        },
+      ),
+    );
   }
 }

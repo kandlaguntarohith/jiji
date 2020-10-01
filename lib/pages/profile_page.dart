@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hive/hive.dart';
+import 'package:jiji/models/user_model.dart';
 import 'package:jiji/pages/edit_profile_page.dart';
 import 'package:jiji/pages/faq_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -140,6 +143,9 @@ class TopRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(context);
+    final UserModel _userModel = _userBox.values.first;
+
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -168,7 +174,7 @@ class TopRowWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Amy James',
+                    '${_userModel.firstName} ${_userModel.lastName}',
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',

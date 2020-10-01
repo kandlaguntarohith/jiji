@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/widgets/bottom_nav.dart';
-import 'package:jiji/pages/home_page.dart';
-import 'package:jiji/pages/otp_page.dart';
+import 'package:hive/hive.dart';
+import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/widgets/bottom_nav.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -143,14 +144,32 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  void _saveUserToHive() {
+    final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(context);
+
+    final UserModel userModel = UserModel(
+      uid: '',
+      firstName: 'Amy',
+      lastName: 'Jackson',
+      photoUrl: '',
+      emailId: '',
+      phone: 0,
+    );
+
+    print('Saving user...');
+    _userBox.add(userModel);
+  }
+
   Widget buildButtonContainer() {
+    _saveUserToHive();
     return InkWell(
         onTap: () {
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) => BottomNav(),
             ),
+            (Route<dynamic> route) => false,
           );
         },
         child: Container(
