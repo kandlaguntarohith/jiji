@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jiji/Impl/impl%20.dart';
+import 'package:jiji/impl/impl.dart';
 import 'package:jiji/pages/signin_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
