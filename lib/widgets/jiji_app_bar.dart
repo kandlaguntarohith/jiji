@@ -40,7 +40,7 @@ class JijiAppBar extends StatelessWidget {
                                 bottom: appBarHeight * 0.1,
                                 left: SizeConfig.deviceWidth * 4),
                             suffixIcon: Icon(
-                              Icons.search,
+                              Icons.search_outlined,
                               size: SizeConfig.deviceWidth * 5.5,
                             ),
                             filled: true,
@@ -57,7 +57,7 @@ class JijiAppBar extends StatelessWidget {
                     ),
                   ),
                   Icon(
-                    Icons.notifications,
+                    Icons.notifications_outlined,
                     size: SizeConfig.deviceWidth * 6.0,
                   ),
                 ]),
