@@ -60,7 +60,7 @@ class _BottomNavState extends State<BottomNav> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.dashboard,
+                          Icons.dashboard_outlined,
                           color: currentTab == 0
                               ? Hexcolor("#3DB83A")
                               : Colors.grey,
@@ -82,7 +82,7 @@ class _BottomNavState extends State<BottomNav> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.chat,
+                      Icons.chat_outlined,
                       color:
                           currentTab == 1 ? Hexcolor("#3DB83A") : Colors.grey,
                     ),
@@ -100,17 +100,10 @@ class _BottomNavState extends State<BottomNav> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => AddProductScreen(),
-                        ),
-                      ),
-                      child: Icon(
-                        Icons.add_circle,
-                        color:
-                            currentTab == 2 ? Hexcolor("#3DB83A") : Colors.grey,
-                      ),
+                    Icon(
+                      Icons.add_box_outlined,
+                      color:
+                          currentTab == 2 ? Hexcolor("#3DB83A") : Colors.grey,
                     ),
                   ],
                 ),
@@ -127,7 +120,7 @@ class _BottomNavState extends State<BottomNav> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Icon(
-                      Icons.show_chart,
+                      Icons.show_chart_outlined,
                       color:
                           currentTab == 3 ? Hexcolor("#3DB83A") : Colors.grey,
                     ),
@@ -152,7 +145,7 @@ class _BottomNavState extends State<BottomNav> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.person,
+                          Icons.person_outline,
                           color: currentTab == 4
                               ? Hexcolor("#3DB83A")
                               : Colors.grey,
