@@ -41,8 +41,18 @@ class CustomTextField extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ).copyWith(
-              suffixIcon:
-                  hintText == "Password" ? Icon(Icons.visibility_off) : null),
+            suffixIcon: hintText == "Password"
+                ? Icon(
+                    Icons.visibility_off,
+                    size: textSize * 2,
+                  )
+                : null,
+            errorStyle: TextStyle(
+              fontSize: textSize * 0.5,
+              color: Colors.red[600],
+              fontWeight: FontWeight.w400,
+            ),
+          ),
           obscureText: hintText == "Password" ? true : false,
           textAlignVertical: TextAlignVertical.center,
           style: TextStyle(
