@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
+import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/bottom_nav.dart';
+import 'package:jiji/widgets/custom_textfield.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,12 +15,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _isHidden = true;
-
-  void _toggleVisibility() {
-    setState(() {
-      _isHidden = !_isHidden;
-    });
+  final _form = GlobalKey<FormState>();
+  String phoneOrEmail = "";
+  String password = "";
+  Future<void> _saveForm(BuildContext context) async {
+    bool valid = _form.currentState.validate();
+    if (valid) {
+      _form.currentState.save();
+      print(phoneOrEmail);
+      print(password);
+      final Map<String, dynamic> response = await Impl().checkCredentials({
+        "email": phoneOrEmail,
+        "password": password,
+      });
+      print(response);
+      if (response["statusCode"] != 200)
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              response["errors"],
+              style: TextStyle(
+                color: MyThemeData.primaryColor,
+                fontSize: SizeConfig.deviceHeight * 1.7,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            duration: Duration(seconds: 3),            
+            backgroundColor: Colors.black.withOpacity(0.8),
+          ),
+        );
+      else
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BottomNav(),
+          ),
+          (Route<dynamic> route) => false,
+        );
+    }
   }
 
   @override
@@ -27,120 +62,132 @@ class _LoginPageState extends State<LoginPage> {
       resizeToAvoidBottomPadding: false,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.deviceWidth * 5,
-              vertical: SizeConfig.deviceHeight * 6),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      color: Colors.black,
+          padding: EdgeInsets.only(
+            left: SizeConfig.deviceWidth * 5,
+            right: SizeConfig.deviceWidth * 5,
+            top: SizeConfig.deviceHeight * 8,
+          ),
+          child: Form(
+            key: _form,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: Colors.black,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-              Text(
-                'SIGN IN',
-                style: TextStyle(
-                    fontSize: SizeConfig.deviceHeight * 2.85,
+                  ],
+                ),
+                SizedBox(height: SizeConfig.deviceHeight * 2),
+                Text(
+                  'SIGN IN',
+                  style: TextStyle(
+                    fontSize: SizeConfig.deviceHeight * 2,
                     fontWeight: FontWeight.bold,
-                    fontFamily: "Pacifico"),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 4),
-                child: Text(
-                  "Welcome back to the community!",
-                  style: TextStyle(
-                      fontSize: SizeConfig.deviceHeight * 2.35,
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 6),
-                child: buildTextField("Phone or Email"),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 3),
-                child: buildTextField("Password"),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 4),
-                child: buildButtonContainer(),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 4),
-                child: Text(
-                  "Forgot Password?",
-                  style: TextStyle(
-                    color: Colors.black,
+                    fontFamily: "Pacifico",
                   ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 30),
-                child: Row(
+                Padding(
+                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 4),
+                  child: Text(
+                    "Welcome back to the community!",
+                    style: TextStyle(
+                        fontSize: SizeConfig.deviceHeight * 1.5,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.deviceHeight * 7),
+                CustomTextField(
+                  value: phoneOrEmail,
+                  onSaved: (value) => setState(() => phoneOrEmail = value),
+                  validator: (value) {
+                    String patttern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+                    RegExp regExp = new RegExp(patttern);
+                    if (value.length == 0) {
+                      return 'Please enter mobile number';
+                    }
+                    if (!regExp.hasMatch(value)) {
+                      if (RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) return null;
+                      return 'Please enter valid data';
+                    }
+                    return null;
+                  },
+                  hintText: 'Phone or Email',
+                  textInputType: TextInputType.text,
+                  aspectRatioValue: 8,
+                ),
+                SizedBox(height: SizeConfig.deviceHeight * 3),
+                CustomTextField(
+                  value: password,
+                  onSaved: (value) => setState(() => password = value),
+                  validator: (value) {
+                    if (value.isEmpty) return 'Enter Password';
+                    if (value.toString().length < 6)
+                      return "Please enter valid password";
+                    return null;
+                  },
+                  hintText: 'Password',
+                  textInputType: TextInputType.text,
+                  aspectRatioValue: 8,
+                ),
+                SizedBox(height: SizeConfig.deviceHeight * 7),
+                AspectRatio(
+                  aspectRatio: 8,
+                  child: Builder(
+                    builder: (context) =>
+                        buildButtonContainer(_saveForm, context),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 4),
+                  child: Text(
+                    "Forgot Password?",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: SizeConfig.deviceHeight * 1.4,
+                    ),
+                  ),
+                ),
+                SizedBox(height: SizeConfig.deviceHeight * 28),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Not a Member yet?"),
+                    Text(
+                      "Not a Member yet?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: SizeConfig.deviceHeight * 1.5,
+                      ),
+                    ),
                     SizedBox(
                       width: 4.0,
                     ),
-                    Text("SIGN UP",
-                        style: TextStyle(
-                            color: Hexcolor("#3DB83A"),
-                            fontWeight: FontWeight.bold))
+                    Text(
+                      "SIGN UP",
+                      style: TextStyle(
+                        color: MyThemeData.primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: SizeConfig.deviceHeight * 1.5,
+                      ),
+                    )
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildTextField(String hintText) {
-    return TextField(
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.only(
-            top: SizeConfig.deviceHeight * 2,
-            bottom: SizeConfig.deviceHeight * 2,
-            left: SizeConfig.deviceWidth * 2),
-        filled: true,
-        hintText: hintText,
-        hintStyle: TextStyle(
-          color: Colors.grey,
-          fontSize: SizeConfig.deviceWidth * 4,
-        ),
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          // borderRadius: BorderRadius.circular(0),
-        ),
-        suffixIcon: hintText == "Password"
-            ? IconButton(
-                onPressed: _toggleVisibility,
-                icon: _isHidden
-                    ? Icon(
-                        Icons.visibility_off,
-                        size: SizeConfig.deviceWidth * 5,
-                      )
-                    : Icon(
-                        Icons.visibility,
-                        size: SizeConfig.deviceWidth * 5,
-                      ),
-              )
-            : null,
-      ),
-      obscureText: hintText == "Password" ? _isHidden : false,
     );
   }
 
@@ -160,34 +207,26 @@ class _LoginPageState extends State<LoginPage> {
     _userBox.add(userModel);
   }
 
-  Widget buildButtonContainer() {
-    _saveUserToHive();
+  Widget buildButtonContainer(Function signInFunc, BuildContext context) {
+    // _saveUserToHive();
     return InkWell(
-        onTap: () {
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => BottomNav(),
-            ),
-            (Route<dynamic> route) => false,
-          );
-        },
-        child: Container(
-          height: SizeConfig.deviceHeight * 6,
-          width: SizeConfig.deviceWidth * 90,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5.0),
-            color: Hexcolor("#3DB83A"),
-          ),
-          child: Center(
-            child: Text(
-              "SIGN IN",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold),
+      onTap: () => signInFunc(context),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: Hexcolor("#3DB83A"),
+        ),
+        child: Center(
+          child: Text(
+            "SIGN IN",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.deviceHeight * 1.5,
+              fontWeight: FontWeight.bold,
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

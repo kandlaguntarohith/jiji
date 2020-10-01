@@ -9,6 +9,13 @@ class Repository {
     return response;
   }
 
+  Future<Map<String, dynamic>> checkCredentials(
+      Map<String, dynamic> body) async {
+    Map<String, dynamic> response = await _helper.postAndGetResponseNumber(
+        Endpoints.checkUserCredentials, body);
+    return response;
+  }
+
   // Future<List<VehicleName>> fetchVehicalNames() async {
   //   List<VehicleName> vehicalNames = [];
   //   Map<String, dynamic> response =
