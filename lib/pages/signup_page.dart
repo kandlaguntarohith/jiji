@@ -140,7 +140,7 @@ class _SignUpState extends State<SignUp> {
                 height: pHeight * 0.07,
               ),
               AspectRatio(
-                aspectRatio: 9,
+                aspectRatio: 8,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -194,7 +194,7 @@ class _SignUpState extends State<SignUp> {
                 },
                 hintText: 'Email',
                 textInputType: TextInputType.text,
-                aspectRatioValue: 9,
+                aspectRatioValue: 8,
               ),
               SizedBox(
                 height: pHeight * 0.02,
@@ -210,7 +210,7 @@ class _SignUpState extends State<SignUp> {
                 },
                 hintText: 'Phone',
                 textInputType: TextInputType.number,
-                aspectRatioValue: 9,
+                aspectRatioValue: 8,
               ),
               SizedBox(
                 height: pHeight * 0.02,
@@ -226,7 +226,7 @@ class _SignUpState extends State<SignUp> {
                 },
                 hintText: 'Password',
                 textInputType: TextInputType.text,
-                aspectRatioValue: 9,
+                aspectRatioValue: 8,
               ),
               SizedBox(
                 height: pHeight * 0.04,
