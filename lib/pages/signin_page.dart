@@ -40,7 +40,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               textAlign: TextAlign.center,
             ),
-            duration: Duration(seconds: 3),            
+            duration: Duration(seconds: 3),
             backgroundColor: Colors.black.withOpacity(0.8),
           ),
         );
