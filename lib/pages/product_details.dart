@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jiji/models/show_products.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/custom_button.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/widgets/product_images.dart';
 import 'package:jiji/widgets/seller_card.dart';
-import 'package:jiji/widgets/similar_products_list.dart';
 
 import '../utilities/theme_data.dart';
 
@@ -271,7 +271,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   SizedBox(height: SizeConfig.deviceHeight * 3),
-                  SimilarProducts(
+                  ShowProductsGridView(
                     productImgUrl: productImgUrl,
                     productName: productName,
                     isFav: isFav,

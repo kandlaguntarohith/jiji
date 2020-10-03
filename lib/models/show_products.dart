@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:jiji/widgets/similar_product_card.dart';
 
-import 'similar_product_card.dart';
-
-class SimilarProducts extends StatelessWidget {
+class ShowProductsGridView extends StatelessWidget {
   final List<String> productImgUrl;
   final List<String> productName;
   final List<bool> isFav;
   final List<double> prices;
   final List<String> place;
 
-  const SimilarProducts({
+  const ShowProductsGridView({
     Key key,
     @required this.productImgUrl,
     @required this.productName,

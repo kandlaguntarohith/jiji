@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:jiji/impl/impl.dart';
+import 'package:jiji/models/category.dart';
+import 'package:jiji/models/product.dart';
 import 'package:jiji/pages/product_details.dart';
 import 'package:jiji/pages/view_all_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
+import 'package:jiji/widgets/show_products_gridview.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,6 +16,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Category> categories = [];
+  List<Product> popularProducts = [];
   List<ListItem> _dropdownItems = [
     ListItem(1, "Goa, GA"),
     ListItem(2, "Assam"),
@@ -24,8 +30,20 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
+    getCategoriesList();
+    getPopularProductList();
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
     _selectedItem = _dropdownMenuItems[0].value;
+  }
+
+  getCategoriesList() async {
+    categories = await Impl().getCategoriesList();
+    setState(() {});
+  }
+
+  getPopularProductList() async {
+    popularProducts = await Impl().getPopularProductsList();
+    setState(() {});
   }
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
@@ -48,213 +66,223 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-        onWillPop: () {
-          return showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Confirm Exit"),
-                  content: Text("Are you sure you want to exit?"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("YES"),
-                      onPressed: () {
-                        SystemNavigator.pop();
-                      },
+      onWillPop: () {
+        return showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Confirm Exit"),
+                content: Text("Are you sure you want to exit?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("YES"),
+                    onPressed: () {
+                      SystemNavigator.pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("NO"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          child: JijiAppBar(),
+          preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Center(
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                        value: _selectedItem,
+                        items: _dropdownMenuItems,
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Hexcolor("#3DB83A"),
+                        ),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedItem = value;
+                          });
+                        }),
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 2,
+                ),
+                HeaderText(
+                  title: 'JIJI ASSIST',
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 3,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    AssistButton(
+                      onPressed: null,
+                      label: "How to Buy",
                     ),
-                    FlatButton(
-                      child: Text("NO"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
+                    SizedBox(
+                      width: SizeConfig.deviceWidth * 7.5,
+                    ),
+                    AssistButton(
+                      onPressed: null,
+                      label: "Hot Deals",
+                    ),
                   ],
-                );
-              });
-        },
-        child: Scaffold(
-          appBar: PreferredSize(
-            child: JijiAppBar(),
-            preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                          value: _selectedItem,
-                          items: _dropdownMenuItems,
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Hexcolor("#3DB83A"),
-                          ),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedItem = value;
-                            });
-                          }),
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 2,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    AssistButton(
+                      onPressed: null,
+                      label: "How to Sell",
                     ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 2,
-                  ),
-                  HeaderText(
-                    title: 'JIJI ASSIST',
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 3,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      AssistButton(
-                        onPressed: null,
-                        label: "How to Buy",
-                      ),
-                      SizedBox(
-                        width: SizeConfig.deviceWidth * 7.5,
-                      ),
-                      AssistButton(
-                        onPressed: null,
-                        label: "Hot Deals",
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 2,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      AssistButton(
-                        onPressed: null,
-                        label: "How to Sell",
-                      ),
-                      SizedBox(
-                        width: SizeConfig.deviceWidth * 7.5,
-                      ),
-                      AssistButton(
-                        onPressed: null,
-                        label: "Games",
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 4,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      HeaderText(
-                        title: 'CATEGORIES',
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            child: Text(
-                              'View All',
-                              style: TextStyle(
-                                  color: Hexcolor("#3DB83A"),
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: SizeConfig.deviceWidth * 3),
-                            ),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MyViewAllPage(),
+                    SizedBox(
+                      width: SizeConfig.deviceWidth * 7.5,
+                    ),
+                    AssistButton(
+                      onPressed: null,
+                      label: "Games",
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 4,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    HeaderText(
+                      title: 'CATEGORIES',
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          child: Text(
+                            'View All',
+                            style: TextStyle(
+                                color: Hexcolor("#3DB83A"),
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: SizeConfig.deviceWidth * 3),
+                          ),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyViewAllPage(
+                                categories: categories,
                               ),
                             ),
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: SizeConfig.deviceWidth * 3,
-                            color: Hexcolor("#3DB83A"),
-                          ),
-                          // Icon(
-                          //   Icons.arrow_forward_ios,
-                          //   size: SizeConfig.deviceWidth * 3,
-                          //   color: Hexcolor("#3DB83A"),
-                          // ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 2,
-                  ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: SizeConfig.deviceWidth * 3,
+                          color: Hexcolor("#3DB83A"),
+                        ),
+                        // Icon(
+                        //   Icons.arrow_forward_ios,
+                        //   size: SizeConfig.deviceWidth * 3,
+                        //   color: Hexcolor("#3DB83A"),
+                        // ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 2,
+                ),
+                if (categories.length > 1)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CategoryCard(
-                        label: "Mobiles Phones",
+                        label: categories[0].name,
                         onPressed: () {},
-                        subText: "(12,400 ads)",
+                        // image: categories[0].photo[0],
+                        categoryId: categories[0].id,
+                        subText: "(${categories[0].view} ads)",
                       ),
                       CategoryCard(
-                        label: "Mobiles Phones",
+                        label: categories[1].name,
                         onPressed: () {},
-                        subText: "(12,400 ads)",
+                        categoryId: categories[1].id,
+                        subText: "(${categories[0].view} ads)",
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 3,
-                  ),
-                  HeaderText(
-                    title: 'POPULAR PRODUCTS',
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 2,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: GridView(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                            children: <Widget>[
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName: "Brand New Smart Watch",
-                              ),
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName:
-                                    "Brand New Smart Watch from United States of America",
-                              ),
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName: "Brand New Smart Watch",
-                              ),
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName: "Brand New Smart Watch",
-                              ),
-                            ]),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 3,
+                ),
+                HeaderText(
+                  title: 'POPULAR PRODUCTS',
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 2,
+                ),
+                ShowProductsGridView(
+                  products: popularProducts,
+                )
+                // Column(
+                //   children: [
+                //     Container(
+                //       child: GridView(
+                //           shrinkWrap: true,
+                //           physics: NeverScrollableScrollPhysics(),
+                //           gridDelegate:
+                //               SliverGridDelegateWithFixedCrossAxisCount(
+                //                   crossAxisCount: 2),
+                //           children: <Widget>[
+                //             ProductCard(
+                //               location: "Goa, India",
+                //               price: "1200",
+                //               productName: "Brand New Smart Watch",
+                //             ),
+                //             ProductCard(
+                //               location: "Goa, India",
+                //               price: "1200",
+                //               productName:
+                //                   "Brand New Smart Watch from United States of America",
+                //             ),
+                //             ProductCard(
+                //               location: "Goa, India",
+                //               price: "1200",
+                //               productName: "Brand New Smart Watch",
+                //             ),
+                //             ProductCard(
+                //               location: "Goa, India",
+                //               price: "1200",
+                //               productName: "Brand New Smart Watch",
+                //             ),
+                //           ]),
+                //     ),
+                //   ],
+                // ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
@@ -307,14 +335,15 @@ class AssistButton extends StatelessWidget {
 }
 
 class CategoryCard extends StatelessWidget {
-  String label;
-  String subText;
-  Function onPressed;
-  Image image;
-  CategoryCard({
+  final String label;
+  final String subText;
+  final Function onPressed;
+  final String categoryId;
+  const CategoryCard({
     this.label,
     this.onPressed,
     this.subText,
+    this.categoryId,
   });
 
   @override
@@ -322,45 +351,61 @@ class CategoryCard extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 1),
-        child: Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding:
-                EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 2),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.deviceWidth * 15),
-                  child: Image.asset("assets/smartphone.png"),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 1),
-                  child: Text(
-                    label,
-                    style: TextStyle(
+        child: GestureDetector(
+          onTap: onPressed,
+          child: Card(
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Padding(
+              padding:
+                  EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 2),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.deviceWidth * 10),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: SizedBox(
+                        height: SizeConfig.deviceWidth * 35,
+                        child: Image.network(
+                          "https://olx-app-jiji.herokuapp.com/api/category/photo/$categoryId?photoId=$categoryId",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 1),
+                    child: Text(
+                      label,
+                      style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.deviceHeight * 1.35),
+                        fontSize: SizeConfig.deviceHeight * 1.35,
+                      ),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 0.5),
-                  child: Text(
-                    subText,
-                    style: TextStyle(
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: SizeConfig.deviceHeight * 0.5,
+                    ),
+                    child: Text(
+                      subText,
+                      style: TextStyle(
                         color: Colors.grey,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.deviceHeight * 1.00),
+                        fontSize: SizeConfig.deviceHeight * 1.00,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

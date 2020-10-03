@@ -1,5 +1,8 @@
 import 'package:jiji/constants/endpoints.dart';
 import 'package:jiji/data/network/api_helper.dart';
+import 'package:jiji/models/category.dart';
+import 'package:jiji/models/product.dart';
+import 'package:jiji/models/sub_category.dart';
 
 class Repository {
   ApiHelper _helper = ApiHelper();
@@ -16,6 +19,32 @@ class Repository {
     return response;
   }
 
+  Future<List<Category>> getCategoriesList() async {
+    List<Category> categories = [];
+    final response = await _helper.get(Endpoints.categories);
+    response.toList().forEach((element) {
+      categories.add(Category.fromJson(element));
+    });
+    return categories;
+  }
+
+  Future<List<SubCategory>> getSubCategoriesList() async {
+    List<SubCategory> subCategories = [];
+    final response = await _helper.get(Endpoints.subCategories);
+    response.toList().forEach((element) {
+      subCategories.add(SubCategory.fromJson(element));
+    });
+    return subCategories;
+  }
+
+  Future<List<Product>> getPopularProductsList() async {
+    List<Product> products = [];
+    final response = await _helper.get(Endpoints.popularProducts);
+    response.toList().forEach((element) {
+      products.add(Product.fromJson(element));
+    });
+    return products;
+  }
   // Future<List<VehicleName>> fetchVehicalNames() async {
   //   List<VehicleName> vehicalNames = [];
   //   Map<String, dynamic> response =
