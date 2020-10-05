@@ -37,18 +37,20 @@ class ChatPage extends StatelessWidget {
   Widget unreadChatsCounterWidget() {
     return Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: SizeConfig.deviceWidth * 5,
-          vertical: SizeConfig.deviceHeight * 1.5),
+        horizontal: SizeConfig.deviceWidth * 5,
+        vertical: SizeConfig.deviceHeight * 1.5,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             'CHATS',
             style: TextStyle(
-                color: Colors.grey,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.bold,
-                fontSize: SizeConfig.deviceHeight * 1.5),
+              color: Colors.grey,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.bold,
+              fontSize: SizeConfig.deviceHeight * 1.5,
+            ),
           ),
           ChatCounter(
             avatarSize: SizeConfig.deviceWidth * 3.35,
@@ -188,4 +190,3 @@ class ChatTile extends StatelessWidget {
     );
   }
 }
-

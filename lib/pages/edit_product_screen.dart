@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jiji/models/product.dart';
+import 'package:jiji/models/product(1).dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/custom_dropdrown.dart';

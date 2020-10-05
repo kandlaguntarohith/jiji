@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jiji/models/posted_by.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:flutter_svg/svg.dart';
 
 class SellerCard extends StatelessWidget {
+  final PostedBy postedBy;
+
+  const SellerCard({Key key, this.postedBy}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -17,7 +22,8 @@ class SellerCard extends StatelessWidget {
     final padding = EdgeInsets.symmetric(
       horizontal: availableWidthSpace * 0.06,
     );
-
+    String img = postedBy.photo;
+    print("image" + img);
     return AspectRatio(
       aspectRatio: aspectRatio,
       child: SizedBox(
@@ -31,9 +37,8 @@ class SellerCard extends StatelessWidget {
                 padding: padding,
                 child: CircleAvatar(
                   radius: fieldheight / 2.6,
-                  backgroundImage: NetworkImage(
-                    "https://lavinephotography.com.au/wp-content/uploads/2017/01/PROFILE-Photography-112.jpg",
-                  ),
+                  // backgroundImage: Net(img),
+                  child: SvgPicture.network(img),
                 ),
               ),
               SizedBox(width: availableWidthSpace * 0.02),
@@ -43,7 +48,7 @@ class SellerCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Amy James",
+                      postedBy.name,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: textSize,
@@ -51,7 +56,7 @@ class SellerCard extends StatelessWidget {
                     ),
                     SizedBox(height: fieldheight * 0.1),
                     Text(
-                      "GOA, GA",
+                      postedBy.city,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: textSize * 0.7,

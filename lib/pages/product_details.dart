@@ -1,25 +1,31 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jiji/models/product.dart';
+import 'package:jiji/models/show_products.dart';
+import 'package:jiji/pages/chat_box_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/custom_button.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/widgets/product_images.dart';
 import 'package:jiji/widgets/seller_card.dart';
-import 'package:jiji/widgets/similar_products_list.dart';
 
 import '../utilities/theme_data.dart';
 
-List<String> pics = [
-  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80",
-  "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-  "https://www.sonatawatches.in/wps/wcm/connect/sonata/042cae70-4810-4a93-a996-4106c12f55b7/728x524-nxt.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_90IA1H80O04180QIVM4BVG00L3-042cae70-4810-4a93-a996-4106c12f55b7-mZlHd0u",
-  "https://assets.victorinox.com/medias/?context=bWFzdGVyfHRpbXw4MzgyM3xpbWFnZS9qcGVnfHRpbS9oZjYvaDJkLzEwMjYyMzk5NDE4Mzk4LmpwZ3w5NzRlMmIzYTQ3MDY3NWUwNWYyYzY3ZmEwOWEwNzE2ZDE4YzYzY2VlY2UzN2ZkZWI4YjUxNTZiNjFlNDBlMWEy",
-  "https://www.wareable.com/media/imager/202002/34779-original.jpg",
-  "https://www.hihonor.com/content/dam/honor/global/products/wearable/honor-magic-watch2-46mm/MagicWatch-2-46mm-facebookimg.jpg",
-  "https://casiocdn.com/casio-v2/resource/temp/images/Artwork-home/mdv106-mobile-banner.jpg",
-];
+// List<String> pics = [
+//   "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80",
+//   "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
+//   "https://www.sonatawatches.in/wps/wcm/connect/sonata/042cae70-4810-4a93-a996-4106c12f55b7/728x524-nxt.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_90IA1H80O04180QIVM4BVG00L3-042cae70-4810-4a93-a996-4106c12f55b7-mZlHd0u",
+//   "https://assets.victorinox.com/medias/?context=bWFzdGVyfHRpbXw4MzgyM3xpbWFnZS9qcGVnfHRpbS9oZjYvaDJkLzEwMjYyMzk5NDE4Mzk4LmpwZ3w5NzRlMmIzYTQ3MDY3NWUwNWYyYzY3ZmEwOWEwNzE2ZDE4YzYzY2VlY2UzN2ZkZWI4YjUxNTZiNjFlNDBlMWEy",
+//   "https://www.wareable.com/media/imager/202002/34779-original.jpg",
+//   "https://www.hihonor.com/content/dam/honor/global/products/wearable/honor-magic-watch2-46mm/MagicWatch-2-46mm-facebookimg.jpg",
+//   "https://casiocdn.com/casio-v2/resource/temp/images/Artwork-home/mdv106-mobile-banner.jpg",
+// ];
 
 class ProductDetailScreen extends StatefulWidget {
+  final Product product;
+
+  const ProductDetailScreen({Key key, this.product}) : super(key: key);
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
 }
@@ -43,18 +49,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   String imgUrl =
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80";
 
-  List<String> img = pics;
+  List<String> img = [];
   @override
   void initState() {
     isFavourite = true;
     // for (int i = 0; i < 7; i++) img.add(imgUrl);
-    for (int i = 0; i < 4; i++) {
-      productImgUrl.add(pics[i]);
-      productName.add("Brand New SmartWatch");
-      isFav.add(i % 2 == 0);
-      prices.add(i * 1000.0);
-      place.add("Goa, India");
-    }
+    // for (int i = 0; i < 4; i++) {
+    //   productImgUrl.add(pics[i]);
+    //   productName.add("Brand New SmartWatch");
+    //   isFav.add(i % 2 == 0);
+    //   prices.add(i * 1000.0);
+    //   place.add("Goa, India");
+    // }
+    widget.product.photo.forEach((element) {
+      img.add(element.id);
+    });
     super.initState();
   }
 
@@ -156,8 +165,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     child: Container(
                       width: double.infinity,
                       decoration: BoxDecoration(
+                        color: MyThemeData.inputPlaceHolder,
                         image: DecorationImage(
-                          image: NetworkImage(img[selectedImageIndex]),
+                          image: CachedNetworkImageProvider(
+                            widget.product.photo.length > 0
+                                ? "https://olx-app-jiji.herokuapp.com/api/post/photo/${widget.product.id}?photoId=${widget.product.photo[selectedImageIndex].id}"
+                                : "",
+                          ),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -169,12 +183,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     img: img,
                     selectedImageIndex: selectedImageIndex,
                     updateSelectedImage: updateSelectedImage,
+                    categoryId: widget.product.id,
                   ),
                   SizedBox(height: SizeConfig.deviceHeight * 3),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Brand New Smart Watch",
+                      widget.product.name,
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: textSize,
@@ -188,7 +203,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "₹ 13,000",
+                        "₹ ${widget.product.price}",
                         style: TextStyle(
                           fontSize: textSize,
                           fontWeight: FontWeight.w700,
@@ -206,7 +221,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ],
                   ),
                   SizedBox(height: SizeConfig.deviceHeight * 2),
-                  SellerCard(),
+                  SellerCard(
+                    postedBy: widget.product.postedBy,
+                  ),
                   SizedBox(height: SizeConfig.deviceHeight * 3),
                   AspectRatio(
                     aspectRatio: callMessageButtonsAspectRatio,
@@ -218,6 +235,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             Icons.phone,
                             color: Colors.white,
                           ),
+                          onPressed: () {},
                           text: 'CALL',
                           isBorder: false,
                           color: MyThemeData.primaryColor,
@@ -226,6 +244,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           icon: Icon(
                             Icons.message,
                             color: MyThemeData.primaryColor,
+                          ),
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => ChatBoxPage(),
+                            ),
                           ),
                           isBorder: true,
                           text: 'CHAT',
@@ -250,7 +273,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      description,
+                      widget.product.description,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: textSize * 0.75,
@@ -271,13 +294,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   SizedBox(height: SizeConfig.deviceHeight * 3),
-                  SimilarProducts(
-                    productImgUrl: productImgUrl,
-                    productName: productName,
-                    isFav: isFav,
-                    prices: prices,
-                    place: place,
-                  ),
+                  // ShowProductsGridView(
+                  //   productImgUrl: productImgUrl,
+                  //   productName: productName,
+                  //   isFav: isFav,
+                  //   prices: prices,
+                  //   place: place,
+                  // ),
                   SizedBox(height: SizeConfig.deviceHeight * 5),
                 ],
               ),

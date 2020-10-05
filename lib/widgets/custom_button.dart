@@ -7,8 +7,15 @@ class CustomButton extends StatelessWidget {
   final String text;
   final bool isBorder;
   final Color color;
+  final Function onPressed;
 
-  const CustomButton({Key key, this.icon, this.text, this.isBorder, this.color})
+  const CustomButton(
+      {Key key,
+      this.icon,
+      this.text,
+      this.isBorder,
+      this.color,
+      this.onPressed})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -31,7 +38,7 @@ class CustomButton extends StatelessWidget {
         width: availableWidthSpace * 0.46,
         child: RaisedButton.icon(
           color: isBorder == true ? Colors.white : MyThemeData.primaryColor,
-          onPressed: () {},
+          onPressed: onPressed,
           icon: icon,
           label: Text(
             text,

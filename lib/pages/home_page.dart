@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:jiji/impl/impl.dart';
+import 'package:jiji/models/category.dart';
+import 'package:jiji/models/product.dart';
 import 'package:jiji/pages/product_details.dart';
 import 'package:jiji/pages/view_all_page.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
+import 'package:jiji/widgets/show_products_gridview.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,6 +17,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Category> categories = [];
+  List<Product> popularProducts = [];
   List<ListItem> _dropdownItems = [
     ListItem(1, "Goa, GA"),
     ListItem(2, "Assam"),
@@ -24,8 +31,20 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
+    getCategoriesList();
+    getPopularProductList();
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
     _selectedItem = _dropdownMenuItems[0].value;
+  }
+
+  getCategoriesList() async {
+    categories = await Impl().getCategoriesList();
+    setState(() {});
+  }
+
+  getPopularProductList() async {
+    popularProducts = await Impl().getPopularProductsList();
+    setState(() {});
   }
 
   List<DropdownMenuItem<ListItem>> buildDropDownMenuItems(List listItems) {
@@ -48,49 +67,57 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-        onWillPop: () {
-          return showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) {
-                return AlertDialog(
-                  title: Text("Confirm Exit"),
-                  content: Text("Are you sure you want to exit?"),
-                  actions: <Widget>[
-                    FlatButton(
-                      child: Text("YES"),
-                      onPressed: () {
-                        SystemNavigator.pop();
-                      },
-                    ),
-                    FlatButton(
-                      child: Text("NO"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                );
-              });
-        },
-        child: Scaffold(
-          appBar: PreferredSize(
-            child: JijiAppBar(),
-            preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 5),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(
-                    child: DropdownButtonHideUnderline(
+      onWillPop: () {
+        return showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text("Confirm Exit"),
+                content: Text("Are you sure you want to exit?"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("YES"),
+                    onPressed: () {
+                      SystemNavigator.pop();
+                    },
+                  ),
+                  FlatButton(
+                    child: Text("NO"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
+      },
+      child: Scaffold(
+        appBar: PreferredSize(
+          child: JijiAppBar(),
+          preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 5),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: SizeConfig.deviceHeight),
+                Align(
+                  alignment: Alignment.center,
+                  child: DropdownButtonHideUnderline(
+                    child: SizedBox(
+                      height: SizeConfig.deviceHeight * 3,
                       child: DropdownButton(
                           value: _selectedItem,
                           items: _dropdownMenuItems,
+                          style: TextStyle(
+                            fontSize: SizeConfig.deviceHeight * 1,
+                            color: MyThemeData.primaryColor,
+                          ),
+                          iconSize: SizeConfig.deviceHeight * 2,
                           icon: Icon(
                             Icons.arrow_drop_down,
                             color: Hexcolor("#3DB83A"),
@@ -102,16 +129,19 @@ class _HomePageState extends State<HomePage> {
                           }),
                     ),
                   ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 2,
-                  ),
-                  HeaderText(
-                    title: 'JIJI ASSIST',
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 3,
-                  ),
-                  Row(
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 0.5,
+                ),
+                HeaderText(
+                  title: 'JIJI ASSIST',
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 3,
+                ),
+                AspectRatio(
+                  aspectRatio: 8,
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       AssistButton(
@@ -127,10 +157,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 2,
-                  ),
-                  Row(
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 2,
+                ),
+                AspectRatio(
+                  aspectRatio: 8,
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       AssistButton(
@@ -146,115 +179,126 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 4,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      HeaderText(
-                        title: 'CATEGORIES',
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          GestureDetector(
-                            child: Text(
-                              'View All',
-                              style: TextStyle(
-                                  color: Hexcolor("#3DB83A"),
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: SizeConfig.deviceWidth * 3),
-                            ),
-                            onTap: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MyViewAllPage(),
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 4,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    HeaderText(
+                      title: 'CATEGORIES',
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          child: Text(
+                            'VIEW All',
+                            style: TextStyle(
+                                color: Hexcolor("#3DB83A"),
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: SizeConfig.deviceWidth * 2.5),
+                          ),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyViewAllPage(
+                                categories: categories,
                               ),
                             ),
                           ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            size: SizeConfig.deviceWidth * 3,
-                            color: Hexcolor("#3DB83A"),
-                          ),
-                          // Icon(
-                          //   Icons.arrow_forward_ios,
-                          //   size: SizeConfig.deviceWidth * 3,
-                          //   color: Hexcolor("#3DB83A"),
-                          // ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 2,
-                  ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: SizeConfig.deviceWidth * 3,
+                          color: Hexcolor("#3DB83A"),
+                        ),
+                        // Icon(
+                        //   Icons.arrow_forward_ios,
+                        //   size: SizeConfig.deviceWidth * 3,
+                        //   color: Hexcolor("#3DB83A"),
+                        // ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 2,
+                ),
+                if (categories.length > 1)
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       CategoryCard(
-                        label: "Mobiles Phones",
+                        label: categories[0].name,
                         onPressed: () {},
-                        subText: "(12,400 ads)",
+                        // image: categories[0].photo[0],
+                        categoryId: categories[0].id,
+                        subText: "(${categories[0].view} ads)",
                       ),
                       CategoryCard(
-                        label: "Mobiles Phones",
+                        label: categories[1].name,
                         onPressed: () {},
-                        subText: "(12,400 ads)",
+                        categoryId: categories[1].id,
+                        subText: "(${categories[0].view} ads)",
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 3,
-                  ),
-                  HeaderText(
-                    title: 'POPULAR PRODUCTS',
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 2,
-                  ),
-                  Column(
-                    children: [
-                      Container(
-                        child: GridView(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2),
-                            children: <Widget>[
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName: "Brand New Smart Watch",
-                              ),
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName:
-                                    "Brand New Smart Watch from United States of America",
-                              ),
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName: "Brand New Smart Watch",
-                              ),
-                              ProductCard(
-                                location: "Goa, India",
-                                price: "1200",
-                                productName: "Brand New Smart Watch",
-                              ),
-                            ]),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 3,
+                ),
+                HeaderText(
+                  title: 'POPULAR PRODUCTS',
+                ),
+                SizedBox(
+                  height: SizeConfig.deviceHeight * 2,
+                ),
+                ShowProductsGridView(
+                  products: popularProducts,
+                )
+                // Column(
+                //   children: [
+                //     Container(
+                //       child: GridView(
+                //           shrinkWrap: true,
+                //           physics: NeverScrollableScrollPhysics(),
+                //           gridDelegate:
+                //               SliverGridDelegateWithFixedCrossAxisCount(
+                //                   crossAxisCount: 2),
+                //           children: <Widget>[
+                //             ProductCard(
+                //               location: "Goa, India",
+                //               price: "1200",
+                //               productName: "Brand New Smart Watch",
+                //             ),
+                //             ProductCard(
+                //               location: "Goa, India",
+                //               price: "1200",
+                //               productName:
+                //                   "Brand New Smart Watch from United States of America",
+                //             ),
+                //             ProductCard(
+                //               location: "Goa, India",
+                //               price: "1200",
+                //               productName: "Brand New Smart Watch",
+                //             ),
+                //             ProductCard(
+                //               location: "Goa, India",
+                //               price: "1200",
+                //               productName: "Brand New Smart Watch",
+                //             ),
+                //           ]),
+                //     ),
+                //   ],
+                // ),
+              ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
@@ -267,10 +311,11 @@ class HeaderText extends StatelessWidget {
     return Text(
       title,
       style: TextStyle(
-          color: Colors.grey,
-          fontFamily: 'Roboto',
-          fontWeight: FontWeight.bold,
-          fontSize: SizeConfig.deviceWidth * 3),
+        color: Colors.grey,
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.bold,
+        fontSize: SizeConfig.deviceWidth * 3,
+      ),
     );
   }
 }
@@ -284,37 +329,36 @@ class AssistButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
+      height: double.infinity,
       width: SizeConfig.deviceWidth * 40,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7.5),
           border: Border.all(color: Hexcolor("#3DB83A"), width: 2)),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 1.5),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: SizeConfig.deviceWidth * 4,
-              color: Hexcolor("#3DB83A"),
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: SizeConfig.deviceWidth * 3,
+          color: Hexcolor("#3DB83A"),
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold,
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }
 }
 
 class CategoryCard extends StatelessWidget {
-  String label;
-  String subText;
-  Function onPressed;
-  Image image;
-  CategoryCard({
+  final String label;
+  final String subText;
+  final Function onPressed;
+  final String categoryId;
+  const CategoryCard({
     this.label,
     this.onPressed,
     this.subText,
+    this.categoryId,
   });
 
   @override
@@ -322,171 +366,65 @@ class CategoryCard extends StatelessWidget {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 1),
-        child: Card(
-          elevation: 3,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Padding(
-            padding:
-                EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 2),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.deviceWidth * 15),
-                  child: Image.asset("assets/smartphone.png"),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 1),
-                  child: Text(
-                    label,
-                    style: TextStyle(
+        child: GestureDetector(
+          onTap: onPressed,
+          child: Card(
+            // elevation: 3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: Padding(
+              padding:
+                  EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 2),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: SizeConfig.deviceWidth * 10),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: SizedBox(
+                        height: SizeConfig.deviceWidth * 35,
+                        child: Image.network(
+                          "https://olx-app-jiji.herokuapp.com/api/category/photo/$categoryId?photoId=$categoryId",
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 1),
+                    child: Text(
+                      label,
+                      style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.deviceHeight * 1.35),
+                        fontSize: SizeConfig.deviceHeight * 1.35,
+                      ),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 0.5),
-                  child: Text(
-                    subText,
-                    style: TextStyle(
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: SizeConfig.deviceHeight * 0.5,
+                    ),
+                    child: Text(
+                      subText,
+                      style: TextStyle(
                         color: Colors.grey,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.deviceHeight * 1.00),
+                        fontSize: SizeConfig.deviceHeight * 1.00,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class ProductCard extends StatefulWidget {
-  String productName;
-  String price;
-  String location;
-
-  ProductCard({this.price, this.location, this.productName});
-
-  @override
-  _ProductCardState createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-  @override
-  Widget build(BuildContext context) {
-    bool liked = false;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: SizeConfig.deviceWidth * 2,
-          vertical: SizeConfig.deviceHeight * 1),
-      child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ProductDetailScreen()),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  flex: 70,
-                  child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/watch.jpg'),
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.deviceHeight * 0.5,
-                ),
-                Expanded(
-                  flex: 15,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.deviceWidth * 2,
-                        right: SizeConfig.deviceWidth * 0.5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            '${widget.productName}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: SizeConfig.deviceWidth * 2.75),
-                          ),
-                        ),
-                        Center(
-                          child: IconButton(
-                            color: Hexcolor("#3DB83A"),
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.favorite,
-                              size: SizeConfig.deviceWidth * 3,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.deviceHeight * 0.5,
-                ),
-                Expanded(
-                  flex: 15,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.deviceWidth * 2,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '\$ 12000',
-                          maxLines: 3,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                              fontSize: SizeConfig.deviceWidth * 2.15),
-                        ),
-                        Text(
-                          'Goa, India',
-                          maxLines: 3,
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                              fontSize: SizeConfig.deviceWidth * 2.15),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.deviceHeight * 0.25,
-                ),
-              ],
-            ),
-          )),
     );
   }
 }

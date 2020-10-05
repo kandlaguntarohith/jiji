@@ -23,13 +23,14 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       emailId: fields[3] as String,
       phone: fields[4] as int,
       role: fields[5] as int,
+      password: fields[6] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.token)
       ..writeByte(1)
@@ -41,7 +42,9 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..writeByte(4)
       ..write(obj.phone)
       ..writeByte(5)
-      ..write(obj.role);
+      ..write(obj.role)
+      ..writeByte(6)
+      ..write(obj.password);
   }
 
   @override

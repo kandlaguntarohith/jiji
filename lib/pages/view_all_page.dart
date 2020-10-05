@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jiji/models/category.dart';
+import 'package:jiji/models/sub_category.dart';
 import 'package:jiji/pages/home_page.dart';
+import 'package:jiji/pages/sub_category_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 
 class MyViewAllPage extends StatelessWidget {
+  final List<Category> categories;
+
+  const MyViewAllPage({Key key, this.categories}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -17,58 +23,22 @@ class MyViewAllPage extends StatelessWidget {
         crossAxisSpacing: SizeConfig.deviceWidth,
         mainAxisSpacing: SizeConfig.deviceHeight,
         crossAxisCount: 2,
-        children: <Widget>[
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-          CategoryCard(
-            label: "Mobiles Phones",
-            onPressed: () {},
-            subText: "(12,400 ads)",
-          ),
-        ],
+        children: categories
+            .map(
+              (category) => CategoryCard(
+                label: category.name,
+                categoryId: category.id,
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SubCategoryScreen(
+                      categoryId: category.id,
+                    ),
+                  ),
+                ),
+                subText: "(${categories[0].view} ads)",
+              ),
+            )
+            .toList(),
       ),
     );
   }

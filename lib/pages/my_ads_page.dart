@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/models/ad_item.dart';
-import 'package:jiji/models/product.dart';
+import 'package:jiji/models/product(1).dart';
 import 'package:jiji/pages/edit_product_screen.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/ad_item.dart';

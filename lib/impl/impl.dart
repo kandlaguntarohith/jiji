@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:jiji/data/network/repository.dart';
+import 'package:jiji/models/category.dart';
+import 'package:jiji/models/product.dart';
+import 'package:jiji/models/sub_category.dart';
 
 class Impl {
   Repository _repository = new Repository();
@@ -16,12 +19,21 @@ class Impl {
     return response;
   }
 
-  // Future<List<VehicleName>> getVehicalNamesList() async {
-  //   VehicalRepository _repository = new VehicalRepository();
-  //   final List<VehicleName> vehicalNames =
-  //       await _repository.fetchVehicalNames();
-  //   return vehicalNames;
-  // }
+  Future<List<Category>> getCategoriesList() async {
+    final List<Category> categories = await _repository.getCategoriesList();
+    return categories;
+  }
+
+  Future<List<SubCategory>> getSubCategoriesList() async {
+    final List<SubCategory> subCategories =
+        await _repository.getSubCategoriesList();
+    return subCategories;
+  }
+
+  Future<List<Product>> getPopularProductsList() async {
+    final List<Product> products = await _repository.getPopularProductsList();
+    return products;
+  }
 
   // Future<List<VehicleModel>> getVehicalModelsList() async {
   //   VehicalRepository _repository = new VehicalRepository();
