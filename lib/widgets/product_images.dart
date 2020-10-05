@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:jiji/utilities/theme_data.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class ProductImages extends StatelessWidget {
   final int selectedImageIndex;
   final List<String> img;
+  final String categoryId;
   final Function updateSelectedImage;
 
   const ProductImages(
-      {Key key, this.selectedImageIndex, this.img, this.updateSelectedImage})
+      {Key key,
+      this.selectedImageIndex,
+      this.img,
+      this.updateSelectedImage,
+      this.categoryId})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
+    img.forEach((element) {
+      print(element);
+    });
     return Container(
       height: 70,
       child: ListView.builder(
@@ -25,9 +34,10 @@ class ProductImages extends StatelessWidget {
               height: 70,
               width: 70,
               decoration: BoxDecoration(
+                  color: MyThemeData.inputPlaceHolder,
                   image: DecorationImage(
-                    image: NetworkImage(
-                      img[index],
+                    image: CachedNetworkImageProvider(
+                      "https://olx-app-jiji.herokuapp.com/api/post/photo/$categoryId?photoId=${img[index]}",
                     ),
                     fit: BoxFit.cover,
                   ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:jiji/impl/impl.dart';
+import 'package:jiji/models/user.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
@@ -18,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final _form = GlobalKey<FormState>();
   String phoneOrEmail = "";
   String password = "";
+
   Future<void> _saveForm(BuildContext context) async {
     bool valid = _form.currentState.validate();
     if (valid) {
@@ -52,7 +54,9 @@ class _LoginPageState extends State<LoginPage> {
           emailId: response['user']['email'],
           phone: response['user']['phone'],
           role: response['user']['role'],
+          password: password,
         );
+        // Provider.of<User>(context, listen: false).updateUser(userModel);
         _saveUserToHive(userModel);
 
         Navigator.pushAndRemoveUntil(
@@ -64,6 +68,11 @@ class _LoginPageState extends State<LoginPage> {
         );
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:jiji/models/product.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/pages/product_details.dart';
 import 'package:jiji/utilities/size_config.dart';
 
 class SimilarProductCard extends StatelessWidget {
-  final String productImgUrl;
-  final String productName;
-  final bool isFav;
-  final double prices;
-  final String place;
-
+  // final String productImgUrl;
+  // final String productName;
+  // final bool isFav;
+  // final double prices;
+  // final String place;
+  final Product product;
   const SimilarProductCard({
     Key key,
-    @required this.productImgUrl,
-    @required this.productName,
-    @required this.isFav,
-    @required this.prices,
-    @required this.place,
+    this.product,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    String img = product.photo.length > 0
+        ? "https://olx-app-jiji.herokuapp.com/api/post/photo/${product.id}?photoId=${product.photo[0].id}"
+        : "";
     SizeConfig().init(context);
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => ProductDetailScreen(),
+          builder: (context) => ProductDetailScreen(product: product),
         ),
       ),
       child: LayoutBuilder(
@@ -42,10 +42,10 @@ class SimilarProductCard extends StatelessWidget {
                 child: Container(
                   height: constraints.maxHeight * 0.67,
                   width: double.infinity,
-                  child: productImgUrl == ""
+                  child: img == ""
                       ? SizedBox
                       : Image.network(
-                          productImgUrl,
+                          img,
                           fit: BoxFit.cover,
                         ),
                 ),
@@ -64,7 +64,7 @@ class SimilarProductCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            productName,
+                            product.name,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: constraints.maxWidth * 0.05,
@@ -72,7 +72,7 @@ class SimilarProductCard extends StatelessWidget {
                             overflow: TextOverflow.fade,
                           ),
                           Icon(
-                            isFav ? Icons.favorite : Icons.favorite_border,
+                            true ? Icons.favorite : Icons.favorite_border,
                             color: MyThemeData.primaryColor,
                             size: constraints.maxWidth * 0.06,
                           ),
@@ -84,14 +84,14 @@ class SimilarProductCard extends StatelessWidget {
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            "₹ " + prices.toString(),
+                            "₹ " + product.price.toString(),
                             style: TextStyle(
                               fontSize: constraints.maxWidth * 0.045,
                               color: MyThemeData.primaryColor,
                             ),
                           ),
                           Text(
-                            place,
+                            product.city,
                             style: TextStyle(
                               fontSize: constraints.maxWidth * 0.045,
                               color: MyThemeData.inputPlaceHolder,

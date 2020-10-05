@@ -28,11 +28,11 @@ class ShowProductsGridView extends StatelessWidget {
         childAspectRatio: 1.2,
       ),
       itemBuilder: (_, index) => SimilarProductCard(
-        productImgUrl: productImgUrl[index],
-        productName: productName[index],
-        isFav: isFav[index],
-        prices: prices[index],
-        place: place[index],
+        // productImgUrl: productImgUrl[index],
+        // productName: productName[index],
+        // isFav: isFav[index],
+        // prices: prices[index],
+        // place: place[index],
       ),
       itemCount: productImgUrl.length,
     );

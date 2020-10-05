@@ -22,15 +22,8 @@ class ShowProductsGridView extends StatelessWidget {
         childAspectRatio: 1.2,
       ),
       itemBuilder: (_, index) {
-        String img = products[index].photo.length > 0
-            ? "https://olx-app-jiji.herokuapp.com/api/category/photo/${products[index].photo[0]}.id?photoId=$products[index].photo[0].id"
-            : "";
         return SimilarProductCard(
-          productImgUrl: img,
-          productName: products[index].name,
-          isFav: true,
-          prices: double.parse(products[index].price),
-          place: products[index].city,
+          product: products[index],
         );
       },
       itemCount: products.length,

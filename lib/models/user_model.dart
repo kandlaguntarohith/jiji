@@ -22,6 +22,9 @@ class UserModel extends HiveObject {
   @HiveField(5)
   final int role;
 
+  @HiveField(6)
+  final String password;
+
   UserModel({
     this.token,
     this.uid,
@@ -29,5 +32,6 @@ class UserModel extends HiveObject {
     this.emailId,
     this.phone,
     this.role,
+    this.password,
   });
 }

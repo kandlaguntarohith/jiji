@@ -1,22 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
+import 'package:jiji/models/user.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/pages/edit_profile_page.dart';
 import 'package:jiji/pages/faq_page.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:provider/provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    User user = Provider.of<User>(context, listen: false);
+    // print(user.name);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
-            child: JijiAppBar()),
+          preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
+          child: JijiAppBar(),
+        ),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -81,27 +96,29 @@ class StrechedButton extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       child: Container(
-        decoration:
-            BoxDecoration(border: Border.all(color: Hexcolor("#F0F0F0"))),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: MyThemeData.inputPlaceHolder,
+              width: 0.2,
+            ),
+          ),
+        ),
         child: Padding(
           padding: EdgeInsets.symmetric(
               vertical: SizeConfig.deviceHeight * 2.25,
               horizontal: SizeConfig.deviceWidth * 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                  child: Text(
+          child: Container(
+              width: double.infinity,
+              child: Text(
                 label,
                 style: TextStyle(
                   color: Hexcolor("#3A3A3A"),
-                  fontSize: SizeConfig.deviceHeight * 1.85,
+                  fontSize: SizeConfig.deviceHeight * 1.6,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.bold,
                 ),
               )),
-            ],
-          ),
         ),
       ),
     );
@@ -148,6 +165,7 @@ class TopRowWidget extends StatelessWidget {
       listen: false,
     );
     final UserModel _userModel = _userBox.values.first;
+    print(_userModel.token);
 
     return Container(
       child: Padding(

@@ -7,6 +7,7 @@ import 'package:jiji/models/product.dart';
 import 'package:jiji/pages/product_details.dart';
 import 'package:jiji/pages/view_all_page.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/widgets/show_products_gridview.dart';
 
@@ -102,26 +103,35 @@ class _HomePageState extends State<HomePage> {
                 EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 5),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              // mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Center(
+                SizedBox(height: SizeConfig.deviceHeight),
+                Align(
+                  alignment: Alignment.center,
                   child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                        value: _selectedItem,
-                        items: _dropdownMenuItems,
-                        icon: Icon(
-                          Icons.arrow_drop_down,
-                          color: Hexcolor("#3DB83A"),
-                        ),
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedItem = value;
-                          });
-                        }),
+                    child: SizedBox(
+                      height: SizeConfig.deviceHeight * 3,
+                      child: DropdownButton(
+                          value: _selectedItem,
+                          items: _dropdownMenuItems,
+                          style: TextStyle(
+                            fontSize: SizeConfig.deviceHeight * 1,
+                            color: MyThemeData.primaryColor,
+                          ),
+                          iconSize: SizeConfig.deviceHeight * 2,
+                          icon: Icon(
+                            Icons.arrow_drop_down,
+                            color: Hexcolor("#3DB83A"),
+                          ),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedItem = value;
+                            });
+                          }),
+                    ),
                   ),
                 ),
                 SizedBox(
-                  height: SizeConfig.deviceHeight * 2,
+                  height: SizeConfig.deviceHeight * 0.5,
                 ),
                 HeaderText(
                   title: 'JIJI ASSIST',
@@ -129,40 +139,46 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(
                   height: SizeConfig.deviceHeight * 3,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    AssistButton(
-                      onPressed: null,
-                      label: "How to Buy",
-                    ),
-                    SizedBox(
-                      width: SizeConfig.deviceWidth * 7.5,
-                    ),
-                    AssistButton(
-                      onPressed: null,
-                      label: "Hot Deals",
-                    ),
-                  ],
+                AspectRatio(
+                  aspectRatio: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      AssistButton(
+                        onPressed: null,
+                        label: "How to Buy",
+                      ),
+                      SizedBox(
+                        width: SizeConfig.deviceWidth * 7.5,
+                      ),
+                      AssistButton(
+                        onPressed: null,
+                        label: "Hot Deals",
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: SizeConfig.deviceHeight * 2,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    AssistButton(
-                      onPressed: null,
-                      label: "How to Sell",
-                    ),
-                    SizedBox(
-                      width: SizeConfig.deviceWidth * 7.5,
-                    ),
-                    AssistButton(
-                      onPressed: null,
-                      label: "Games",
-                    ),
-                  ],
+                AspectRatio(
+                  aspectRatio: 8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      AssistButton(
+                        onPressed: null,
+                        label: "How to Sell",
+                      ),
+                      SizedBox(
+                        width: SizeConfig.deviceWidth * 7.5,
+                      ),
+                      AssistButton(
+                        onPressed: null,
+                        label: "Games",
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: SizeConfig.deviceHeight * 4,
@@ -178,12 +194,12 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         GestureDetector(
                           child: Text(
-                            'View All',
+                            'VIEW All',
                             style: TextStyle(
                                 color: Hexcolor("#3DB83A"),
                                 fontFamily: 'Roboto',
                                 fontWeight: FontWeight.bold,
-                                fontSize: SizeConfig.deviceWidth * 3),
+                                fontSize: SizeConfig.deviceWidth * 2.5),
                           ),
                           onTap: () => Navigator.push(
                             context,
@@ -295,10 +311,11 @@ class HeaderText extends StatelessWidget {
     return Text(
       title,
       style: TextStyle(
-          color: Colors.grey,
-          fontFamily: 'Roboto',
-          fontWeight: FontWeight.bold,
-          fontSize: SizeConfig.deviceWidth * 3),
+        color: Colors.grey,
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.bold,
+        fontSize: SizeConfig.deviceWidth * 3,
+      ),
     );
   }
 }
@@ -312,23 +329,21 @@ class AssistButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
+      height: double.infinity,
       width: SizeConfig.deviceWidth * 40,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(7.5),
           border: Border.all(color: Hexcolor("#3DB83A"), width: 2)),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 1.5),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: SizeConfig.deviceWidth * 4,
-              color: Hexcolor("#3DB83A"),
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+      child: Text(
+        label,
+        style: TextStyle(
+          fontSize: SizeConfig.deviceWidth * 3,
+          color: Hexcolor("#3DB83A"),
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold,
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }
@@ -354,7 +369,7 @@ class CategoryCard extends StatelessWidget {
         child: GestureDetector(
           onTap: onPressed,
           child: Card(
-            elevation: 3,
+            // elevation: 3,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
@@ -410,128 +425,6 @@ class CategoryCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class ProductCard extends StatefulWidget {
-  String productName;
-  String price;
-  String location;
-
-  ProductCard({this.price, this.location, this.productName});
-
-  @override
-  _ProductCardState createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-  @override
-  Widget build(BuildContext context) {
-    bool liked = false;
-
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: SizeConfig.deviceWidth * 2,
-          vertical: SizeConfig.deviceHeight * 1),
-      child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => ProductDetailScreen()),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Expanded(
-                  flex: 70,
-                  child: Image(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/watch.jpg'),
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.deviceHeight * 0.5,
-                ),
-                Expanded(
-                  flex: 15,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                        left: SizeConfig.deviceWidth * 2,
-                        right: SizeConfig.deviceWidth * 0.5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            '${widget.productName}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: SizeConfig.deviceWidth * 2.75),
-                          ),
-                        ),
-                        Center(
-                          child: IconButton(
-                            color: Hexcolor("#3DB83A"),
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.favorite,
-                              size: SizeConfig.deviceWidth * 3,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.deviceHeight * 0.5,
-                ),
-                Expanded(
-                  flex: 15,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.deviceWidth * 2,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '\$ 12000',
-                          maxLines: 3,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                              fontSize: SizeConfig.deviceWidth * 2.15),
-                        ),
-                        Text(
-                          'Goa, India',
-                          maxLines: 3,
-                          style: TextStyle(
-                              color: Colors.grey,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.bold,
-                              fontSize: SizeConfig.deviceWidth * 2.15),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: SizeConfig.deviceHeight * 0.25,
-                ),
-              ],
-            ),
-          )),
     );
   }
 }

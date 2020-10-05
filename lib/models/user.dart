@@ -1,31 +1,26 @@
-class User {
-  User({
-    this.name,
-    this.email,
-    this.password,
-    this.password1,
-    this.phone,
-  });
+import 'package:flutter/cupertino.dart';
+import 'package:jiji/models/user_model.dart';
+
+class User with ChangeNotifier {
+  User(
+      {this.name,
+      this.email,
+      this.password,
+      this.password1,
+      this.phone,
+      this.token});
 
   String name;
   String email;
   String password;
   String password1;
-  String phone;
-
-  factory User.fromJson(Map<String, dynamic> json) => User(
-        name: json["name"],
-        email: json["email"],
-        password: json["password"],
-        password1: json["password1"],
-        phone: json["phone"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "email": email,
-        "password": password,
-        "password1": password1,
-        "phone": phone,
-      };
+  int phone;
+  String token;
+  void updateUser(UserModel user) {
+    name = user.name;
+    token = user.token;
+    email = user.emailId;
+    phone = user.phone;
+    notifyListeners();
+  }
 }
