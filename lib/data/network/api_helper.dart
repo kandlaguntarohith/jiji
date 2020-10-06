@@ -10,7 +10,9 @@ class ApiHelper {
     var responseJson;
     try {
       final response = await http.get(url);
+      // print(url);
       responseJson = _returnResponse(response);
+      // print(responseJson);
     } on SocketException {
       throw Exception("No Internet Connection");
     }
@@ -24,6 +26,26 @@ class ApiHelper {
     try {
       var response = await dio.get(url,
           queryParameters: parameters, options: Options(headers: header));
+      responseJson = _returnDioResponse(response);
+    } catch (e) {
+      print(e);
+    }
+    return responseJson;
+  }
+
+  Future<dynamic> postWithHeadersInputsDio(String url,
+      Map<String, dynamic> header, Map<String, dynamic> parameters) async {
+    var responseJson;
+    Dio dio = new Dio();
+    try {
+      var response = await dio.post(
+        url,
+        queryParameters: parameters,
+        options: Options(
+          headers: header,
+        ),
+      );
+      // print(response);
       responseJson = _returnDioResponse(response);
     } catch (e) {
       print(e);
@@ -68,16 +90,19 @@ class ApiHelper {
     return responseJson;
   }
 
-  Future<dynamic> postWithHeadersInputs(
-      String url, Map mappedJson, Map header) async {
+  Future<dynamic> postWithHeadersInputs(String url,
+      Map<String, dynamic> mappedJson, Map<String, String> header) async {
+    // print(url);
     var responseJson;
+
     try {
       final response = await http.post(
         url,
-        body: mappedJson,
+        body: jsonEncode(mappedJson),
         headers: header,
       );
       responseJson = _returnResponse(response);
+      // print(responseJson);
     } catch (e) {
       print(e);
     }
@@ -89,7 +114,7 @@ class ApiHelper {
     switch (response.statusCode) {
       case 200:
         var responseJson = response.data.toString();
-        print(responseJson);
+        // print(responseJson);
         return responseJson;
 
       case 400:
@@ -108,15 +133,16 @@ class ApiHelper {
   }
 
   dynamic _returnResponse(http.Response response, {bool dontThrow = false}) {
+    print('status code - ${response.statusCode}');
     if (dontThrow) {
       return json.decode(response.body.toString());
     }
 
-    // print('status code - ${response.statusCode}');
     switch (response.statusCode) {
       case 200:
+        // print(response.body);
         var responseJson = json.decode(response.body.toString());
-        // print(responseJson);
+
         return responseJson;
 
       case 400:

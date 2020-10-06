@@ -31,6 +31,7 @@ class Repository {
   Future<List<SubCategory>> getSubCategoriesList() async {
     List<SubCategory> subCategories = [];
     final response = await _helper.get(Endpoints.subCategories);
+    // print(response);
     response.toList().forEach((element) {
       subCategories.add(SubCategory.fromJson(element));
     });

@@ -1,190 +1,333 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hive/hive.dart';
+import 'package:jiji/constants/endpoints.dart';
+import 'package:jiji/data/network/api_helper.dart';
+import 'package:jiji/models/UserProfile.dart';
+import 'package:jiji/models/user_model.dart';
+import 'package:jiji/widgets/custom_textfield.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:provider/provider.dart';
 
-class EditProfilePage extends StatelessWidget {
+class EditProfilePage extends StatefulWidget {
+  final UserProfile userProfile;
+
+  const EditProfilePage({Key key, this.userProfile}) : super(key: key);
+  @override
+  _EditProfilePageState createState() => _EditProfilePageState(userProfile);
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  final UserProfile userProfile;
+  String firstName;
+  String lastName;
+  String location;
+  double textSize;
+  // final UserProfile userProfile;
+  final _form = GlobalKey<FormState>();
+
+  _EditProfilePageState(this.userProfile);
+
+  // _EditProfilePageState(this.userProfile);
+  @override
+  void initState() {
+    final name = userProfile.name.split(" ");
+    firstName = name[0];
+    lastName = name.length == 2 ? name[1] : "";
+    location = userProfile.city + ", " + userProfile.state;
+    super.initState();
+  }
+
+  Future<void> _saveForm(BuildContext context) async {
+    bool valid = _form.currentState.validate();
+    if (valid) {
+      _form.currentState.save();
+      final l = location.trim().split(",");
+      // print(firstName + " " + lastName);
+      String city = l[0].trim();
+      String state = l[1].trim();
+      final Box<UserModel> _userBox =
+          Provider.of<Box<UserModel>>(context, listen: false);
+      final UserModel userModel = _userBox.values.first;
+      Map<String, dynamic> para = {
+        "name": firstName.trim() + " " + lastName.trim(),
+        "city": city,
+        "state": state,
+      };
+      Map<String, String> header = {
+        "Authorization": userModel.token,
+        "Content-Type": "application/json",
+      };
+      final response = await ApiHelper().postWithHeadersInputs(
+        "https://olx-app-jiji.herokuapp.com/api/user/${userModel.uid}",
+        para,
+        header,
+      );
+
+      print(response);
+      // if (response["statusCode"] == 200)
+      //   await showDialog(
+      //     context: context,
+      //     child: AlertDialog(
+      //       title: Text(
+      //         response["message"],
+      //         style: TextStyle(
+      //           color: Colors.black,
+      //           fontSize: textSize * 1.2,
+      //         ),
+      //       ),
+      //       actions: [
+      //         FlatButton(
+      //           onPressed: () => Navigator.of(context).pop(),
+      //           child: Text(
+      //             'Okay',
+      //             style: TextStyle(
+      //               color: MyThemeData.primaryColor,
+      //               fontSize: textSize,
+      //             ),
+      //           ),
+      //         )
+      //       ],
+      //     ),
+      //   );
+      // if (response["statusCode"] == 200)
+      //   // Navigator.of(context).pushReplacement(
+      //   //   MaterialPageRoute(
+      //   //     builder: (context) => LoginPage(),
+      //   //   ),
+      //   // );
+      //   print("");
+      // else
+      //   Scaffold.of(context).showSnackBar(SnackBar(
+      //     content: Text(
+      //       response["errors"],
+      //       style: TextStyle(
+      //         color: MyThemeData.primaryColor,
+      //         fontSize: textSize,
+      //       ),
+      //       textAlign: TextAlign.center,
+      //     ),
+      //     backgroundColor: Colors.black.withOpacity(0.8),
+      //   ));
+      // print(response["errors"]);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+    final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+    final availableWidthSpace =
+        (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
+    textSize = availableWidthSpace * 0.03;
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
-            child: JijiAppBar()),
+          preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
+          child: JijiAppBar(),
+        ),
         body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              backPressWidget(context),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 5,
-              ),
-              Center(child: ProfileImage()),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 5,
-              ),
-              personalInfoEditTexts(),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 3,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                          border:
-                              Border.all(color: Hexcolor("3DB83A"), width: 2),
-                          borderRadius: BorderRadius.circular(5)),
-                      width: SizeConfig.deviceWidth * 42.5,
-                      child: MaterialButton(
-                        onPressed: () {},
-                        child: Center(
-                          child: Text(
-                            'CANCEL',
-                            style: TextStyle(
-                                color: Hexcolor("3DB83A"),
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.bold,
-                                fontSize: SizeConfig.deviceWidth * 3.75),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: SizeConfig.deviceWidth * 4,
+            ),
+            child: Form(
+              key: _form,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  backPressWidget(context),
+                  SizedBox(
+                    height: SizeConfig.deviceHeight * 5,
+                  ),
+                  Center(child: ProfileImage()),
+                  SizedBox(
+                    height: SizeConfig.deviceHeight * 5,
+                  ),
+                  Text(
+                    'Edit Personal Information',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizeConfig.deviceWidth * 3.5,
+                    ),
+                  ),
+                  SizedBox(height: SizeConfig.deviceHeight * 2),
+                  AspectRatio(
+                    aspectRatio: 7,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SizedBox(
+                          width: availableWidthSpace * 0.48,
+                          child: CustomTextField(
+                            value: firstName,
+                            onSaved: (value) =>
+                                setState(() => firstName = value),
+                            validator: (value) {
+                              if (value.isEmpty) return 'Enter First Name';
+                              if (value.toString().length < 2)
+                                return 'Enter valid Name';
+                              return null;
+                            },
+                            hintText: 'First Name',
+                            textInputType: TextInputType.text,
+                            isAspectRatio: false,
                           ),
                         ),
-                      ),
+                        SizedBox(
+                          width: availableWidthSpace * 0.48,
+                          child: CustomTextField(
+                            value: lastName,
+                            onSaved: (value) =>
+                                setState(() => lastName = value),
+                            validator: (value) {
+                              if (value.isEmpty) return 'Enter Last Name';
+                              if (value.toString().length < 2)
+                                return 'Enter valid Last Name';
+                              return null;
+                            },
+                            hintText: 'Last Name',
+                            textInputType: TextInputType.text,
+                            isAspectRatio: false,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      width: SizeConfig.deviceWidth * 2,
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.only(right: SizeConfig.deviceWidth * 5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Hexcolor("3DB83A"),
-                            borderRadius: BorderRadius.circular(5)),
-                        width: SizeConfig.deviceWidth * 42.5,
-                        child: MaterialButton(
-                          onPressed: () {},
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                vertical: SizeConfig.deviceHeight * 1.5),
-                            child: Center(
-                              child: Text(
-                                'SAVE',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: SizeConfig.deviceWidth * 3.75),
+                  ),
+                  SizedBox(height: SizeConfig.deviceHeight * 2),
+                  CustomTextField(
+                    value: location,
+                    onSaved: (value) => setState(() => location = value),
+                    validator: (value) {
+                      if (value.isEmpty) return 'Enter city, state';
+                      if (!value.toString().contains(","))
+                        return "Enter both city, state";
+                      return null;
+                    },
+                    hintText: 'City, State',
+                    textInputType: TextInputType.text,
+                    aspectRatioValue: 7,
+                  ),
+                  SizedBox(
+                    height: SizeConfig.deviceHeight * 3,
+                  ),
+                  Builder(
+                    builder: (context) => AspectRatio(
+                      aspectRatio: 7,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: Hexcolor("3DB83A"), width: 2),
+                                borderRadius: BorderRadius.circular(5)),
+                            width: availableWidthSpace * 0.45,
+                            child: MaterialButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Center(
+                                child: Text(
+                                  'CANCEL',
+                                  style: TextStyle(
+                                      color: Hexcolor("3DB83A"),
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: SizeConfig.deviceWidth * 3.75),
+                                ),
                               ),
                             ),
                           ),
-                        ),
+                          Container(
+                            decoration: BoxDecoration(
+                                color: Hexcolor("3DB83A"),
+                                borderRadius: BorderRadius.circular(5)),
+                            width: availableWidthSpace * 0.45,
+                            child: MaterialButton(
+                              onPressed: () => _saveForm(context),
+                              child: Center(
+                                child: Text(
+                                  'SAVE',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: SizeConfig.deviceWidth * 3.75),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget personalInfoEditTexts() {
-    return Padding(
-      padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 5),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Edit Personal Information',
-            style: TextStyle(
-                color: Colors.grey,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.bold,
-                fontSize: SizeConfig.deviceWidth * 3.5),
-          ),
-          SizedBox(
-            height: SizeConfig.deviceHeight * 3,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: SizeConfig.deviceWidth * 42.5,
-                height: SizeConfig.deviceHeight * 7,
-                child: TextField(
-                    decoration: InputDecoration(
-                  filled: true,
-                  hintText: "Jane",
-                  hintStyle: TextStyle(
-                    color: Colors.grey,
-                    fontSize: SizeConfig.deviceWidth * 3.5,
-                  ),
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    // borderRadius: BorderRadius.circular(0),
-                  ),
-                )),
-              ),
-              SizedBox(
-                width: SizeConfig.deviceWidth * 5,
-              ),
-              Padding(
-                padding: EdgeInsets.only(right: SizeConfig.deviceWidth * 5),
-                child: Container(
-                  width: SizeConfig.deviceWidth * 42.5,
-                  height: SizeConfig.deviceHeight * 7,
-                  child: TextField(
-                      decoration: InputDecoration(
-                    filled: true,
-                    hintText: "Smith",
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                      fontSize: SizeConfig.deviceWidth * 3.5,
-                    ),
-                    border: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      // borderRadius: BorderRadius.circular(0),
-                    ),
-                  )),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: SizeConfig.deviceHeight * 3,
-          ),
-          Padding(
-            padding: EdgeInsets.only(right: SizeConfig.deviceWidth * 5),
-            child: Container(
-              height: SizeConfig.deviceHeight * 7,
-              child: TextField(
-                  decoration: InputDecoration(
-                filled: true,
-                hintText: "Goa, GA",
-                hintStyle: TextStyle(
-                  color: Colors.grey,
-                  fontSize: SizeConfig.deviceWidth * 3.5,
-                ),
-                suffixIcon: Icon(
-                  Icons.my_location,
-                  color: Colors.grey,
-                ),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  // borderRadius: BorderRadius.circular(0),
-                ),
-              )),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget personalInfoEditTexts() {
+  //   return Padding(
+  //     padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 5),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Text(
+  //           'Edit Personal Information',
+  //           style: TextStyle(
+  //               color: Colors.grey,
+  //               fontFamily: 'Roboto',
+  //               fontWeight: FontWeight.bold,
+  //               fontSize: SizeConfig.deviceWidth * 3.5),
+  //         ),
+  //         SizedBox(
+  //           height: SizeConfig.deviceHeight * 3,
+  //         ),
+  //         AspectRatio(
+  //           aspectRatio: 8,
+  //           child: Row(
+  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //             children: [
+  //               CustomTextField(value: null, onSaved: null, validator: null, hintText: null, textInputType: null)
+  //             ],
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: SizeConfig.deviceHeight * 3,
+  //         ),
+  //         Padding(
+  //           padding: EdgeInsets.only(right: SizeConfig.deviceWidth * 5),
+  //           child: Container(
+  //             height: SizeConfig.deviceHeight * 7,
+  //             child: TextField(
+  //                 decoration: InputDecoration(
+  //               filled: true,
+  //               hintText: "Goa, GA",
+  //               hintStyle: TextStyle(
+  //                 color: Colors.grey,
+  //                 fontSize: SizeConfig.deviceWidth * 3.5,
+  //               ),
+  //               suffixIcon: Icon(
+  //                 Icons.my_location,
+  //                 color: Colors.grey,
+  //               ),
+  //               border: OutlineInputBorder(
+  //                 borderSide: BorderSide.none,
+  //                 // borderRadius: BorderRadius.circular(0),
+  //               ),
+  //             )),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget backPressWidget(BuildContext context) {
     return GestureDetector(
@@ -241,7 +384,7 @@ class ProfileImage extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(avatarRadius * 0.05),
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/profile_image.jpeg'),
+              backgroundImage: AssetImage('assets/profile_image.jpg'),
               radius: avatarRadius,
             ),
           ),

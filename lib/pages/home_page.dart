@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hive/hive.dart';
 import 'package:jiji/impl/impl.dart';
+import 'package:jiji/models/UserProfile.dart';
 import 'package:jiji/models/category.dart';
 import 'package:jiji/models/product.dart';
+import 'package:jiji/models/user_model.dart';
 import 'package:jiji/pages/product_details.dart';
 import 'package:jiji/pages/sub_category_page.dart';
 import 'package:jiji/pages/view_all_page.dart';
@@ -11,6 +14,7 @@ import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/widgets/show_products_gridview.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -18,6 +22,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  UserProfile userProfile;
   List<Category> categories = [];
   List<Product> popularProducts = [];
   List<ListItem> _dropdownItems = [
@@ -37,6 +42,19 @@ class _HomePageState extends State<HomePage> {
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
     _selectedItem = _dropdownMenuItems[0].value;
   }
+
+  // getUserProfile() async {
+  //   final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(
+  //     context,
+  //     listen: false,
+  //   );
+  //   final UserModel _userModel = _userBox.values.first;
+  //   // print("name : " + _userModel.name);
+  //   userProfile = UserProfile.fromJson(
+  //     await ApiHelper().get("${Endpoints.getUserProfile}/${_userModel.uid}"),
+  //   );
+  //   // print(userProfile.name);
+  // }
 
   getCategoriesList() async {
     categories = await Impl().getCategoriesList();
@@ -255,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         categoryId: categories[1].id,
-                        subText: "(${categories[0].view} ads)",
+                        subText: "(${categories[1].view} ads)",
                       ),
                     ],
                   ),

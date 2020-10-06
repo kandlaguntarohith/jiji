@@ -35,7 +35,7 @@ class MyViewAllPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                subText: "(${categories[0].view} ads)",
+                subText: "(${category.view} ads)",
               ),
             )
             .toList(),

@@ -43,7 +43,7 @@ class SimilarProductCard extends StatelessWidget {
                   height: constraints.maxHeight * 0.67,
                   width: double.infinity,
                   child: img == ""
-                      ? SizedBox
+                      ? SizedBox()
                       : Image.network(
                           img,
                           fit: BoxFit.cover,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
-import 'package:jiji/models/user.dart';
+import 'package:jiji/constants/endpoints.dart';
+import 'package:jiji/data/network/api_helper.dart';
+import 'package:jiji/models/UserProfile.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/pages/edit_profile_page.dart';
 import 'package:jiji/pages/faq_page.dart';
@@ -16,16 +18,31 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  // UserProfile userProfile;
   @override
   void initState() {
     super.initState();
+    // getUserProfile();
   }
+
+  // getUserProfile() async {
+  //   final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(
+  //     context,
+  //     listen: false,
+  //   );
+  //   final UserModel _userModel = _userBox.values.first;
+  //   // print("name : " + _userModel.name);
+  //   userProfile = UserProfile.fromJson(
+  //     await ApiHelper().get("${Endpoints.getUserProfile}/${_userModel.uid}"),
+  //   );
+  //   // print(userProfile.name);
+  // }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    User user = Provider.of<User>(context, listen: false);
-    // print(user.name);
+    final UserProfile userProfile =
+        Provider.of<UserProfile>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -35,15 +52,18 @@ class _ProfilePageState extends State<ProfilePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TopRowWidget(),
+              TopRowWidget(userProfile: userProfile),
               ColouredHeading(
                 title: "ACCOUNT AND PROFILE",
               ),
               StrechedButton(
                 label: "Edit Profile",
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => EditProfilePage()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              EditProfilePage(userProfile: userProfile)));
                 },
               ),
               StrechedButton(
@@ -154,19 +174,15 @@ class ColouredHeading extends StatelessWidget {
 }
 
 class TopRowWidget extends StatelessWidget {
+  final UserProfile userProfile;
   const TopRowWidget({
     Key key,
+    this.userProfile,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(
-      context,
-      listen: false,
-    );
-    final UserModel _userModel = _userBox.values.first;
-    print(_userModel.token);
-
+    // final UserProfile userProfile = Provider.of<UserProfile>(context);
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -183,7 +199,7 @@ class TopRowWidget extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(SizeConfig.deviceWidth * 8.5 * 0.05),
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/profile_image.jpeg'),
+                  backgroundImage: AssetImage('assets/profile_image.jpg'),
                   radius: SizeConfig.deviceWidth * 8.5,
                 ),
               ),
@@ -195,7 +211,7 @@ class TopRowWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _userModel.name,
+                    userProfile != null ? userProfile.name : "",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',
@@ -206,12 +222,15 @@ class TopRowWidget extends StatelessWidget {
                     height: SizeConfig.deviceHeight * 1,
                   ),
                   Text(
-                    'Goa, GA',
+                    userProfile == null
+                        ? ""
+                        : (userProfile.city + " ," + userProfile.state),
                     style: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        fontSize: SizeConfig.deviceHeight * 2),
+                      color: Colors.grey,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      fontSize: SizeConfig.deviceHeight * 2,
+                    ),
                   ),
                 ],
               ),
