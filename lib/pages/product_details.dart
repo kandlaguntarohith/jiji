@@ -1,26 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:jiji/data/network/api_helper.dart';
+import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/product.dart';
-import 'package:jiji/models/show_products.dart';
 import 'package:jiji/pages/chat_box_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/custom_button.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/widgets/product_images.dart';
 import 'package:jiji/widgets/seller_card.dart';
+import 'package:jiji/widgets/show_products_gridview.dart';
 
 import '../utilities/theme_data.dart';
-
-// List<String> pics = [
-//   "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80",
-//   "https://images.unsplash.com/photo-1508057198894-247b23fe5ade?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80",
-//   "https://www.sonatawatches.in/wps/wcm/connect/sonata/042cae70-4810-4a93-a996-4106c12f55b7/728x524-nxt.jpg?MOD=AJPERES&CACHEID=ROOTWORKSPACE.Z18_90IA1H80O04180QIVM4BVG00L3-042cae70-4810-4a93-a996-4106c12f55b7-mZlHd0u",
-//   "https://assets.victorinox.com/medias/?context=bWFzdGVyfHRpbXw4MzgyM3xpbWFnZS9qcGVnfHRpbS9oZjYvaDJkLzEwMjYyMzk5NDE4Mzk4LmpwZ3w5NzRlMmIzYTQ3MDY3NWUwNWYyYzY3ZmEwOWEwNzE2ZDE4YzYzY2VlY2UzN2ZkZWI4YjUxNTZiNjFlNDBlMWEy",
-//   "https://www.wareable.com/media/imager/202002/34779-original.jpg",
-//   "https://www.hihonor.com/content/dam/honor/global/products/wearable/honor-magic-watch2-46mm/MagicWatch-2-46mm-facebookimg.jpg",
-//   "https://casiocdn.com/casio-v2/resource/temp/images/Artwork-home/mdv106-mobile-banner.jpg",
-// ];
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -33,38 +25,23 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   int selectedImageIndex = 0;
 
-  List<String> productImgUrl = [];
-
-  List<String> productName = [];
-
-  List<bool> isFav = [];
-
-  List<double> prices = [];
   bool isFavourite = false;
-  List<String> place = [];
-
-  String description =
-      "Esse est omnis nihil dolorem quas veniam nobis et. In ut deserunt culpa. Deleniti dolorem autem quo exercitationem itaque velit similique. Vero enim voluptate harum.Totam quas fuga aspernatur dolores necessitatibus dolor est. Molestiae ipsum rerum labore non nesciunt. Quia ipsam pariatur hic totam. Cumque ex in quod quis aliquam omnis.";
-
-  String imgUrl =
-      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80";
-
+  List<Product> similarProducts = [];
   List<String> img = [];
   @override
   void initState() {
+    getSimilarProducts();
     isFavourite = true;
-    // for (int i = 0; i < 7; i++) img.add(imgUrl);
-    // for (int i = 0; i < 4; i++) {
-    //   productImgUrl.add(pics[i]);
-    //   productName.add("Brand New SmartWatch");
-    //   isFav.add(i % 2 == 0);
-    //   prices.add(i * 1000.0);
-    //   place.add("Goa, India");
-    // }
     widget.product.photo.forEach((element) {
       img.add(element.id);
     });
     super.initState();
+  }
+
+  getSimilarProducts() async {
+    similarProducts = await Impl().getSimilarProductsList(
+        {}, {"subCategory": "5f61ba5da12dce2918eacc62"});
+    setState(() {});
   }
 
   void updateSelectedImage(int index) {
@@ -294,13 +271,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     ),
                   ),
                   SizedBox(height: SizeConfig.deviceHeight * 3),
-                  // ShowProductsGridView(
-                  //   productImgUrl: productImgUrl,
-                  //   productName: productName,
-                  //   isFav: isFav,
-                  //   prices: prices,
-                  //   place: place,
-                  // ),
+                  ShowProductsGridView(
+                    products: similarProducts,
+                  ),
                   SizedBox(height: SizeConfig.deviceHeight * 5),
                 ],
               ),

@@ -29,10 +29,12 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
   }
 
   getSubCategoriesList() async {
+    //  print(subCategories.length);
     (await Impl().getSubCategoriesList()).forEach((element) {
-      if (element.categoryId == categoryId) subCategories.add(element);
+       subCategories.add(element);
     });
     setState(() {});
+    // print(subCategories.length);
   }
 
   Widget build(BuildContext context) {

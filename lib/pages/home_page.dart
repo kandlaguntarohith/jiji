@@ -5,6 +5,7 @@ import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/category.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/pages/product_details.dart';
+import 'package:jiji/pages/sub_category_page.dart';
 import 'package:jiji/pages/view_all_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
@@ -233,14 +234,26 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       CategoryCard(
                         label: categories[0].name,
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SubCategoryScreen(
+                              categoryId: categories[0].id,
+                            ),
+                          ),
+                        ),
                         // image: categories[0].photo[0],
                         categoryId: categories[0].id,
                         subText: "(${categories[0].view} ads)",
                       ),
                       CategoryCard(
                         label: categories[1].name,
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SubCategoryScreen(
+                              categoryId: categories[1].id,
+                            ),
+                          ),
+                        ),
                         categoryId: categories[1].id,
                         subText: "(${categories[0].view} ads)",
                       ),

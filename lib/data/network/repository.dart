@@ -45,6 +45,17 @@ class Repository {
     });
     return products;
   }
+
+  Future<List<Product>> getSimilarProductsList(
+      Map<String, dynamic> header, Map<String, dynamic> para) async {
+    List<Product> products = [];
+    final response = await _helper.getWithHeadersInputs(
+        Endpoints.similarProducts, header, para);
+    response.toList().forEach((element) {
+      products.add(Product.fromJson(element));
+    });
+    return products;
+  }
   // Future<List<VehicleName>> fetchVehicalNames() async {
   //   List<VehicleName> vehicalNames = [];
   //   Map<String, dynamic> response =
