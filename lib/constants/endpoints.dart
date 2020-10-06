@@ -5,4 +5,5 @@ class Endpoints {
   static String categories = "$baseUrl/api/categories";
   static String subCategories = "$baseUrl/api/sub/category";
   static String popularProducts = "$baseUrl/api/posts/mostview";
+  static String similarProducts = "$baseUrl/api/sub/category";
 }

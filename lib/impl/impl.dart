@@ -35,6 +35,12 @@ class Impl {
     return products;
   }
 
+  Future<List<Product>> getSimilarProductsList(
+      Map<String, dynamic> header, Map<String, dynamic> para) async {
+    final List<Product> products = await _repository.getPopularProductsList();
+    return products;
+  }
+
   // Future<List<VehicleModel>> getVehicalModelsList() async {
   //   VehicalRepository _repository = new VehicalRepository();
   //   final List<VehicleModel> vehicalModels =

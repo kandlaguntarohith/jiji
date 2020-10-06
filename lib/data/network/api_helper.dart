@@ -17,8 +17,8 @@ class ApiHelper {
     return responseJson;
   }
 
-  Future<dynamic> getWithHeadersInputs(
-      String url, Map header, Map parameters) async {
+  Future<dynamic> getWithHeadersInputs(String url, Map<String, dynamic> header,
+      Map<String, dynamic> parameters) async {
     var responseJson;
     Dio dio = new Dio();
     try {

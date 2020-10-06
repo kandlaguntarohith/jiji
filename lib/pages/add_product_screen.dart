@@ -90,7 +90,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     }
   }
 
-  Widget renderhHeading(String heading) {
+  Widget renderHeading(String heading) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -148,7 +148,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ),
                 ],
               ),
-              renderhHeading("Item Name"),
+              renderHeading("Item Name"),
               CustomTextField(
                 value: title,
                 onSaved: (value) => setState(() => title = value),
@@ -159,7 +159,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 hintText: 'Item Name',
                 textInputType: TextInputType.text,
               ),
-              renderhHeading("Item Price"),
+              renderHeading("Item Price"),
               CustomTextField(
                 value: price == null ? "" : price.toString(),
                 onSaved: (value) => setState(
@@ -172,7 +172,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 hintText: 'Price',
                 textInputType: TextInputType.number,
               ),
-              renderhHeading("Item Images"),
+              renderHeading("Item Images"),
               AspectRatio(
                 aspectRatio: 3,
                 child: ItemImages(
@@ -181,7 +181,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   productUrlImages: [],
                 ),
               ),
-              renderhHeading("Location"),
+              renderHeading("Location"),
               AspectRatio(
                 aspectRatio: 8 / 1,
                 child: Row(
@@ -205,7 +205,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ],
                 ),
               ),
-              renderhHeading("Item Category"),
+              renderHeading("Item Category"),
               AspectRatio(
                 aspectRatio: 8 / 1,
                 child: Row(
@@ -230,7 +230,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ],
                 ),
               ),
-              renderhHeading("Item Description"),
+              renderHeading("Item Description"),
               CustomTextField(
                 value: description,
                 onSaved: (value) => setState(
