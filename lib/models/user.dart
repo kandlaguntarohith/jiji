@@ -7,6 +7,7 @@ class User with ChangeNotifier {
       this.email,
       this.password,
       this.password1,
+      this.id,
       this.phone,
       this.token});
 
@@ -14,6 +15,7 @@ class User with ChangeNotifier {
   String email;
   String password;
   String password1;
+  String id;
   int phone;
   String token;
   void updateUser(UserModel user) {
@@ -21,6 +23,7 @@ class User with ChangeNotifier {
     token = user.token;
     email = user.emailId;
     phone = user.phone;
+    id = user.uid;
     notifyListeners();
   }
 }

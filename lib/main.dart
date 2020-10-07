@@ -88,6 +88,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   tryAutoLogin() async {
+    if(!widget.userBox.isEmpty)
     widget.userBox = await _tryLogin(widget.userBox);
     setState(() {});
   }
