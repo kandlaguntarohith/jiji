@@ -130,7 +130,7 @@ class ChatTile extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: SizeConfig.deviceWidth * 7.5,
-                backgroundImage: AssetImage('assets/profile_image.jpeg'),
+                backgroundImage: AssetImage('assets/profile_image.jpg'),
               ),
               Container(
                 width: SizeConfig.deviceWidth * 50,

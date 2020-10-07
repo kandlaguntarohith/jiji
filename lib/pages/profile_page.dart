@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
-import 'package:jiji/models/user.dart';
+import 'package:jiji/constants/endpoints.dart';
+import 'package:jiji/data/network/api_helper.dart';
+import 'package:jiji/models/UserProfile.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/pages/edit_profile_page.dart';
 import 'package:jiji/pages/faq_page.dart';
@@ -16,16 +18,24 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  // UserProfile userProfile;
   @override
   void initState() {
     super.initState();
+  }
+  void updateUser(UserProfile updatedUserProfile) {
+    final UserProfile userProfile =
+        Provider.of<UserProfile>(context, listen: false)
+          ..updateObject(updatedUserProfile);
+    print(userProfile.name);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    User user = Provider.of<User>(context, listen: false);
-    // print(user.name);
+    final UserProfile userProfile =
+        Provider.of<UserProfile>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
@@ -35,47 +45,74 @@ class _ProfilePageState extends State<ProfilePage> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TopRowWidget(),
+              TopRowWidget(userProfile: userProfile),
               ColouredHeading(
                 title: "ACCOUNT AND PROFILE",
               ),
-              StrechedButton(
-                label: "Edit Profile",
+              MaterialButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => EditProfilePage()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfilePage(
+                          userProfile: userProfile, updateUser: updateUser),
+                    ),
+                  );
                 },
+                child: StrechedButton(
+                  label: "Edit Profile",
+                ),
               ),
-              StrechedButton(
-                label: "Change Email",
+              MaterialButton(
+                onPressed: () {},
+                child: StrechedButton(
+                  label: "Change Email",
+                ),
               ),
-              StrechedButton(
-                label: "Reset Password",
+              MaterialButton(
+                onPressed: () {},
+                child: StrechedButton(
+                  label: "Reset Password",
+                ),
               ),
               ColouredHeading(
                 title: "CONTACT AND SUPPORT",
               ),
-              StrechedButton(
-                label: "FAQ",
+              MaterialButton(
                 onPressed: () {
                   Navigator.push(
                       context, MaterialPageRoute(builder: (_) => FaqPage()));
                 },
+                child: StrechedButton(
+                  label: "FAQ",
+                ),
               ),
-              StrechedButton(
-                label: "Send Feedback",
+              MaterialButton(
+                onPressed: () {},
+                child: StrechedButton(
+                  label: "Send Feedback",
+                ),
               ),
-              StrechedButton(
-                label: "Contact Us",
+              MaterialButton(
+                onPressed: () {},
+                child: StrechedButton(
+                  label: "Contact Us",
+                ),
               ),
               ColouredHeading(
                 title: "RATE AND SHARE",
               ),
-              StrechedButton(
-                label: "Rate us on AppStore",
+              MaterialButton(
+                onPressed: () {},
+                child: StrechedButton(
+                  label: "Rate us on AppStore",
+                ),
               ),
-              StrechedButton(
-                label: "Share with friends",
+              MaterialButton(
+                onPressed: () {},
+                child: StrechedButton(
+                  label: "Share with friends",
+                ),
               ),
             ],
           ),
@@ -87,39 +124,37 @@ class _ProfilePageState extends State<ProfilePage> {
 
 class StrechedButton extends StatelessWidget {
   String label;
-  Function onPressed;
 
-  StrechedButton({this.label, this.onPressed});
+  StrechedButton({
+    this.label,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return MaterialButton(
-      onPressed: onPressed,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: MyThemeData.inputPlaceHolder,
-              width: 0.2,
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: MyThemeData.inputPlaceHolder,
+            width: 0.2,
           ),
         ),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: SizeConfig.deviceHeight * 2.25,
-              horizontal: SizeConfig.deviceWidth * 5),
-          child: Container(
-              width: double.infinity,
-              child: Text(
-                label,
-                style: TextStyle(
-                  color: Hexcolor("#3A3A3A"),
-                  fontSize: SizeConfig.deviceHeight * 1.6,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
-        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: SizeConfig.deviceHeight * 2.25,
+            horizontal: SizeConfig.deviceWidth * 5),
+        child: Container(
+            width: double.infinity,
+            child: Text(
+              label,
+              style: TextStyle(
+                color: Hexcolor("#3A3A3A"),
+                fontSize: SizeConfig.deviceHeight * 1.6,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.bold,
+              ),
+            )),
       ),
     );
   }
@@ -154,19 +189,15 @@ class ColouredHeading extends StatelessWidget {
 }
 
 class TopRowWidget extends StatelessWidget {
+  final UserProfile userProfile;
   const TopRowWidget({
     Key key,
+    this.userProfile,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(
-      context,
-      listen: false,
-    );
-    final UserModel _userModel = _userBox.values.first;
-    print(_userModel.token);
-
+    // final UserProfile userProfile = Provider.of<UserProfile>(context);
     return Container(
       child: Padding(
         padding: EdgeInsets.only(
@@ -183,7 +214,7 @@ class TopRowWidget extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(SizeConfig.deviceWidth * 8.5 * 0.05),
                 child: CircleAvatar(
-                  backgroundImage: AssetImage('assets/profile_image.jpeg'),
+                  backgroundImage: AssetImage('assets/profile_image.jpg'),
                   radius: SizeConfig.deviceWidth * 8.5,
                 ),
               ),
@@ -195,7 +226,7 @@ class TopRowWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _userModel.name,
+                    userProfile != null ? userProfile.name : "",
                     style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'Roboto',
@@ -206,12 +237,15 @@ class TopRowWidget extends StatelessWidget {
                     height: SizeConfig.deviceHeight * 1,
                   ),
                   Text(
-                    'Goa, GA',
+                    userProfile == null
+                        ? ""
+                        : (userProfile.city + " ," + userProfile.state),
                     style: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        fontSize: SizeConfig.deviceHeight * 2),
+                      color: Colors.grey,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      fontSize: SizeConfig.deviceHeight * 2,
+                    ),
                   ),
                 ],
               ),
