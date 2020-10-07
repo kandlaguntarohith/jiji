@@ -111,26 +111,16 @@ class _AddProductScreenState extends State<AddProductScreen> {
     //Image file to base64 string
     imageResized = await FlutterNativeImage.compressImage(pickedFile.path,
         quality: 100, targetWidth: 120, targetHeight: 120);
-        print(imageResized.path);
+    print(imageResized.path);
     List<int> imageBytes = imageResized.readAsBytesSync();
     image64 = base64Encode(imageBytes);
   }
 
   Future<void> _saveForm(UserModel user) async {
     bool valid = _form.currentState.validate();
-  print(imageResized.path);
+    print(imageResized.path);
     if (valid) {
       _form.currentState.save();
-
-      // print(user.token + "token");
-      // print(user.name);
-      // print(title);
-      // print(price.toString());
-      // print(description);
-      // print(city + ", " + state);
-     
-
-      //Map json
       Map<String, dynamic> mapJson = {
         'name': user.name,
         'description': description,
