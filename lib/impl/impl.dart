@@ -41,6 +41,12 @@ class Impl {
     return products;
   }
 
+  Future<String> savePost(
+      Map<String, dynamic> body, Map<String, String> header) async {
+    final String response = await _repository.savePost(body, header);
+    return response;
+  }
+
   // Future<List<VehicleModel>> getVehicalModelsList() async {
   //   VehicalRepository _repository = new VehicalRepository();
   //   final List<VehicleModel> vehicalModels =

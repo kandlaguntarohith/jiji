@@ -90,12 +90,12 @@ class ApiHelper {
     return responseJson;
   }
 
-  Future<dynamic> postWithHeadersInputs(String url,
-      Map<String, dynamic> mappedJson, Map<String, String> header) async {
-    // print(url);
+  Future<dynamic> postWithHeadersInputs(
+      String url, Map<String,dynamic> mappedJson, Map<String,String> header) async {
     var responseJson;
 
     try {
+      print("b4");
       final response = await http.post(
         url,
         body: jsonEncode(mappedJson),
@@ -120,6 +120,7 @@ class ApiHelper {
         body: jsonEncode(mappedJson),
         headers: header,
       );
+      print("aftr");
       responseJson = _returnResponse(response);
       // print(responseJson);
     } catch (e) {

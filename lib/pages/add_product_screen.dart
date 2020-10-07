@@ -2,7 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jiji/data/network/api_helper.dart';
+import 'package:jiji/data/network/api_response.dart';
+import 'package:jiji/impl/impl.dart';
+import 'package:jiji/models/user.dart';
+import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/models/product(1).dart';
@@ -10,6 +17,12 @@ import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/custom_dropdrown.dart';
 import 'package:jiji/widgets/custom_textfield.dart';
 import 'package:jiji/widgets/item_images.dart';
+import 'package:provider/provider.dart';
+
+//image file to string
+import 'package:flutter_native_image/flutter_native_image.dart';
+import 'dart:io';
+import 'dart:convert';
 
 class AddProductScreen extends StatefulWidget {
   static String routeName = '/AddProductScreen';
@@ -35,6 +48,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String category;
   String subCategory;
   double textSize;
+
+  String image64;
+  File imageResized;
 
   MyProductModel _product;
   final picker = ImagePicker();
@@ -68,6 +84,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
     super.initState();
   }
 
+  // Future<void> addImage(ImageSource source) async {
+  //   print("func called!");
+  //   final pickedFile = await picker.getImage(source: source);
+  //   //file to dtring
+  //   File imageResized = await FlutterNativeImage.compressImage(pickedFile.path,
+  //       quality: 100, targetWidth: 120, targetHeight: 120);
+  //   List<int> imageBytes = imageResized.readAsBytesSync();
+  //   image64 = base64Encode(imageBytes);
+
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       images.add(File(pickedFile.path));
+  //     }
+  //   });
+  // }
+
   Future<void> addImage(ImageSource source) async {
     print("func called!");
     final pickedFile = await picker.getImage(source: source);
@@ -76,17 +108,53 @@ class _AddProductScreenState extends State<AddProductScreen> {
         images.add(File(pickedFile.path));
       }
     });
+    //Image file to base64 string
+    imageResized = await FlutterNativeImage.compressImage(pickedFile.path,
+        quality: 100, targetWidth: 120, targetHeight: 120);
+        print(imageResized.path);
+    List<int> imageBytes = imageResized.readAsBytesSync();
+    image64 = base64Encode(imageBytes);
   }
 
-  Future<void> _saveForm() async {
+  Future<void> _saveForm(UserModel user) async {
     bool valid = _form.currentState.validate();
+  print(imageResized.path);
     if (valid) {
       _form.currentState.save();
-      print(title);
-      print(price.toString());
-      print(description);
-      print(city + ", " + state);
-      print(category + " " + subCategory);
+
+      // print(user.token + "token");
+      // print(user.name);
+      // print(title);
+      // print(price.toString());
+      // print(description);
+      // print(city + ", " + state);
+     
+
+      //Map json
+      Map<String, dynamic> mapJson = {
+        'name': user.name,
+        'description': description,
+        'price': price.toString(),
+        'photo': imageResized.toString(),
+        'postedBy': user.uid,
+        'title': title,
+        'condition': "good",
+        'city': city,
+        'category': category,
+        'views': '0',
+        'subCategory': subCategory,
+      };
+      Map<String, String> mapHeader = {
+        'Authorization': "Bearer " + "${user.token}"
+      };
+
+      final String response = await Impl().savePost(mapJson, mapHeader);
+
+      print(response);
+    } else {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Form validation failed"),
+      ));
     }
   }
 
@@ -110,8 +178,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Box<UserModel> _user =
+        Provider.of<Box<UserModel>>(context, listen: false);
+    final UserModel _userModel = _user.values.first;
     SizeConfig().init(context);
     final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
+
     final availableWidthSpace =
         (SizeConfig.deviceWidth * 100) - (2 * deviceHorizontalPadding);
     textSize = availableWidthSpace * 0.03;
@@ -253,7 +325,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     ),
                   ),
                   child: RaisedButton(
-                    onPressed: _saveForm,
+                    onPressed: () async {
+                      _saveForm(_userModel);
+                    },
                     child: Text(
                       "POST AD",
                       style: TextStyle(

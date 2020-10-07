@@ -6,6 +6,7 @@ class Endpoints {
   static String subCategories = "$baseUrl/api/sub/categories";
   static String popularProducts = "$baseUrl/api/posts/mostview";
   static String similarProducts = "$baseUrl/api/sub/category";
+  static String savePost = "$baseUrl/api/post/create/5f5fc6d051c4e73148ccd17a";
   static String getUserProfile = "$baseUrl/api/user";
   static String updateUser = "$baseUrl/api/user";
 }

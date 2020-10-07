@@ -19,6 +19,12 @@ class Repository {
     return response;
   }
 
+  Future<String> savePost(
+      Map<String, dynamic> body, Map<String, String> header) async {
+    String response = await _helper.postWithHeadersInputs(Endpoints.savePost, body, header);
+    return response;
+  }
+
   Future<List<Category>> getCategoriesList() async {
     List<Category> categories = [];
     final response = await _helper.get(Endpoints.categories);
@@ -46,6 +52,7 @@ class Repository {
     });
     return products;
   }
+
 
   Future<List<Product>> getSimilarProductsList(
       Map<String, dynamic> header, Map<String, dynamic> para) async {
