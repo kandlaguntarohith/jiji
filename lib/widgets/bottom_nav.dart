@@ -53,20 +53,13 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<UserProfile>(create: (context) => userProfile),
-      ],
+    return ChangeNotifierProvider<UserProfile>(
+      create: (context) => userProfile,
       child: Scaffold(
         body: PageStorage(
           child: currentScreen,
           bucket: bucket,
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   child: Icon(Icons.add),
-        //   onPressed: () {},
-        // ),
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 10,

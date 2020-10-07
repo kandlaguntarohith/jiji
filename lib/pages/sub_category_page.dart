@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/sub_category.dart';
 import 'package:jiji/pages/home_page.dart';
+import 'package:jiji/pages/show_selected_category_products.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 
@@ -17,12 +18,11 @@ class SubCategoryScreen extends StatefulWidget {
 }
 
 class _SubCategoryScreenState extends State<SubCategoryScreen> {
-  @override
   List<SubCategory> subCategories = [];
   final String categoryId;
 
   _SubCategoryScreenState(this.categoryId);
-
+  @override
   void initState() {
     super.initState();
     getSubCategoriesList();
@@ -55,7 +55,13 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
               (subCategory) => CategoryCard(
                 label: subCategory.name,
                 categoryId: subCategory.id,
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ShowSelectedSubCategoryProducts(
+                      subCategoryId: subCategory.id,
+                    ),
+                  ),
+                ),
                 subText: "(${subCategories[0].view} ads)",
               ),
             )

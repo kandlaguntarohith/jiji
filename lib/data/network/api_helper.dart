@@ -109,6 +109,25 @@ class ApiHelper {
     return responseJson;
   }
 
+  Future<dynamic> putWithHeadersInputs(String url,
+      Map<String, dynamic> mappedJson, Map<String, String> header) async {
+    // print(url);
+    var responseJson;
+
+    try {
+      final response = await http.put(
+        url,
+        body: jsonEncode(mappedJson),
+        headers: header,
+      );
+      responseJson = _returnResponse(response);
+      // print(responseJson);
+    } catch (e) {
+      print(e);
+    }
+    return responseJson;
+  }
+
   dynamic _returnDioResponse(Response response) {
     print('status code - ${response.statusCode}');
     switch (response.statusCode) {

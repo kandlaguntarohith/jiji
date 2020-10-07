@@ -5,6 +5,7 @@ import 'package:jiji/constants/endpoints.dart';
 import 'package:jiji/data/network/api_helper.dart';
 import 'package:jiji/models/UserProfile.dart';
 import 'package:jiji/models/user_model.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/custom_textfield.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/utilities/size_config.dart';
@@ -12,8 +13,10 @@ import 'package:provider/provider.dart';
 
 class EditProfilePage extends StatefulWidget {
   final UserProfile userProfile;
+  final Function updateUser;
 
-  const EditProfilePage({Key key, this.userProfile}) : super(key: key);
+  const EditProfilePage({Key key, this.userProfile, this.updateUser})
+      : super(key: key);
   @override
   _EditProfilePageState createState() => _EditProfilePageState(userProfile);
 }
@@ -56,61 +59,42 @@ class _EditProfilePageState extends State<EditProfilePage> {
         "state": state,
       };
       Map<String, String> header = {
-        "Authorization": userModel.token,
+        "Authorization": "Bearer " + userModel.token,
         "Content-Type": "application/json",
       };
-      final response = await ApiHelper().postWithHeadersInputs(
+      final response = await ApiHelper().putWithHeadersInputs(
         "https://olx-app-jiji.herokuapp.com/api/user/${userModel.uid}",
         para,
         header,
       );
-
-      print(response);
-      // if (response["statusCode"] == 200)
-      //   await showDialog(
-      //     context: context,
-      //     child: AlertDialog(
-      //       title: Text(
-      //         response["message"],
-      //         style: TextStyle(
-      //           color: Colors.black,
-      //           fontSize: textSize * 1.2,
-      //         ),
-      //       ),
-      //       actions: [
-      //         FlatButton(
-      //           onPressed: () => Navigator.of(context).pop(),
-      //           child: Text(
-      //             'Okay',
-      //             style: TextStyle(
-      //               color: MyThemeData.primaryColor,
-      //               fontSize: textSize,
-      //             ),
-      //           ),
-      //         )
-      //       ],
-      //     ),
-      //   );
-      // if (response["statusCode"] == 200)
-      //   // Navigator.of(context).pushReplacement(
-      //   //   MaterialPageRoute(
-      //   //     builder: (context) => LoginPage(),
-      //   //   ),
-      //   // );
-      //   print("");
-      // else
-      //   Scaffold.of(context).showSnackBar(SnackBar(
-      //     content: Text(
-      //       response["errors"],
-      //       style: TextStyle(
-      //         color: MyThemeData.primaryColor,
-      //         fontSize: textSize,
-      //       ),
-      //       textAlign: TextAlign.center,
-      //     ),
-      //     backgroundColor: Colors.black.withOpacity(0.8),
-      //   ));
-      // print(response["errors"]);
+      widget.updateUser(UserProfile.fromJson(response));
+      await showDialog(
+        context: context,
+        child: AlertDialog(
+          title: Text(
+            "User Profile Successfully Updated",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: textSize * 1.2,
+            ),
+          ),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Okay',
+                style: TextStyle(
+                  color: MyThemeData.primaryColor,
+                  fontSize: textSize,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
     }
   }
 
@@ -175,6 +159,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             hintText: 'First Name',
                             textInputType: TextInputType.text,
                             isAspectRatio: false,
+                            aspectRatioValue: 7,
                           ),
                         ),
                         SizedBox(
@@ -192,6 +177,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             hintText: 'Last Name',
                             textInputType: TextInputType.text,
                             isAspectRatio: false,
+                            aspectRatioValue: 7,
                           ),
                         ),
                       ],
@@ -389,23 +375,23 @@ class ProfileImage extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(
-          top: avatarRadius * 1.2,
-          left: avatarRadius * 1.5,
-          child: Container(
-            width: SizeConfig.deviceWidth * 7.5,
-            child: FloatingActionButton(
-              onPressed: null,
-              elevation: 0,
-              child: Icon(
-                Icons.add,
-                color: Colors.black,
-                size: SizeConfig.deviceWidth * 4,
-              ),
-              backgroundColor: Hexcolor("F0F0F0"),
-            ),
-          ),
-        )
+        // Positioned(
+        //   top: avatarRadius * 1.2,
+        //   left: avatarRadius * 1.5,
+        //   child: Container(
+        //     width: SizeConfig.deviceWidth * 7.5,
+        //     child: FloatingActionButton(
+        //       onPressed: null,
+        //       elevation: 0,
+        //       child: Icon(
+        //         Icons.add,
+        //         color: Colors.black,
+        //         size: SizeConfig.deviceWidth * 4,
+        //       ),
+        //       backgroundColor: Hexcolor("F0F0F0"),
+        //     ),
+        //   ),
+        // )
       ],
     );
   }
