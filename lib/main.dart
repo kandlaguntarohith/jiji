@@ -9,7 +9,7 @@ import 'package:jiji/pages/onboarding_page.dart';
 import 'package:jiji/widgets/bottom_nav.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-
+import 'package:get/get.dart';
 import 'impl/impl.dart';
 import 'models/user.dart';
 
@@ -88,8 +88,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   tryAutoLogin() async {
-    if(!widget.userBox.isEmpty)
-    widget.userBox = await _tryLogin(widget.userBox);
+    if (!widget.userBox.isEmpty)
+      widget.userBox = await _tryLogin(widget.userBox);
     setState(() {});
   }
 
@@ -102,7 +102,7 @@ class _MyAppState extends State<MyApp> {
           create: (context) => User()..updateUser(widget.userBox.values.first),
         ),
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Jiji',
         theme: ThemeData(
