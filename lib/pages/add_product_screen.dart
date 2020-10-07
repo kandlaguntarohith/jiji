@@ -2,13 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jiji/data/network/api_helper.dart';
-import 'package:jiji/data/network/api_response.dart';
 import 'package:jiji/impl/impl.dart';
-import 'package:jiji/models/user.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
@@ -21,7 +17,6 @@ import 'package:provider/provider.dart';
 
 //image file to string
 import 'package:flutter_native_image/flutter_native_image.dart';
-import 'dart:io';
 import 'dart:convert';
 
 class AddProductScreen extends StatefulWidget {
@@ -111,14 +106,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
     //Image file to base64 string
     imageResized = await FlutterNativeImage.compressImage(pickedFile.path,
         quality: 100, targetWidth: 120, targetHeight: 120);
-        print(imageResized.path);
+    print(imageResized.path);
     List<int> imageBytes = imageResized.readAsBytesSync();
     image64 = base64Encode(imageBytes);
   }
 
   Future<void> _saveForm(UserModel user) async {
     bool valid = _form.currentState.validate();
-  print(imageResized.path);
+    print(imageResized.path);
     if (valid) {
       _form.currentState.save();
 
@@ -128,7 +123,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
       // print(price.toString());
       // print(description);
       // print(city + ", " + state);
-     
 
       //Map json
       Map<String, dynamic> mapJson = {
