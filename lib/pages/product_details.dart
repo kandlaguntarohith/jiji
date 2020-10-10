@@ -37,7 +37,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   void initState() {
     
     getSimilarProducts();
-    isFavourite = true;
     isFavourite = _isFavourite(_userModel);
             widget.product.photo.forEach((element) {
               img.add(element.id);
