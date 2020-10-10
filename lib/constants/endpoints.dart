@@ -15,6 +15,7 @@ class Endpoints {
 
   static String getUserProfile = "$baseUrl/api/user";
   static String updateUser = "$baseUrl/api/user";
+  static String userPosts = "$baseUrl/api/ads/by/postedBy";
   static String getChatList = "$baseUrl/api/conversations";
   static String chatHistory = "$baseUrl/api/conversations/query/";
   static String personalChat = "$baseUrl/api/post/message/";

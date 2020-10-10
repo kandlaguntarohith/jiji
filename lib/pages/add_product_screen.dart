@@ -1,10 +1,20 @@
-import 'dart:io';
-
+import 'dart:convert';
+import 'dart:io' as io;
+// import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:jiji/impl/impl.dart';
+import 'package:jiji/constants/endpoints.dart';
+import 'package:jiji/data/network/api_helper.dart';
+import 'package:jiji/models/categories_list.dart';
+import 'package:jiji/models/subcategories_list.dart';
+// import 'package:jiji/data/network/api_response.dart';
+// import 'package:jiji/impl/impl.dart';
+// import 'package:jiji/models/user.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
@@ -14,11 +24,9 @@ import 'package:jiji/widgets/custom_dropdrown.dart';
 import 'package:jiji/widgets/custom_textfield.dart';
 import 'package:jiji/widgets/item_images.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 
 //image file to string
-import 'package:flutter_native_image/flutter_native_image.dart';
-import 'dart:convert';
-
 class AddProductScreen extends StatefulWidget {
   static String routeName = '/AddProductScreen';
   final MyProductModel product;
@@ -33,7 +41,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   List<String> _cities = [];
   List<String> _categories = [];
   List<String> _subCategories = [];
-  List<File> images = [];
+  List<io.File> images = [];
   final _form = GlobalKey<FormState>();
   String title;
   double price;
@@ -43,9 +51,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String category;
   String subCategory;
   double textSize;
-
+  List<String> filenames = [];
   String image64;
-  File imageResized;
+  // File imageResized;
+  List<MultipartFile> fileList = [];
 
   MyProductModel _product;
   final picker = ImagePicker();
@@ -61,12 +70,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _cities.add("Pune");
     _cities.add("Mumbai");
     _cities.add("Banglore");
-    _categories.add("Electronics");
-    _categories.add("Gadgets");
-    _categories.add("Other");
-    _subCategories.add("Smart Watches");
-    _subCategories.add("Mobiles");
-    _subCategories.add("Laptops");
     if (_product != null) {
       title = _product.title;
       price = _product.price;
@@ -76,6 +79,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
       category = _product.category;
       subCategory = _product.subCategory;
     }
+
+    // setState(() {});
     super.initState();
   }
 
@@ -96,55 +101,128 @@ class _AddProductScreenState extends State<AddProductScreen> {
   // }
 
   Future<void> addImage(ImageSource source) async {
-    print("func called!");
+    // print("func called!");
     final pickedFile = await picker.getImage(source: source);
-    setState(() {
-      if (pickedFile != null) {
-        images.add(File(pickedFile.path));
-      }
-    });
+
+    if (pickedFile != null) {
+      images.add(io.File(pickedFile.path));
+      filenames.add(pickedFile.path.split('/').last);
+      fileList.add(MultipartFile.fromBytes(await pickedFile.readAsBytes(),
+          filename: pickedFile.path));
+    }
+    setState(() {});
     //Image file to base64 string
-    imageResized = await FlutterNativeImage.compressImage(pickedFile.path,
-        quality: 100, targetWidth: 120, targetHeight: 120);
-    print(imageResized.path);
-    List<int> imageBytes = imageResized.readAsBytesSync();
-    image64 = base64Encode(imageBytes);
+    // imageResized = await FlutterNativeImage.compressImage(pickedFile.path,
+    //     quality: 100, targetWidth: 120, targetHeight: 120);
+    // // print(imageResized.path);
+    // List<int> imageBytes = imageResized.readAsBytesSync();
+    // image64 = base64Encode(imageBytes);
   }
 
   Future<void> _saveForm(UserModel user) async {
     bool valid = _form.currentState.validate();
-    print(imageResized.path);
+    // print(imageResized.path);
     if (valid) {
       _form.currentState.save();
+      // Map<String, String> mapHeader = {
+      //   'Authorization': "Bearer " + "${user.token}",
+      //   'Content-Type': "multipart/form-data"
+      // };
+      var uri = Uri.parse(Endpoints.savePost);
 
-      // print(user.token + "token");
-      // print(user.name);
-      // print(title);
-      // print(price.toString());
-      // print(description);
-      // print(city + ", " + state);
+      var request = new http.MultipartRequest("POST", uri);
 
-      //Map json
-      Map<String, dynamic> mapJson = {
-        'name': user.name,
-        'description': description,
-        'price': price.toString(),
-        'photo': imageResized.toString(),
-        'postedBy': user.uid,
-        'title': title,
-        'condition': "good",
-        'city': city,
-        'category': category,
-        'views': '0',
-        'subCategory': subCategory,
+      for (var file in images) {
+        String fileName = file.path.split("/").last;
+        var stream = new http.ByteStream(Stream.castFrom(file.openRead()));
+
+        var length = await file.length();
+
+        var multipartFileSign =
+            new http.MultipartFile('photo', stream, length, filename: fileName);
+
+        request.files.add(multipartFileSign);
+      }
+
+      Map<String, String> headers = {
+        "Accept": "application/json",
+        "Authorization": "Bearer ${user.token}"
       };
-      Map<String, String> mapHeader = {
-        'Authorization': "Bearer " + "${user.token}"
-      };
+      String subCategoryId;
+      String categoryId;
+      Provider.of<Categories>(context, listen: false)
+          .categoriesList
+          .forEach((element) {
+        if (element.name == category) {
+          categoryId = element.id;
+        }
+      });
+      Provider.of<SubCategories>(context, listen: false)
+          .subCategoriesList
+          .forEach((element) {
+        if (element.name == subCategory) {
+          subCategoryId = element.id;
+        }
+      });
+      request.headers.addAll(headers);
 
-      final String response = await Impl().savePost(mapJson, mapHeader);
+      request.fields['name'] = user.name;
+      request.fields['description'] = description;
+      request.fields['price'] = price.toString();
+      request.fields['postedBy'] = user.uid;
+      request.fields['title'] = title;
+      request.fields['condition'] = "good";
+      request.fields['city'] = city;
+      request.fields['state'] = state;
+      request.fields['category'] = categoryId;
+      request.fields['views'] = '0';
+      request.fields['subCategory'] = subCategoryId;
 
-      print(response);
+      var response = await request.send();
+
+      print(response.statusCode);
+      if (response.statusCode == 200) {}
+      response.stream.transform(utf8.decoder).listen((value) {
+        print(value);
+      });
+
+      setState(() {
+        title = "";
+        price = null;
+        state = null;
+        city = null;
+        description = "";
+        category = null;
+        subCategory = null;
+        images = [];
+      });
+      await showDialog(
+        context: context,
+        child: AlertDialog(
+          title: Text(
+            "Product Successfully Added !",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: textSize * 1.2,
+            ),
+          ),
+          actions: [
+            FlatButton(
+              onPressed: () {
+                // Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'Okay',
+                style: TextStyle(
+                  color: MyThemeData.primaryColor,
+                  fontSize: textSize,
+                ),
+              ),
+            )
+          ],
+        ),
+      );
     } else {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("Form validation failed"),
@@ -172,6 +250,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<Categories>(context, listen: false)
+        .categoriesList
+        .forEach((element) {
+      if (!_categories.contains(element.name)) _categories.add(element.name);
+    });
+    // setState(() {});
+    Provider.of<SubCategories>(context, listen: false)
+        .subCategoriesList
+        .forEach((element) {
+      if (!_subCategories.contains(element.name))
+        _subCategories.add(element.name);
+    });
     final Box<UserModel> _user =
         Provider.of<Box<UserModel>>(context, listen: false);
     final UserModel _userModel = _user.values.first;
