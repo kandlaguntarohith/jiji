@@ -12,7 +12,6 @@ class DmController extends GetxController {
   var chatData = List().obs;
   var uid = ''.obs;
   TextEditingController msgController;
-  ScrollController scroll = ScrollController(initialScrollOffset: 50);
   Future getHistory(String rec) async {
     try {
       final Box<UserModel> _userBox =

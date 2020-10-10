@@ -110,9 +110,8 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
               ),
               Obx(
                 () => Padding(
-                  padding: EdgeInsets.only(bottom: Get.height / 3),
+                  padding: EdgeInsets.only(bottom: Get.height / 3.4),
                   child: ListView.builder(
-                    controller: _dmController.scroll,
                     shrinkWrap: true,
                     itemCount: _dmController.chatData == null
                         ? 0
@@ -196,9 +195,6 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                     widget.recId,
                   );
                   FocusScope.of(context).unfocus();
-
-                  _dmController.scroll
-                      .jumpTo(_dmController.scroll.position.maxScrollExtent);
                 },
               ),
             ),
