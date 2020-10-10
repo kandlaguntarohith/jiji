@@ -4,6 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/controllers/chat/dmController.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
 
 class ChatBoxPage extends StatefulWidget {
   final String recId;
@@ -16,11 +18,20 @@ class ChatBoxPage extends StatefulWidget {
 
 class _ChatBoxPageState extends State<ChatBoxPage> {
   final DmController _dmController = Get.put(DmController());
+  Timer timer;
   @override
   void initState() {
     super.initState();
     _dmController.msgController = TextEditingController();
     _dmController.getHistory(widget.recId);
+    timer = Timer.periodic(Duration(seconds: 5),
+        (Timer t) => _dmController.getHistory(widget.recId));
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -58,8 +69,7 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                         width: SizeConfig.deviceWidth * 5,
                       ),
                       CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/profile_image.jpeg'),
+                        backgroundImage: AssetImage('assets/profile_image.jpg'),
                         radius: SizeConfig.deviceWidth * 7.5,
                       ),
                       Padding(
@@ -100,8 +110,9 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
               ),
               Obx(
                 () => Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0),
+                  padding: EdgeInsets.only(bottom: Get.height / 3),
                   child: ListView.builder(
+                    controller: _dmController.scroll,
                     shrinkWrap: true,
                     itemCount: _dmController.chatData == null
                         ? 0
@@ -111,7 +122,11 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                       return SingleChildScrollView(
                         child: MessageWidget(
                           message: _dmController.chatData[index]['body'],
-                          time: "10.03 AM",
+                          time: DateFormat.Hm().format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              int.parse(_dmController.chatData[index]['date']),
+                            ),
+                          ),
                           clientMessage: _dmController.uid.value ==
                                   _dmController.chatData[index]['from']
                               ? true
@@ -170,18 +185,22 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
               radius: SizeConfig.deviceWidth * 5,
               backgroundColor: Hexcolor("3DB83A"),
               child: IconButton(
-                  icon: Icon(
-                    Icons.send,
-                    color: Colors.white,
-                    size: SizeConfig.deviceWidth * 5,
-                  ),
-                  onPressed: () {
-                    _dmController.personalChat(
-                      _dmController.msgController.text,
-                      "5f4fa3c2f24af117042c2e14",
-                      widget.recId,
-                    );
-                  }),
+                icon: Icon(
+                  Icons.send,
+                  color: Colors.white,
+                  size: SizeConfig.deviceWidth * 5,
+                ),
+                onPressed: () {
+                  _dmController.personalChat(
+                    _dmController.msgController.text,
+                    widget.recId,
+                  );
+                  FocusScope.of(context).unfocus();
+
+                  _dmController.scroll
+                      .jumpTo(_dmController.scroll.position.maxScrollExtent);
+                },
+              ),
             ),
           ],
         ),
@@ -191,9 +210,9 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
 }
 
 class MessageWidget extends StatelessWidget {
-  bool clientMessage;
-  String time;
-  String message;
+  final bool clientMessage;
+  final String time;
+  final String message;
 
   MessageWidget({this.clientMessage, this.time, this.message});
 

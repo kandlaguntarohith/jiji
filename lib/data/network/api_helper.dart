@@ -90,8 +90,8 @@ class ApiHelper {
     return responseJson;
   }
 
-  Future<dynamic> postWithHeadersInputs(
-      String url, Map<String,dynamic> mappedJson, Map<String,String> header) async {
+  Future<dynamic> postWithHeadersInputs(String url,
+      Map<String, dynamic> mappedJson, Map<String, String> header) async {
     var responseJson;
 
     try {
