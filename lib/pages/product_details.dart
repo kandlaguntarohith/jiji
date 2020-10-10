@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
+
 import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/pages/chat_box_page.dart';
@@ -225,7 +227,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ),
                           onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => ChatBoxPage(),
+                              builder: (context) => ChatBoxPage(
+                                recId: widget.product.postedBy.id,
+                                name: widget.product.postedBy.name,
+                              ),
                             ),
                           ),
                           isBorder: true,

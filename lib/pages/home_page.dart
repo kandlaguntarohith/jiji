@@ -2,22 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hive/hive.dart';
 import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/UserProfile.dart';
 import 'package:jiji/models/categories_list.dart';
 import 'package:jiji/models/category.dart';
 import 'package:jiji/models/product.dart';
-import 'package:jiji/models/user_model.dart';
-import 'package:jiji/models/user_posts.dart';
-import 'package:jiji/pages/product_details.dart';
+
 import 'package:jiji/pages/sub_category_page.dart';
 import 'package:jiji/pages/view_all_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/widgets/show_products_gridview.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -343,7 +339,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HeaderText extends StatelessWidget {
-  String title;
+  final String title;
   HeaderText({this.title});
 
   @override
