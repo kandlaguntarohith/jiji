@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/models/ad_item.dart';
+import 'package:jiji/models/my_product.dart';
 import 'package:jiji/models/product(1).dart';
 import 'package:jiji/pages/edit_product_screen.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/ad_item.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 class MyAdsPage extends StatefulWidget {
@@ -104,6 +106,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
 
   @override
   Widget build(BuildContext context) {
+    _listedItemsList = Provider.of<MyProduct>(context)
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
@@ -111,7 +114,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
       ),
       body: Column(
         children: [
-          SizedBox(height: SizeConfig.deviceHeight * 2),
+          SizedBox(height: SizeConfig.deviceHeight * 1),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -148,7 +151,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
               ),
             ],
           ),
-          SizedBox(height: SizeConfig.deviceWidth * 2),
+          SizedBox(height: SizeConfig.deviceWidth * 1),
           _selectedItem == 'Listed Items'
               ? Expanded(
                   child: ListView.builder(
