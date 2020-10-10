@@ -5,7 +5,6 @@ import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/pages/chat_box_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:intl/intl.dart';
-
 import 'package:get/get.dart';
 
 class ChatPage extends StatelessWidget {
@@ -32,7 +31,7 @@ class ChatPage extends StatelessWidget {
               SizedBox(
                 height: SizeConfig.deviceHeight * 1,
               ),
-              CurrentAppointments()
+              ChatList()
             ],
           ),
         ),
@@ -69,8 +68,8 @@ class ChatPage extends StatelessWidget {
 }
 
 class ChatCounter extends StatelessWidget {
-  int count;
-  double avatarSize;
+  final int count;
+  final double avatarSize;
   ChatCounter({this.count, this.avatarSize});
 
   @override
@@ -91,7 +90,7 @@ class ChatCounter extends StatelessWidget {
   }
 }
 
-class CurrentAppointments extends StatelessWidget {
+class ChatList extends StatelessWidget {
   final ChatController chatController = Get.put(ChatController());
 
   @override
@@ -105,23 +104,34 @@ class CurrentAppointments extends StatelessWidget {
           itemCount:
               chatController.data == null ? 0 : chatController.data.length,
           itemBuilder: (context, index) {
-            print(chatController.data[index]['date']);
             int timeInMillis = int.parse(chatController.data[index]['date']);
             var date = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
             var formattedDate = DateFormat.Hm().format(date);
 
             return GestureDetector(
               onTap: () {
-                var id =
-                    chatController.data[index]['recipients'].last.toString();
-                print(id);
-                var name =
-                    chatController.data[index]['recipientObj'].last['name'];
-
-                Get.to(ChatBoxPage(
-                  recId: id,
-                  name: name,
-                ));
+                if (chatController.uid.value ==
+                    chatController.data[index]['recipientObj'].first['_id']) {
+                  var id =
+                      chatController.data[index]['recipientObj'].last['_id'];
+                  print(id);
+                  var name =
+                      chatController.data[index]['recipientObj'].last['name'];
+                  Get.to(ChatBoxPage(
+                    recId: id,
+                    name: name,
+                  ));
+                } else {
+                  var id =
+                      chatController.data[index]['recipientObj'].first['_id'];
+                  print(id);
+                  var name =
+                      chatController.data[index]['recipientObj'].first['name'];
+                  Get.to(ChatBoxPage(
+                    recId: id,
+                    name: name,
+                  ));
+                }
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -134,8 +144,7 @@ class CurrentAppointments extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/profile_image.jpg'),
+                        backgroundImage: AssetImage('assets/profile_image.jpg'),
                         radius: SizeConfig.deviceWidth * 6.5,
                       ),
                       Container(
@@ -196,112 +205,6 @@ class CurrentAppointments extends StatelessWidget {
               ),
             );
           },
-        ),
-      ),
-    );
-  }
-}
-
-class ChatList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      children: [
-        ChatTile(),
-        ChatTile(),
-        ChatTile(),
-        // ChatTile(),
-        // ChatTile(),
-        // ChatTile(),
-        // ChatTile(),
-        // ChatTile(),
-        // ChatTile(),
-      ],
-    );
-  }
-}
-
-class ChatTile extends StatelessWidget {
-  const ChatTile({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => ChatBoxPage()));
-      },
-      child: Container(
-        decoration:
-            BoxDecoration(border: Border.all(color: Hexcolor("#F0F0F0"))),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: SizeConfig.deviceHeight * 2,
-              horizontal: SizeConfig.deviceWidth * 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CircleAvatar(
-                radius: SizeConfig.deviceWidth * 7.5,
-                backgroundImage: AssetImage('assets/profile_image.jpeg'),
-              ),
-              Container(
-                width: SizeConfig.deviceWidth * 50,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Amy James',
-                      style: TextStyle(
-                        color: Hexcolor("#3A3A3A"),
-                        fontSize: SizeConfig.deviceHeight * 1.85,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.deviceHeight * 1,
-                    ),
-                    Text(
-                      'Hi I am reaching out regarding the functionalty of bolt and screws',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: Hexcolor("#A3A3A3"),
-                        fontSize: SizeConfig.deviceHeight * 1.5,
-                        fontFamily: 'Roboto',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    '10.10 AM',
-                    style: TextStyle(
-                      color: Hexcolor("#A3A3A3"),
-                      fontSize: SizeConfig.deviceHeight * 1.45,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: SizeConfig.deviceHeight * 1.5,
-                  ),
-                  ChatCounter(
-                    avatarSize: SizeConfig.deviceWidth * 3,
-                    count: 5,
-                  ),
-                ],
-              )
-            ],
-          ),
         ),
       ),
     );

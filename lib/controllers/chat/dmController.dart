@@ -10,11 +10,8 @@ import 'package:http/http.dart' as http;
 
 class DmController extends GetxController {
   var chatData = List().obs;
-  var msg = List().obs;
   var uid = ''.obs;
-  var load = true.obs;
   TextEditingController msgController;
-
   Future getHistory(String rec) async {
     try {
       final Box<UserModel> _userBox =
@@ -22,7 +19,6 @@ class DmController extends GetxController {
       uid.value = _userBox.values.first.uid;
       var token = _userBox.values.first.token;
       var url = "${Endpoints.chatHistory}$uid?userId=$rec";
-      print(url);
 
       var response = await http.get(
         url,
@@ -32,10 +28,8 @@ class DmController extends GetxController {
           "Authorization": "Bearer $token",
         },
       );
-      print(response.statusCode);
       if (response.statusCode == 200) {
         var jsonData = json.decode(response.body);
-        print(jsonData);
         chatData.value = jsonData;
       }
     } on SocketException {
@@ -43,11 +37,17 @@ class DmController extends GetxController {
     }
   }
 
-  Future personalChat(String body, String to, String rec) async {
-    try {
-      var data = {"to": to, "body": body};
+  @override
+  onClose() {
+    msgController?.dispose();
+    super.onClose();
+  }
 
-      print(to);
+  Future personalChat(String body, String rec) async {
+    try {
+      var data = {"to": rec, "body": body};
+
+      print(rec);
       final Box<UserModel> _userBox =
           await Hive.openBox<UserModel>('userModel');
       var uid = _userBox.values.first.uid;
@@ -63,25 +63,9 @@ class DmController extends GetxController {
         },
         body: jsonEncode(data),
       );
-      print(response.statusCode);
-      print(response.body);
       msgController.clear();
-      var tsurl = "${Endpoints.chatHistory}$uid?userId=$rec";
 
-      var res = await http.get(
-        tsurl,
-        headers: {
-          "content-type": "application/json",
-          "accept": "application/json",
-          "Authorization": "Bearer $token",
-        },
-      );
-      print(res.statusCode);
-      if (res.statusCode == 200) {
-        var jsonData = json.decode(res.body);
-        print(jsonData);
-        chatData.value = jsonData;
-      }
+      print(response.statusCode);
     } on SocketException {
       print('No Internet');
     }

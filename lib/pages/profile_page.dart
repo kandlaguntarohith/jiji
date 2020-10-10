@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hive/hive.dart';
-import 'package:jiji/constants/endpoints.dart';
-import 'package:jiji/data/network/api_helper.dart';
 import 'package:jiji/models/UserProfile.dart';
-import 'package:jiji/models/user_model.dart';
 import 'package:jiji/pages/edit_profile_page.dart';
 import 'package:jiji/pages/faq_page.dart';
 import 'package:jiji/utilities/size_config.dart';
@@ -162,7 +158,7 @@ class StrechedButton extends StatelessWidget {
 }
 
 class ColouredHeading extends StatelessWidget {
-  String title;
+  final String title;
 
   ColouredHeading({this.title});
 
