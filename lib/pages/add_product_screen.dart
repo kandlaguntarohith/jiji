@@ -48,9 +48,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String category;
   String subCategory;
   double textSize;
-
   String image64;
   File imageResized;
+
+  bool _isLoading = false;
 
   MyProductModel _product;
   final picker = ImagePicker();
@@ -111,16 +112,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
     //Image file to base64 string
     imageResized = await FlutterNativeImage.compressImage(pickedFile.path,
         quality: 100, targetWidth: 120, targetHeight: 120);
-        print(imageResized.path);
+    print(imageResized.path);
     List<int> imageBytes = imageResized.readAsBytesSync();
     image64 = base64Encode(imageBytes);
   }
 
   Future<void> _saveForm(UserModel user) async {
     bool valid = _form.currentState.validate();
-  print(imageResized.path);
+    print(imageResized.path);
     if (valid) {
-            
+      setState(() {
+        _isLoading = !_isLoading;
+      });
+
       //Map json
       Map<String, dynamic> mapJson = {
         'name': user.name,
@@ -139,7 +143,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
         'Authorization': "Bearer " + "${user.token}"
       };
 
-      final String response = await Impl().savePost(mapJson, mapHeader);
+      final String response = await Impl().savePost(mapJson, mapHeader, user.uid);
+      setState(() {
+        _isLoading = !_isLoading;
+      });
 
       print(response);
     } else {
@@ -315,19 +322,23 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       Radius.circular(5),
                     ),
                   ),
-                  child: RaisedButton(
+                  child: FlatButton(
                     onPressed: () async {
                       _saveForm(_userModel);
                     },
-                    child: Text(
-                      "POST AD",
-                      style: TextStyle(
-                        fontSize: textSize * 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    color: MyThemeData.primaryColor,
+                    child: _isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Text(
+                            "POST AD",
+                            style: TextStyle(
+                              fontSize: textSize * 1.2,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                    color: _isLoading?Colors.white54:MyThemeData.primaryColor,
                   ),
                 ),
               ),
