@@ -9,6 +9,7 @@ class Endpoints {
   static String savePost = "$baseUrl/api/post/create/5f5fc6d051c4e73148ccd17a";
   static String getUserProfile = "$baseUrl/api/user";
   static String updateUser = "$baseUrl/api/user";
+  static String userPosts = "$baseUrl/api/ads/by/postedBy";
   static String getChatList = "$baseUrl/api/conversations";
   static String chatHistory = "$baseUrl/api/conversations/query/";
   static String personalChat = "$baseUrl/api/post/message/";
