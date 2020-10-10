@@ -135,7 +135,7 @@ class CurrentAppointments extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         backgroundImage:
-                            AssetImage('assets/profile_image.jpeg'),
+                            AssetImage('assets/profile_image.jpg'),
                         radius: SizeConfig.deviceWidth * 6.5,
                       ),
                       Container(

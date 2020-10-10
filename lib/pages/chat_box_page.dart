@@ -59,7 +59,7 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                       ),
                       CircleAvatar(
                         backgroundImage:
-                            AssetImage('assets/profile_image.jpeg'),
+                            AssetImage('assets/profile_image.jpg'),
                         radius: SizeConfig.deviceWidth * 7.5,
                       ),
                       Padding(

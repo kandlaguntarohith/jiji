@@ -9,10 +9,8 @@ import 'package:jiji/utilities/size_config.dart';
 class ItemImages extends StatelessWidget {
   final List<File> images;
   final Function addImageFunction;
-  final List<String> productUrlImages;
 
-  const ItemImages(
-      {Key key, this.images, this.addImageFunction, this.productUrlImages})
+  const ItemImages({Key key, this.images, this.addImageFunction})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class ItemImages extends StatelessWidget {
     final availableWidthSpace =
         SizeConfig.deviceWidth * 100 - (2 * deviceHorizontalPadding);
 
-    final int imgCount = images.length + productUrlImages.length;
+    // final int imgCount = images.length + productUrlImages.length;
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -32,13 +30,8 @@ class ItemImages extends StatelessWidget {
               // shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) => itemImageContainer(
-                index < images.length
-                    ? images[index]
-                    : index < imgCount
-                        ? productUrlImages[index - images.length]
-                        : null,
-              ),
-              itemCount: max(imgCount, 3),
+                  index < images.length ? images[index] : null),
+              itemCount: max(images.length, 3),
               // itemCount: imgCount,
             ),
           ),
@@ -108,7 +101,7 @@ class ItemImages extends StatelessWidget {
   }
 }
 
-Widget itemImageContainer(dynamic image) {
+Widget itemImageContainer(File image) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 5),
     child: LayoutBuilder(
@@ -132,15 +125,10 @@ Widget itemImageContainer(dynamic image) {
                   ),
                   child: image == null
                       ? SizedBox()
-                      : image.runtimeType == String
-                          ? Image.network(
-                              image,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(
-                              image,
-                              fit: BoxFit.cover,
-                            ),
+                      : Image.file(
+                          image,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
             ),

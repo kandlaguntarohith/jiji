@@ -19,5 +19,5 @@ class Endpoints {
   static String getChatList = "$baseUrl/api/conversations";
   static String chatHistory = "$baseUrl/api/conversations/query/";
   static String personalChat = "$baseUrl/api/post/message/";
-
+  static String updatePost = "$baseUrl/api/post/update";
 }

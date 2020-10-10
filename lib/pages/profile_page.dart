@@ -23,6 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
   }
+
   void updateUser(UserProfile updatedUserProfile) {
     final UserProfile userProfile =
         Provider.of<UserProfile>(context, listen: false)
@@ -245,7 +246,10 @@ class TopRowWidget extends StatelessWidget {
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.w500,
                       fontSize: SizeConfig.deviceHeight * 2,
+
                     ),
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
                   ),
                 ],
               ),
