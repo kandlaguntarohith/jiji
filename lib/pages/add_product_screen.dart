@@ -120,16 +120,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     bool valid = _form.currentState.validate();
   print(imageResized.path);
     if (valid) {
-      _form.currentState.save();
-
-      // print(user.token + "token");
-      // print(user.name);
-      // print(title);
-      // print(price.toString());
-      // print(description);
-      // print(city + ", " + state);
-     
-
+            
       //Map json
       Map<String, dynamic> mapJson = {
         'name': user.name,
