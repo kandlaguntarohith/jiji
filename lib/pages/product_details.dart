@@ -321,8 +321,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           if(element == user.uid){
             return true;
           }
-          return false;
+          
         });
+        return false;
       }
     }
     
