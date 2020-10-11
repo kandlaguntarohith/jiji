@@ -76,7 +76,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     dynamic _response;
 
     if (isFavourite) {
-      _response = await Impl().putUnlike(header, body);
+      _response = await Impl().putUnlike(header, body, user.uid);
       /*
       ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
       if(succesful){
@@ -88,7 +88,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         }
       }*/
     } else {
-      _response = await Impl().putLike(header, body);
+      _response = await Impl().putLike(header, body, user.uid);
       /*
       ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
       if(succesful){
