@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/controllers/chat/dmController.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:intl/intl.dart';
@@ -17,15 +18,22 @@ class ChatBoxPage extends StatefulWidget {
 }
 
 class _ChatBoxPageState extends State<ChatBoxPage> {
+  ScrollController _scrollController = new ScrollController();
   final DmController _dmController = Get.put(DmController());
   Timer timer;
   @override
   void initState() {
     super.initState();
+    // _scrollController.animateTo(
+    //   0.0,
+    //   curve: Curves.easeOut,
+    //   duration: const Duration(milliseconds: 300),
+    // );
     _dmController.msgController = TextEditingController();
     _dmController.getHistory(widget.recId);
     timer = Timer.periodic(Duration(seconds: 5),
         (Timer t) => _dmController.getHistory(widget.recId));
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
   }
 
   @override
@@ -34,117 +42,136 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
     super.dispose();
   }
 
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300), curve: Curves.elasticOut);
+    } else {
+      Timer(Duration(milliseconds: 400), () => _scrollToBottom());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: sendMessageWidget(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        // resizeToAvoidBottomPadding: false,
+        // resizeToAvoidBottomInset: false,
+        // floatingActionButton: ,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         appBar: PreferredSize(
           child: JijiAppBar(),
           preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: SizeConfig.deviceHeight * 15,
-                color: Hexcolor("#F0F0F0"),
-                child: Padding(
-                  padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 7),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          size: SizeConfig.deviceWidth * 5,
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: SizeConfig.deviceHeight * 12,
+              color: Hexcolor("#F0F0F0"),
+              child: Padding(
+                padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 7),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: SizeConfig.deviceWidth * 5,
+                      ),
+                    ),
+                    SizedBox(
+                      width: SizeConfig.deviceWidth * 5,
+                    ),
+                    CircleAvatar(
+                      backgroundImage: AssetImage('assets/profile_image.jpg'),
+                      radius: SizeConfig.deviceWidth * 7.5,
+                    ),
+                    Padding(
+                      padding:
+                          EdgeInsets.only(left: SizeConfig.deviceWidth * 5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.name,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.bold,
+                                fontSize: SizeConfig.deviceHeight * 2.5),
+                          ),
+                          SizedBox(
+                            height: SizeConfig.deviceHeight * 1,
+                          ),
+                          Text(
+                            'online',
+                            style: TextStyle(
+                                color: Colors.grey,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w500,
+                                fontSize: SizeConfig.deviceHeight * 1.5),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(
+              height: SizeConfig.deviceHeight * 0.5,
+            ),
+            Obx(
+              () => Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    shrinkWrap: true,
+                    itemCount: _dmController.chatData == null
+                        ? 0
+                        : _dmController.chatData.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return MessageWidget(
+                        message: _dmController.chatData[index]['body'],
+                        time: DateFormat.Hm().format(
+                          DateTime.fromMillisecondsSinceEpoch(
+                            int.parse(_dmController.chatData[index]['date']),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        width: SizeConfig.deviceWidth * 5,
-                      ),
-                      CircleAvatar(
-                        backgroundImage: AssetImage('assets/profile_image.jpg'),
-                        radius: SizeConfig.deviceWidth * 7.5,
-                      ),
-                      Padding(
-                        padding:
-                            EdgeInsets.only(left: SizeConfig.deviceWidth * 5),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.name,
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: SizeConfig.deviceHeight * 2.5),
-                            ),
-                            SizedBox(
-                              height: SizeConfig.deviceHeight * 1,
-                            ),
-                            Text(
-                              'online',
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: SizeConfig.deviceHeight * 1.5),
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
+                        clientMessage: _dmController.uid.value ==
+                                _dmController.chatData[index]['from']
+                            ? true
+                            : false,
+                      );
+                    },
                   ),
                 ),
               ),
-              SizedBox(
-                height: SizeConfig.deviceHeight * 5,
-              ),
-              Obx(
-                () => ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _dmController.chatData == null
-                      ? 0
-                      : _dmController.chatData.length,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return MessageWidget(
-                      message: _dmController.chatData[index]['body'],
-                      time: DateFormat.Hm().format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(_dmController.chatData[index]['date']),
-                        ),
-                      ),
-                      clientMessage: _dmController.uid.value ==
-                              _dmController.chatData[index]['from']
-                          ? true
-                          : false,
-                    );
-                  },
-                ),
-              ),
-              Obx(
-                () => Padding(
-                  padding: EdgeInsets.only(bottom: 50),
-                  child: _dmController.typingDone.value
-                      ? SizedBox()
-                      : MessageWidget(
-                          message: _dmController.msgController.text,
-                          clientMessage: true,
-                          time: '',
-                        ),
-                ),
-              ),
-            ],
-          ),
+            ),
+            Obx(
+              () => _dmController.typingDone.value
+                  ? SizedBox()
+                  : MessageWidget(
+                      message: _dmController.msgController.text,
+                      clientMessage: true,
+                      time: '',
+                    ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              // padding:
+              //     EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 5),
+              child: sendMessageWidget(),
+            )
+          ],
         ),
       ),
     );
@@ -152,7 +179,7 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
 
   Widget sendMessageWidget() {
     return Padding(
-      padding: EdgeInsets.only(left: 0, right: SizeConfig.deviceWidth * 9),
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: Container(
         height: SizeConfig.deviceHeight * 6,
         decoration: BoxDecoration(
@@ -198,7 +225,7 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                 ),
                 onPressed: () {
                   if (_dmController.msgController.text != null) {
-                    print(_dmController.msgController.text);
+                    // print(_dmController.msgController.text);
                     _dmController.typingDone.value = false;
                     _dmController.personalChat(
                       _dmController.msgController.text,
@@ -261,10 +288,10 @@ class MessageWidget extends StatelessWidget {
             child: Text(
               time,
               style: TextStyle(
-                  color: Hexcolor("#F0F0F0"),
+                  color: MyThemeData.inputPlaceHolder.withOpacity(0.5),
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.bold,
-                  fontSize: SizeConfig.deviceHeight * 1.35),
+                  fontSize: SizeConfig.deviceHeight * 1),
             ),
           )
         ],

@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:jiji/models/ad_item.dart';
 import 'package:jiji/models/my_product.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
@@ -48,7 +47,7 @@ class MyAdItemWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    itemModel.name,
+                    itemModel.title,
                     style: TextStyle(
                       fontSize: SizeConfig.deviceWidth * 3.5,
                       fontWeight: FontWeight.bold,

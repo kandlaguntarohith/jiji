@@ -46,6 +46,7 @@ class DmController extends GetxController {
   }
 
   Future personalChat(String body, String rec) async {
+    msgController.clear();
     try {
       var data = {"to": rec, "body": body};
 
@@ -65,7 +66,7 @@ class DmController extends GetxController {
         },
         body: jsonEncode(data),
       );
-      msgController.clear();
+
       if (response.statusCode != 200) {
         Get.snackbar('Error', 'Failed to send message, please try again');
         typingDone.value = true;
