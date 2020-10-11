@@ -207,7 +207,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           context: context,
           child: AlertDialog(
             title: Text(
-              "Product Successfully Added !",
+              "Product Successfully Edited !",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: textSize * 1.2,
@@ -417,6 +417,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                   ),
 
+
                   child: _isLoading
                       ? Center(
                           child: CircularProgressIndicator(),
@@ -441,6 +442,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         ),
 
                  
+
                 ),
               ),
               SizedBox(height: SizeConfig.deviceHeight),

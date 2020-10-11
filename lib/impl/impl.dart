@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:jiji/data/network/repository.dart';
 import 'package:jiji/models/category.dart';
 import 'package:jiji/models/product.dart';
@@ -40,9 +39,10 @@ class Impl {
     final List<Product> products = await _repository.getPopularProductsList();
     return products;
   }
-    Future<List<Product>> getSearch(
+
+  Future<List<Product>> getSearch(
       Map<String, dynamic> header, Map<String, dynamic> param) async {
-     final List<Product> products = await _repository.getSearch(header, param);
+    final List<Product> products = await _repository.getSearch(header, param);
     return products;
   }
 
@@ -52,25 +52,57 @@ class Impl {
     return response;
   }
 
-  Future<Map<String, dynamic>> putLike(Map<String, String> header, Map<String, dynamic> body, String uid) async {
-    final Map<String, dynamic> response = await _repository.putLike(header, body, uid);
+  Future<Map<String, dynamic>> putLike(
+      Map<String, String> header, Map<String, dynamic> body, String uid) async {
+    final Map<String, dynamic> response =
+        await _repository.putLike(header, body, uid);
     return response;
   }
 
-  Future<Map<String, dynamic>> putUnlike(Map<String, String> header, Map<String, dynamic> body, String uid) async {
-    final Map<String, dynamic> response = await _repository.putUnlike(header, body, uid);
+  Future<Map<String, dynamic>> putUnlike(
+      Map<String, String> header, Map<String, dynamic> body, String uid) async {
+    final Map<String, dynamic> response =
+        await _repository.putUnlike(header, body, uid);
     return response;
   }
 
-  Future<Map<String, dynamic>> putLike(Map<String, String> header, Map<String, dynamic> body) async {
-    final Map<String, dynamic> response = await _repository.putLike(header, body);
-    return response;
-  }
+  // Future<Map<String, dynamic>> putLike(Map<String, String> header, Map<String, dynamic> body) async {
+  //   final Map<String, dynamic> response = await _repository.putLike(header, body);
+  //   return response;
+  // }
 
-  Future<Map<String, dynamic>> putUnlike(Map<String, String> header, Map<String, dynamic> body) async {
-    final Map<String, dynamic> response = await _repository.putUnlike(header, body);
-    return response;
-  }
+  // Future<Map<String, dynamic>> putUnlike(Map<String, String> header, Map<String, dynamic> body) async {
+  //   final Map<String, dynamic> response = await _repository.putUnlike(header, body);
+  //   return response;
+  // }
+  //     Map<String, dynamic> body, Map<String, String> header, String uid) async {
+  //   final String response = await _repository.savePost(body, header, uid);
+  //   return response;
+  // }
+
+  // Future<Map<String, dynamic>> putLike(
+  //     Map<String, String> header, Map<String, dynamic> body, String uid) async {
+  //   final Map<String, dynamic> response =
+  //       await _repository.putLike(header, body, uid);
+  //   return response;
+  // }
+
+  // Future<Map<String, dynamic>> putUnlike(
+  //     Map<String, String> header, Map<String, dynamic> body, String uid) async {
+  //   final Map<String, dynamic> response =
+  //       await _repository.putUnlike(header, body, uid);
+  //   return response;
+  // }
+
+  // Future<Map<String, dynamic>> putLike(Map<String, String> header, Map<String, dynamic> body) async {
+  //   final Map<String, dynamic> response = await _repository.putLike(header, body);
+  //   return response;
+  // }
+
+  // Future<Map<String, dynamic>> putUnlike(Map<String, String> header, Map<String, dynamic> body) async {
+  //   final Map<String, dynamic> response = await _repository.putUnlike(header, body);
+  //   return response;
+  // }
 
   // Future<List<VehicleModel>> getVehicalModelsList() async {
   //   VehicalRepository _repository = new VehicalRepository();
@@ -84,5 +116,4 @@ class Impl {
   //   final List<VehicleAddon> vehicalAddons =
   //       await _repository.fetchVehicalAddons();
   //   return vehicalAddons;
-  // }
 }
