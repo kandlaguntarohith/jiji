@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io' as io;
-// import 'package:http/http.dart';
-import 'package:http_parser/http_parser.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiji/constants/endpoints.dart';
-import 'package:jiji/data/network/api_helper.dart';
 import 'package:jiji/models/categories_list.dart';
 import 'package:jiji/models/subcategories_list.dart';
 // import 'package:jiji/data/network/api_response.dart';

@@ -131,17 +131,17 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                   },
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 50),
-                child: _dmController.typingDone.value
-                    ? SizedBox(
-                        child: Text('go away'),
-                      )
-                    : MessageWidget(
-                        message: _dmController.msgController.text,
-                        clientMessage: true,
-                        time: '',
-                      ),
+              Obx(
+                () => Padding(
+                  padding: EdgeInsets.only(bottom: 50),
+                  child: _dmController.typingDone.value
+                      ? SizedBox()
+                      : MessageWidget(
+                          message: _dmController.msgController.text,
+                          clientMessage: true,
+                          time: '',
+                        ),
+                ),
               ),
             ],
           ),

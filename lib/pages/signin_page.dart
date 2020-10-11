@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:jiji/impl/impl.dart';
-import 'package:jiji/models/user.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/utilities/theme_data.dart';
