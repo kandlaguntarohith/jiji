@@ -4,6 +4,8 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/controllers/chat/dmController.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:intl/intl.dart';
+import 'dart:async';
 
 class ChatBoxPage extends StatefulWidget {
   final String recId;
@@ -16,11 +18,20 @@ class ChatBoxPage extends StatefulWidget {
 
 class _ChatBoxPageState extends State<ChatBoxPage> {
   final DmController _dmController = Get.put(DmController());
+  Timer timer;
   @override
   void initState() {
     super.initState();
     _dmController.msgController = TextEditingController();
     _dmController.getHistory(widget.recId);
+    timer = Timer.periodic(Duration(seconds: 5),
+        (Timer t) => _dmController.getHistory(widget.recId));
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -58,8 +69,7 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                         width: SizeConfig.deviceWidth * 5,
                       ),
                       CircleAvatar(
-                        backgroundImage:
-                            AssetImage('assets/profile_image.jpeg'),
+                        backgroundImage: AssetImage('assets/profile_image.jpg'),
                         radius: SizeConfig.deviceWidth * 7.5,
                       ),
                       Padding(
@@ -99,27 +109,38 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                 height: SizeConfig.deviceHeight * 5,
               ),
               Obx(
-                () => Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _dmController.chatData == null
-                        ? 0
-                        : _dmController.chatData.length,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return SingleChildScrollView(
-                        child: MessageWidget(
-                          message: _dmController.chatData[index]['body'],
-                          time: "10.03 AM",
-                          clientMessage: _dmController.uid.value ==
-                                  _dmController.chatData[index]['from']
-                              ? true
-                              : false,
+                () => ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _dmController.chatData == null
+                      ? 0
+                      : _dmController.chatData.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return MessageWidget(
+                      message: _dmController.chatData[index]['body'],
+                      time: DateFormat.Hm().format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          int.parse(_dmController.chatData[index]['date']),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                      clientMessage: _dmController.uid.value ==
+                              _dmController.chatData[index]['from']
+                          ? true
+                          : false,
+                    );
+                  },
+                ),
+              ),
+              Obx(
+                () => Padding(
+                  padding: EdgeInsets.only(bottom: 50),
+                  child: _dmController.typingDone.value
+                      ? SizedBox()
+                      : MessageWidget(
+                          message: _dmController.msgController.text,
+                          clientMessage: true,
+                          time: '',
+                        ),
                 ),
               ),
             ],
@@ -170,18 +191,24 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
               radius: SizeConfig.deviceWidth * 5,
               backgroundColor: Hexcolor("3DB83A"),
               child: IconButton(
-                  icon: Icon(
-                    Icons.send,
-                    color: Colors.white,
-                    size: SizeConfig.deviceWidth * 5,
-                  ),
-                  onPressed: () {
+                icon: Icon(
+                  Icons.send,
+                  color: Colors.white,
+                  size: SizeConfig.deviceWidth * 5,
+                ),
+                onPressed: () {
+                  if (_dmController.msgController.text != null) {
+                    print(_dmController.msgController.text);
+                    _dmController.typingDone.value = false;
                     _dmController.personalChat(
                       _dmController.msgController.text,
-                      "5f4fa3c2f24af117042c2e14",
                       widget.recId,
                     );
-                  }),
+                    FocusScope.of(context).unfocus();
+                    // _dmController.typingDone.value = true;
+                  }
+                },
+              ),
             ),
           ],
         ),
@@ -191,9 +218,9 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
 }
 
 class MessageWidget extends StatelessWidget {
-  bool clientMessage;
-  String time;
-  String message;
+  final bool clientMessage;
+  final String time;
+  final String message;
 
   MessageWidget({this.clientMessage, this.time, this.message});
 

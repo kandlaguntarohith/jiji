@@ -3,6 +3,7 @@ import 'package:jiji/data/network/api_helper.dart';
 import 'package:jiji/models/category.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/models/sub_category.dart';
+import 'dart:convert';
 
 class Repository {
   ApiHelper _helper = ApiHelper();
@@ -20,10 +21,15 @@ class Repository {
   }
 
   Future<String> savePost(
-      Map<String, dynamic> body, Map<String, String> header) async {
-    String response = await _helper.postWithHeadersInputs(Endpoints.savePost, body, header);
+
+      Map<String, dynamic> body, Map<String, String> header, String uid) async {
+    String url = Endpoints.savePost + uid;
+    String response = await _helper.postWithHeadersInputs(url, body, header);
+
     return response;
   }
+
+  
 
   Future<List<Category>> getCategoriesList() async {
     List<Category> categories = [];
@@ -53,12 +59,44 @@ class Repository {
     return products;
   }
 
+  Future<List<Product>> getSearch(
+      Map<String, String> header, Map<String, dynamic> param) async {
+    List<Product> products = [];
+
+    final response =
+        await _helper.getWithHeadersInputs(Endpoints.search, header, param);
+
+
+    response.toList().forEach((element) {
+      products.add(Product.fromJson(element));
+    });
+    return products;
+  }
+
+
+  Future putLike(Map<String, String> header, Map<String, dynamic> mappedJson,
+      String uid) async {
+    String url = Endpoints.savePost + uid;
+    final response =
+        await _helper.putWithHeadersInputs(url, mappedJson, header);
+    return response;
+  }
+
+  Future putUnlike(Map<String, String> header, Map<String, dynamic> mappedJson,
+      String uid) async {
+    String url = Endpoints.savePost + uid;
+    final response =
+        await _helper.putWithHeadersInputs(url, mappedJson, header);
+
+    return response;
+  }
 
   Future<List<Product>> getSimilarProductsList(
       Map<String, dynamic> header, Map<String, dynamic> para) async {
     List<Product> products = [];
     final response = await _helper.getWithHeadersInputs(
         Endpoints.similarProducts, header, para);
+
     response.toList().forEach((element) {
       products.add(Product.fromJson(element));
     });

@@ -1,21 +1,18 @@
 import 'dart:convert';
 import 'dart:io' as io;
-// import 'package:http/http.dart';
-import 'package:http_parser/http_parser.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiji/constants/endpoints.dart';
-import 'package:jiji/data/network/api_helper.dart';
 import 'package:jiji/models/categories_list.dart';
 import 'package:jiji/models/subcategories_list.dart';
 
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
-import 'package:jiji/models/product(1).dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/custom_dropdrown.dart';
 import 'package:jiji/widgets/custom_textfield.dart';
@@ -26,11 +23,12 @@ import 'package:http/http.dart' as http;
 //image file to string
 class AddProductScreen extends StatefulWidget {
   static String routeName = '/AddProductScreen';
-  final MyProductModel product;
 
-  const AddProductScreen({Key key, this.product}) : super(key: key);
+  const AddProductScreen({
+    Key key,
+  }) : super(key: key);
   @override
-  _AddProductScreenState createState() => _AddProductScreenState(product);
+  _AddProductScreenState createState() => _AddProductScreenState();
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
@@ -48,18 +46,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String category;
   String subCategory;
   double textSize;
+
   List<String> filenames = [];
+
   String image64;
   // File imageResized;
   List<MultipartFile> fileList = [];
-
-  MyProductModel _product;
 
   bool _isLoading = false;
 
   final picker = ImagePicker();
 
-  _AddProductScreenState(this._product);
+  _AddProductScreenState();
   @override
   void initState() {
     _states.add("Maharashtra");
@@ -70,15 +68,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _cities.add("Pune");
     _cities.add("Mumbai");
     _cities.add("Banglore");
-    if (_product != null) {
-      title = _product.title;
-      price = _product.price;
-      description = _product.description;
-      city = _product.city;
-      state = _product.state;
-      category = _product.category;
-      subCategory = _product.subCategory;
-    }
 
     // setState(() {});
     super.initState();
@@ -112,6 +101,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     }
     setState(() {});
     //Image file to base64 string
+
     // imageResized = await FlutterNativeImage.compressImage(pickedFile.path,
     //     quality: 100, targetWidth: 120, targetHeight: 120);
     // // print(imageResized.path);
@@ -121,8 +111,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   Future<void> _saveForm(UserModel user) async {
     bool valid = _form.currentState.validate();
+
     // print(imageResized.path);
     if (valid) {
+      setState(() {
+        _isLoading = !_isLoading;
+      });
       _form.currentState.save();
       // Map<String, String> mapHeader = {
       //   'Authorization': "Bearer " + "${user.token}",
@@ -180,10 +174,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
       var response = await request.send();
 
-      print(response.statusCode);
-      if (response.statusCode == 200) {}
-      response.stream.transform(utf8.decoder).listen((value) {
-        print(value);
+      // final String response = await Impl().savePost(mapJson, mapHeader, user.uid);
+      setState(() async {
+        _isLoading = !_isLoading;
+
+        print(response.statusCode);
+        if (response.statusCode == 200) {}
+        response.stream.transform(utf8.decoder).listen((value) {
+          print(value);
+        });
       });
 
       setState(() {
@@ -334,7 +333,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 child: ItemImages(
                   images: images,
                   addImageFunction: addImage,
-                  productUrlImages: [],
                 ),
               ),
               renderHeading("Location"),
@@ -408,19 +406,24 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       Radius.circular(5),
                     ),
                   ),
-                  child: RaisedButton(
+                  child: FlatButton(
                     onPressed: () async {
                       _saveForm(_userModel);
                     },
-                    child: Text(
-                      "POST AD",
-                      style: TextStyle(
-                        fontSize: textSize * 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    color: MyThemeData.primaryColor,
+                    child: _isLoading
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : Text(
+                            "POST AD",
+                            style: TextStyle(
+                              fontSize: textSize * 1.2,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                    color:
+                        _isLoading ? Colors.white54 : MyThemeData.primaryColor,
                   ),
                 ),
               ),

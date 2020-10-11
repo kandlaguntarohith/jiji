@@ -10,7 +10,7 @@ import 'package:jiji/models/category.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/models/user_posts.dart';
-import 'package:jiji/pages/product_details.dart';
+
 import 'package:jiji/pages/sub_category_page.dart';
 import 'package:jiji/pages/view_all_page.dart';
 import 'package:jiji/utilities/size_config.dart';
@@ -243,11 +243,6 @@ class _HomePageState extends State<HomePage> {
                           size: SizeConfig.deviceWidth * 3,
                           color: Hexcolor("#3DB83A"),
                         ),
-                        // Icon(
-                        //   Icons.arrow_forward_ios,
-                        //   size: SizeConfig.deviceWidth * 3,
-                        //   color: Hexcolor("#3DB83A"),
-                        // ),
                       ],
                     ),
                   ],
@@ -298,41 +293,6 @@ class _HomePageState extends State<HomePage> {
                 ShowProductsGridView(
                   products: popularProducts,
                 )
-                // Column(
-                //   children: [
-                //     Container(
-                //       child: GridView(
-                //           shrinkWrap: true,
-                //           physics: NeverScrollableScrollPhysics(),
-                //           gridDelegate:
-                //               SliverGridDelegateWithFixedCrossAxisCount(
-                //                   crossAxisCount: 2),
-                //           children: <Widget>[
-                //             ProductCard(
-                //               location: "Goa, India",
-                //               price: "1200",
-                //               productName: "Brand New Smart Watch",
-                //             ),
-                //             ProductCard(
-                //               location: "Goa, India",
-                //               price: "1200",
-                //               productName:
-                //                   "Brand New Smart Watch from United States of America",
-                //             ),
-                //             ProductCard(
-                //               location: "Goa, India",
-                //               price: "1200",
-                //               productName: "Brand New Smart Watch",
-                //             ),
-                //             ProductCard(
-                //               location: "Goa, India",
-                //               price: "1200",
-                //               productName: "Brand New Smart Watch",
-                //             ),
-                //           ]),
-                //     ),
-                //   ],
-                // ),
               ],
             ),
           ),
@@ -343,7 +303,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HeaderText extends StatelessWidget {
-  String title;
+  final String title;
   HeaderText({this.title});
 
   @override
@@ -409,7 +369,8 @@ class CategoryCard extends StatelessWidget {
         child: GestureDetector(
           onTap: onPressed,
           child: Card(
-            // elevation: 3,
+            elevation: 0.8,
+            margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
