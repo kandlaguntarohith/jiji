@@ -34,6 +34,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   String city;
   String category;
   String subCategory;
+  bool _isLoading = false;
 
   final MyProductModel _product;
   final picker = ImagePicker();
@@ -86,6 +87,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
       print(description);
       print(city + ", " + state);
       print(category + " " + subCategory);
+      setState(() {
+        print("SetState triggered again");
+        _isLoading = !_isLoading;
+      });
     }
   }
 
@@ -251,18 +256,28 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       Radius.circular(5),
                     ),
                   ),
-                  child: RaisedButton(
-                    onPressed: _saveForm,
-                    child: Text(
-                      "POST AD",
-                      style: TextStyle(
-                        fontSize: textSize * 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    color: MyThemeData.primaryColor,
-                  ),
+                  child: _isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : RaisedButton(
+                          onPressed: (){
+                            setState(() {
+                              _isLoading = !_isLoading;
+                              print("setState triggered");
+                            });
+                            _saveForm();
+                          },
+                          child: Text(
+                            "POST AD",
+                            style: TextStyle(
+                              fontSize: textSize * 1.2,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                          color: MyThemeData.primaryColor,
+                        ),
                 ),
               ),
               SizedBox(height: SizeConfig.deviceHeight),

@@ -193,7 +193,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
 
       // final String response = await Impl().savePost(mapJson, mapHeader, user.uid);
-      setState(() async {
+      setState(() {
         _isLoading = !_isLoading;
 
       print(response.statusCode);
