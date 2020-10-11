@@ -88,17 +88,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   Future<void> _saveForm(UserModel user) async {
     bool valid = _form.currentState.validate();
-
-    // print(imageResized.path);
     if (valid) {
       _form.currentState.save();
-      // Map<String, String> mapHeader = {
-      //   'Authorization': "Bearer " + "${user.token}",
-      //   'Content-Type': "multipart/form-data"
-      // };
+
       setState(() {
         _isLoading = !_isLoading;
       });
+
       var uri = Uri.parse(Endpoints.savePost + user.uid.toString());
 
       var request = new http.MultipartRequest("POST", uri);

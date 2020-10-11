@@ -5,7 +5,6 @@ import 'package:jiji/widgets/bottom_nav.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/widgets/jiji_search_app_bar.dart';
 
-
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -15,12 +14,11 @@ class _SearchPageState extends State<SearchPage> {
   bool _isLoading = false;
   bool resultsFound = true;
 
-  void showIsLoading(){
+  void showIsLoading() {
     setState(() {
       _isLoading = !_isLoading;
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +26,9 @@ class _SearchPageState extends State<SearchPage> {
     return SafeArea(
       child: Scaffold(
         appBar: PreferredSize(
-
-          child: JijiSearchAppBar(showIsLoading: showIsLoading,),
-
+          child: JijiSearchAppBar(
+            showIsLoading: showIsLoading,
+          ),
           preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
         ),
         body: !_isLoading
@@ -83,14 +81,11 @@ class _SearchPageState extends State<SearchPage> {
                   )
                 ],
               )
-
             : Center(
                 child: CircularProgressIndicator(),
               ),
         // bottomNavigationBar: BottomNav(),
-
       ),
-      
     );
   }
 
