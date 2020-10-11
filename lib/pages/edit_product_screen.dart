@@ -62,7 +62,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
   String city;
   String category;
   String subCategory;
+
+  bool _isLoading = false;
+
   List<String> productUrlImages = [];
+
 
   final MyProduct _product;
   final picker = ImagePicker();
@@ -121,6 +125,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
     bool valid = _form.currentState.validate();
     if (valid) {
       _form.currentState.save();
+
+      print(title);
+      print(price.toString());
+      print(description);
+      print(city + ", " + state);
+      print(category + " " + subCategory);
+      
+
 
       Map<String, String> headers = {
         "Accept": "application/json",
@@ -182,6 +194,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
       request.headers.addAll(headers);
 
       var response = await request.send();
+      setState(() {
+        print("SetState triggered again");
+        _isLoading = !_isLoading;
+      });
 
       print(response.statusCode);
       if (responseNew.statusCode == 200 && response.statusCode == 200) {
@@ -219,6 +235,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("Form validation failed"),
       ));
+
     }
   }
 
@@ -399,18 +416,33 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       Radius.circular(5),
                     ),
                   ),
-                  child: RaisedButton(
-                    onPressed: () => _saveForm(_userModel),
-                    child: Text(
-                      "EDIT AD",
-                      style: TextStyle(
-                        fontSize: textSize * 1.2,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                    ),
-                    color: MyThemeData.primaryColor,
-                  ),
+
+
+                  child: _isLoading
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : RaisedButton(
+                          onPressed: (){
+                            setState(() {
+                              _isLoading = !_isLoading;
+                              print("setState triggered");
+                            });
+                            _saveForm(_userModel);
+                          },
+                          child: Text(
+                            "POST AD",
+                            style: TextStyle(
+                              fontSize: textSize * 1.2,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                          color: MyThemeData.primaryColor,
+                        ),
+
+                 
+
                 ),
               ),
               SizedBox(height: SizeConfig.deviceHeight),

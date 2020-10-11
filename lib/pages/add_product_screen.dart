@@ -56,6 +56,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   bool _isLoading = false;
 
+
+  // MyProductModel _product;
+
+
   final picker = ImagePicker();
 
   _AddProductScreenState();
@@ -146,6 +150,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
       request.fields['subCategory'] = subCategoryId;
 
       var response = await request.send();
+
+
+
+      // final String response = await Impl().savePost(mapJson, mapHeader, user.uid);
+      setState(() {
+        _isLoading = !_isLoading;
+
+      print(response.statusCode);
+      if (response.statusCode == 200) {}
+      response.stream.transform(utf8.decoder).listen((value) {
+        print(value);
+      });
+
+      });
+
 
       setState(() {
         _isLoading = !_isLoading;
