@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io' as io;
-// import 'package:http/http.dart';
-import 'package:http_parser/http_parser.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
