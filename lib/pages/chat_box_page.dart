@@ -109,32 +109,39 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                 height: SizeConfig.deviceHeight * 5,
               ),
               Obx(
-                () => Padding(
-                  padding: EdgeInsets.only(bottom: Get.height / 3.4),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _dmController.chatData == null
-                        ? 0
-                        : _dmController.chatData.length,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return SingleChildScrollView(
-                        child: MessageWidget(
-                          message: _dmController.chatData[index]['body'],
-                          time: DateFormat.Hm().format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                              int.parse(_dmController.chatData[index]['date']),
-                            ),
-                          ),
-                          clientMessage: _dmController.uid.value ==
-                                  _dmController.chatData[index]['from']
-                              ? true
-                              : false,
+                () => ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _dmController.chatData == null
+                      ? 0
+                      : _dmController.chatData.length,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return MessageWidget(
+                      message: _dmController.chatData[index]['body'],
+                      time: DateFormat.Hm().format(
+                        DateTime.fromMillisecondsSinceEpoch(
+                          int.parse(_dmController.chatData[index]['date']),
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                      clientMessage: _dmController.uid.value ==
+                              _dmController.chatData[index]['from']
+                          ? true
+                          : false,
+                    );
+                  },
                 ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 50),
+                child: _dmController.typingDone.value
+                    ? SizedBox(
+                        child: Text('go away'),
+                      )
+                    : MessageWidget(
+                        message: _dmController.msgController.text,
+                        clientMessage: true,
+                        time: '',
+                      ),
               ),
             ],
           ),
@@ -190,11 +197,16 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                   size: SizeConfig.deviceWidth * 5,
                 ),
                 onPressed: () {
-                  _dmController.personalChat(
-                    _dmController.msgController.text,
-                    widget.recId,
-                  );
-                  FocusScope.of(context).unfocus();
+                  if (_dmController.msgController.text != null) {
+                    print(_dmController.msgController.text);
+                    _dmController.typingDone.value = false;
+                    _dmController.personalChat(
+                      _dmController.msgController.text,
+                      widget.recId,
+                    );
+                    FocusScope.of(context).unfocus();
+                    // _dmController.typingDone.value = true;
+                  }
                 },
               ),
             ),

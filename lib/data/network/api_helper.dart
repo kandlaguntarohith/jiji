@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart' as _dio;
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:jiji/data/network/network_exceptions.dart';
 

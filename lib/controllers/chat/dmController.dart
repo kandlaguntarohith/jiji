@@ -11,8 +11,11 @@ import 'package:http/http.dart' as http;
 class DmController extends GetxController {
   var chatData = List().obs;
   var uid = ''.obs;
+  var typingDone = true.obs;
   TextEditingController msgController;
   Future getHistory(String rec) async {
+    typingDone.value = true;
+
     try {
       final Box<UserModel> _userBox =
           await Hive.openBox<UserModel>('userModel');
@@ -30,6 +33,7 @@ class DmController extends GetxController {
       );
       if (response.statusCode == 200) {
         var jsonData = json.decode(response.body);
+
         chatData.value = jsonData;
       }
     } on SocketException {
@@ -64,7 +68,6 @@ class DmController extends GetxController {
         body: jsonEncode(data),
       );
       msgController.clear();
-
       print(response.statusCode);
     } on SocketException {
       print('No Internet');
