@@ -21,11 +21,15 @@ class Repository {
   }
 
   Future<String> savePost(
+
       Map<String, dynamic> body, Map<String, String> header, String uid) async {
     String url = Endpoints.savePost + uid;
     String response = await _helper.postWithHeadersInputs(url, body, header);
+
     return response;
   }
+
+  
 
   Future<List<Category>> getCategoriesList() async {
     List<Category> categories = [];
@@ -58,14 +62,17 @@ class Repository {
   Future<List<Product>> getSearch(
       Map<String, String> header, Map<String, dynamic> param) async {
     List<Product> products = [];
+
     final response =
         await _helper.getWithHeadersInputs(Endpoints.search, header, param);
+
 
     response.toList().forEach((element) {
       products.add(Product.fromJson(element));
     });
     return products;
   }
+
 
   Future putLike(Map<String, String> header, Map<String, dynamic> mappedJson,
       String uid) async {
@@ -80,6 +87,7 @@ class Repository {
     String url = Endpoints.savePost + uid;
     final response =
         await _helper.putWithHeadersInputs(url, mappedJson, header);
+
     return response;
   }
 
