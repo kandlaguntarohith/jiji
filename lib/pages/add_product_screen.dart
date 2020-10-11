@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:jiji/constants/endpoints.dart';
-import 'package:jiji/data/network/api_helper.dart';
 import 'package:jiji/models/categories_list.dart';
 import 'package:jiji/models/subcategories_list.dart';
 // import 'package:jiji/data/network/api_response.dart';
@@ -18,7 +17,6 @@ import 'package:jiji/models/subcategories_list.dart';
 import 'package:jiji/models/user_model.dart';
 import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
-import 'package:jiji/models/product(1).dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:jiji/widgets/custom_dropdrown.dart';
 import 'package:jiji/widgets/custom_textfield.dart';
@@ -29,11 +27,12 @@ import 'package:http/http.dart' as http;
 //image file to string
 class AddProductScreen extends StatefulWidget {
   static String routeName = '/AddProductScreen';
-  final MyProductModel product;
 
-  const AddProductScreen({Key key, this.product}) : super(key: key);
+  const AddProductScreen({
+    Key key,
+  }) : super(key: key);
   @override
-  _AddProductScreenState createState() => _AddProductScreenState(product);
+  _AddProductScreenState createState() => _AddProductScreenState();
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
@@ -58,12 +57,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
   // File imageResized;
   List<MultipartFile> fileList = [];
 
+
   bool _isLoading = false;
 
   MyProductModel _product;
+
   final picker = ImagePicker();
 
-  _AddProductScreenState(this._product);
+  _AddProductScreenState();
   @override
   void initState() {
     _states.add("Maharashtra");
@@ -74,15 +75,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
     _cities.add("Pune");
     _cities.add("Mumbai");
     _cities.add("Banglore");
-    if (_product != null) {
-      title = _product.title;
-      price = _product.price;
-      description = _product.description;
-      city = _product.city;
-      state = _product.state;
-      category = _product.category;
-      subCategory = _product.subCategory;
-    }
 
     // setState(() {});
     super.initState();
@@ -352,7 +344,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 child: ItemImages(
                   images: images,
                   addImageFunction: addImage,
-                  productUrlImages: [],
                 ),
               ),
               renderHeading("Location"),

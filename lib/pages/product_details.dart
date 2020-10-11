@@ -7,6 +7,7 @@ import 'package:jiji/data/network/api_helper.dart';
 
 
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
+import 'package:hive/hive.dart';
 
 
 import 'package:jiji/impl/impl.dart';
@@ -62,12 +63,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void toggleFavourite(UserModel user) async {
+
     setState(() {
       isFavourite = !isFavourite;
     });
+
     Map<String, String> header = {'Authorization': "Bearer ${user.token}"};
 
     Map<String, dynamic> body = {'postId': widget.product.id};
+
 
     dynamic _response;
 
@@ -96,12 +100,15 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         }
       }*/
     }
+
   }
 
   @override
   Widget build(BuildContext context) {
+
     _user = Provider.of<Box<UserModel>>(context, listen: false);
     _userModel = _user.values.first;
+
     SizeConfig().init(context);
     final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
     final availableWidthSpace =

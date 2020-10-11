@@ -62,6 +62,16 @@ class Impl {
     return response;
   }
 
+  Future<Map<String, dynamic>> putLike(Map<String, String> header, Map<String, dynamic> body) async {
+    final Map<String, dynamic> response = await _repository.putLike(header, body);
+    return response;
+  }
+
+  Future<Map<String, dynamic>> putUnlike(Map<String, String> header, Map<String, dynamic> body) async {
+    final Map<String, dynamic> response = await _repository.putUnlike(header, body);
+    return response;
+  }
+
   // Future<List<VehicleModel>> getVehicalModelsList() async {
   //   VehicalRepository _repository = new VehicalRepository();
   //   final List<VehicleModel> vehicalModels =

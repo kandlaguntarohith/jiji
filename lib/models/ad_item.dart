@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyAdItemModel {
   final String title;
-  final int price;
+  final double price;
   final String location;
   final String image;
   final bool isLiked;
