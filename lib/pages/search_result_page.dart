@@ -8,14 +8,23 @@ import 'package:jiji/widgets/jiji_app_bar.dart';
 import 'package:jiji/widgets/jiji_search_app_bar.dart';
 import 'package:jiji/widgets/show_products_gridview.dart';
 
-class SearchResultPage extends StatelessWidget {
+
+class SearchResultPage extends StatefulWidget {
   final List<Product> results;
+
 
   const SearchResultPage({Key key, @required this.results}) : super(key: key);
 
   @override
+  _SearchResultPageState createState() => _SearchResultPageState();
+}
+
+class _SearchResultPageState extends State<SearchResultPage> {
+  
+  @override
   Widget build(BuildContext context) {
-    bool resultFound = results.length > 0 ? true : false;
+    bool resultFound = widget.results.length > 0;
+
     SizeConfig().init(context);
     return SafeArea(
       child: Scaffold(
@@ -27,7 +36,9 @@ class SearchResultPage extends StatelessWidget {
             ? Container(
                 padding: EdgeInsets.all(10),
                 child: ShowProductsGridView(
-                  products: results,
+
+                  products: widget.results,
+
                 ),
               )
             : NoResultsFound(),

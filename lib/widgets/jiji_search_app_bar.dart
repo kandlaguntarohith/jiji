@@ -14,7 +14,13 @@ import '../models/user_model.dart';
 import '../models/user_model.dart';
 
 class JijiSearchAppBar extends StatelessWidget {
+
+  final Function showIsLoading;
+
+  const JijiSearchAppBar({Key key, @required this.showIsLoading}) : super(key: key);
   Future<List<Product>> _search(UserModel user, String query) async {
+    showIsLoading();
+
     Map<String, String> header = {'Authentication': "Bearer ${user.token}"};
     Map<String, dynamic> params = {
       'search': 'delhi',
