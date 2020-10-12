@@ -71,7 +71,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     Map<String, String> header = {
       'Authorization':
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZjVmYzZkMDUxYzRlNzMxNDhjY2QxN2EiLCJpYXQiOjE2MDIzMDkxMTcsImV4cCI6MTYwMjkxMzkxN30.bGfwhqklTBuGzQj5T8oXJnD0uG-7cJ6NhhBXn4YM8HE"
+          "Bearer ${user.token}"
     };
 
     Map<String, dynamic> body = {'postId': widget.product.id};
@@ -80,7 +80,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     dynamic _response;
 
     if (isFavourite) {
-      _response = await Impl().putUnlike(header, body, "5f5fc6d051c4e73148ccd17a");
+      _response = await Impl().putUnlike(header, body, user.uid);
       print("RESS $_response");
       /*
       ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
