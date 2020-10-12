@@ -41,7 +41,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   List<String> img = [];
   @override
   void initState() {
-     _user = Provider.of<Box<UserModel>>(context, listen: false);
+    _user = Provider.of<Box<UserModel>>(context, listen: false);
     _userModel = _user.values.first;
     isFavourite = _isFavourite(_userModel);
     getSimilarProducts();
@@ -70,32 +70,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       print("after toggle $isFavourite");
     });
 
-    Map<String, String> header = {
-      'Authorization':
-          "Bearer ${user.token}"
-    };
+    Map<String, String> header = {'Authorization': "Bearer ${user.token}"};
 
     Map<String, dynamic> body = {'postId': widget.product.id};
     print("PostID ${widget.product.id}");
 
     dynamic _response;
 
-    if (isFavourite) {
+    if (!isFavourite) {
       _response = await Impl().putUnlike(header, body, user.uid);
 // <<<<<<< HEAD
 // =======
       print("RESS $_response");
       // ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
-        print("Added to Fav");
-      }
-      else{
-        setState(){
-          isFavourite = !isFavourite;
-        }
-      }
+      print("Added to Fav");
+      // }
+      // else{
+      //   setState(){
+      //     isFavourite = !isFavourite;
+      //   }
+      // }
     } else {
-      _response = await Impl().putLike(header, body, user.uid);
-      // _response = await Impl().putLike(header, body,  "5f5fc6d051c4e73148ccd17a");
+      // _response = await Impl().putLike(header, body, user.uid);
+      _response =
+          await Impl().putLike(header, body, "5f77248ac6a47800173d02ae");
       print("RESS $_response");
       /*
       ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
@@ -108,12 +106,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         }
       }*/
     }
+  }
 
   @override
   Widget build(BuildContext context) {
     _user = Provider.of<Box<UserModel>>(context, listen: false);
     _userModel = _user.values.first;
-    
 
     SizeConfig().init(context);
     final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;
@@ -346,12 +344,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   bool _isFavourite(UserModel user) {
-    List likedPost = widget.product.postedBy.likedPost;
+    print("User ID : " + user.uid);
+    List likedPost = widget.product.likes;
+    bool isFav = false;
     likedPost.forEach((element) {
-      if (element == user.uid) {
-        return true;
+      print("id : " + element);
+      if (element.toString().trim() == user.uid.trim()) {
+        // print("true");
+        isFav = true;
       }
     });
-    return false;
+    return isFav;
   }
 }
