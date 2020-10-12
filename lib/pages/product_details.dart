@@ -108,7 +108,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         }
       }*/
     }
-  }
 
   @override
   Widget build(BuildContext context) {
