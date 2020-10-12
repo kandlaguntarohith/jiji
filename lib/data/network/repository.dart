@@ -76,7 +76,7 @@ class Repository {
 
   Future putLike(Map<String, String> header, Map<String, dynamic> mappedJson,
       String uid) async {
-    String url = Endpoints.savePost + uid;
+    String url = Endpoints.like + uid;
     final response =
         await _helper.putWithHeadersInputs(url, mappedJson, header);
     return response;
@@ -84,7 +84,7 @@ class Repository {
 
   Future putUnlike(Map<String, String> header, Map<String, dynamic> mappedJson,
       String uid) async {
-    String url = Endpoints.savePost + uid;
+    String url = Endpoints.unlike + uid;
     final response =
         await _helper.putWithHeadersInputs(url, mappedJson, header);
 

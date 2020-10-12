@@ -439,9 +439,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           ),
                           color: MyThemeData.primaryColor,
                         ),
-
-                 
-
                 ),
               ),
               SizedBox(height: SizeConfig.deviceHeight),

@@ -11,8 +11,8 @@ class Endpoints {
 
   static String savePost = "$baseUrl/api/post/create/";
 
-  static String like = "$baseUrl/api/like/5f5fc6d051c4e73148ccd17a";
-  static String unlike = "$baseUrl/api/unlike/5f5fc6d051c4e73148ccd17a";
+  static String like = "$baseUrl/api/like/";
+  static String unlike = "$baseUrl/api/unlike/";
   //
 
   static String getUserProfile = "$baseUrl/api/user";
