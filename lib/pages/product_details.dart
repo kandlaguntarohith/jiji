@@ -3,13 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:hive/hive.dart';
-import 'package:jiji/data/network/api_helper.dart';
-
-
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
-import 'package:hive/hive.dart';
-
-
 import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/models/user_model.dart';
@@ -63,7 +57,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void toggleFavourite(UserModel user) async {
-
     setState(() {
       isFavourite = !isFavourite;
     });
@@ -72,11 +65,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     Map<String, dynamic> body = {'postId': widget.product.id};
 
-
     dynamic _response;
 
     if (isFavourite) {
-      _response = await Impl().putUnlike(header, body);
+      _response = await Impl().putUnlike(header, body, user.uid);
       /*
       ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
       if(succesful){
@@ -88,7 +80,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         }
       }*/
     } else {
-      _response = await Impl().putLike(header, body);
+      _response = await Impl().putLike(header, body, user.uid);
       /*
       ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
       if(succesful){
@@ -100,12 +92,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         }
       }*/
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
-
     _user = Provider.of<Box<UserModel>>(context, listen: false);
     _userModel = _user.values.first;
 

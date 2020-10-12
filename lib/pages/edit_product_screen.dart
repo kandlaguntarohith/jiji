@@ -67,7 +67,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
   List<String> productUrlImages = [];
 
-
   final MyProduct _product;
   final picker = ImagePicker();
   double textSize;
@@ -131,8 +130,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
       print(description);
       print(city + ", " + state);
       print(category + " " + subCategory);
-      
-
 
       Map<String, String> headers = {
         "Accept": "application/json",
@@ -235,7 +232,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
       Scaffold.of(context).showSnackBar(SnackBar(
         content: Text("Form validation failed"),
       ));
-
     }
   }
 
@@ -416,14 +412,12 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       Radius.circular(5),
                     ),
                   ),
-
-
                   child: _isLoading
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
                       : RaisedButton(
-                          onPressed: (){
+                          onPressed: () {
                             setState(() {
                               _isLoading = !_isLoading;
                               print("setState triggered");
@@ -440,9 +434,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           ),
                           color: MyThemeData.primaryColor,
                         ),
-
-                 
-
                 ),
               ),
               SizedBox(height: SizeConfig.deviceHeight),

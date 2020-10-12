@@ -304,6 +304,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
                                                 0.7,
                                         child: MyAdItemWidget(
                                           itemModel: _allItemsList[index],
+                                          key: Key(_allItemsList[index].id),
                                         ),
                                       ),
                                       SizedBox(

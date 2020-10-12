@@ -6,7 +6,8 @@ import 'package:jiji/utilities/theme_data.dart';
 
 class MyAdItemWidget extends StatelessWidget {
   final MyProduct itemModel;
-  MyAdItemWidget({this.itemModel}) : assert(itemModel != null);
+
+  const MyAdItemWidget({Key key, this.itemModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
