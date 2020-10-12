@@ -1,76 +1,93 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:jiji/models/ad_item.dart';
+import 'package:jiji/models/my_product.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/utilities/theme_data.dart';
 
 class MyAdItemWidget extends StatelessWidget {
-  final MyAdItemModel itemModel;
-  MyAdItemWidget({this.itemModel}) : assert(itemModel != null);
+  final MyProduct itemModel;
+
+  const MyAdItemWidget({Key key, this.itemModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Padding(
       padding: EdgeInsets.only(
           top: SizeConfig.deviceHeight, bottom: SizeConfig.deviceHeight),
       child: Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        elevation: 6.0,
+        elevation: 2,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            SizedBox(height: SizeConfig.deviceHeight * 2),
-            Image.asset(
-              itemModel.image,
-              fit: BoxFit.fill,
+            // SizedBox(height: SizeConfig.deviceHeight * 2),
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              child: SizedBox(
+                height: SizeConfig.deviceWidth * 35,
+                width: double.infinity,
+                child: CachedNetworkImage(
+                  imageUrl: itemModel.photo.length > 0
+                      ? "https://olx-app-jiji.herokuapp.com/api/post/photo/${itemModel.id}?photoId=${itemModel.photo[0].id}"
+                      : "",
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-            SizedBox(height: SizeConfig.deviceHeight),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 4),
-                  child: Text(
+            SizedBox(height: SizeConfig.deviceWidth * 2.5),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: SizeConfig.deviceWidth * 4,
+                  right: SizeConfig.deviceWidth * 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
                     itemModel.title,
                     style: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: SizeConfig.deviceWidth * 3.5,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: SizeConfig.deviceWidth * 4),
-                  child: IconButton(
-                    icon: Icon(Icons.favorite_border),
-                    color: Color(0xff3DB83A),
-                    onPressed: null,
+                  Icon(
+                    Icons.favorite_border,
+                    size: SizeConfig.deviceWidth * 4.5,
+                    color: MyThemeData.primaryColor,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: SizeConfig.deviceWidth * 4),
-                  child: Text(
+            SizedBox(height: SizeConfig.deviceWidth * 2),
+            Padding(
+              padding: EdgeInsets.only(
+                  left: SizeConfig.deviceWidth * 4,
+                  right: SizeConfig.deviceWidth * 4),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
                     'Rs. ${itemModel.price.toString()}',
                     style: TextStyle(
-                      fontSize: 16.0,
+                      fontSize: SizeConfig.deviceWidth * 3.5,
                       fontWeight: FontWeight.bold,
                       color: Color(0xff3DB83A),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: SizeConfig.deviceWidth * 4),
-                  child: Text(
-                    itemModel.location,
-                    style: TextStyle(fontSize: 16.0),
+                  Text(
+                    itemModel.city,
+                    style: TextStyle(
+                      fontSize: SizeConfig.deviceWidth * 3.5,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            SizedBox(height: SizeConfig.deviceHeight * 2.5),
+            SizedBox(height: SizeConfig.deviceWidth * 2.5),
           ],
         ),
       ),

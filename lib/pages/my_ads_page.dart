@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
-import 'package:jiji/models/ad_item.dart';
-import 'package:jiji/models/product(1).dart';
+import 'package:jiji/models/my_product.dart';
+import 'package:jiji/models/user_posts.dart';
 import 'package:jiji/pages/edit_product_screen.dart';
 import 'package:jiji/utilities/size_config.dart';
+import 'package:jiji/utilities/theme_data.dart';
 import 'package:jiji/widgets/ad_item.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 class MyAdsPage extends StatefulWidget {
@@ -21,89 +22,21 @@ class _MyAdsPageState extends State<MyAdsPage> {
     'Sold Items',
     'Drafts',
   ];
-  List<Widget> _listedItemsList = [
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Smartwatch 1',
-        price: 100,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Smartwatch 2',
-        price: 100,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Smartwatch 3',
-        price: 100,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Smartwatch 4',
-        price: 100,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-  ];
 
-  List<Widget> _soldItemsList = [
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Sold Item',
-        price: 0,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Sold Item',
-        price: 0,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-  ];
+  List<MyProduct> _listedItemsList = [];
 
-  List<Widget> _draftItemsList = [
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Smartwatch Draft',
-        price: 100,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Smartwatch Draft',
-        price: 100,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-    MyAdItemWidget(
-      itemModel: MyAdItemModel(
-        title: 'Smartwatch Draft',
-        price: 100,
-        location: 'Mumbai',
-        image: 'assets/watch.jpg',
-      ),
-    ),
-  ];
+  List<MyProduct> _soldItemsList = [];
+
+  List<MyProduct> _draftItemsList = [];
+  @override
+  void initState() {
+    _selectedItem = _itemTypes[0];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _listedItemsList = Provider.of<UserPosts>(context, listen: true).myProducts;
     return Scaffold(
       appBar: PreferredSize(
         child: JijiAppBar(),
@@ -111,7 +44,7 @@ class _MyAdsPageState extends State<MyAdsPage> {
       ),
       body: Column(
         children: [
-          SizedBox(height: SizeConfig.deviceHeight * 2),
+          SizedBox(height: SizeConfig.deviceHeight * 1),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -130,7 +63,13 @@ class _MyAdsPageState extends State<MyAdsPage> {
                     items: _itemTypes.map((String page) {
                       return DropdownMenuItem<String>(
                         value: page,
-                        child: Text(page.toUpperCase()),
+                        child: Text(
+                          page.toUpperCase(),
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: SizeConfig.deviceWidth * 3.2,
+                          ),
+                        ),
                       );
                     }).toList(),
                   ),
@@ -140,135 +79,103 @@ class _MyAdsPageState extends State<MyAdsPage> {
               Padding(
                 padding: EdgeInsets.only(right: SizeConfig.deviceWidth * 8),
                 child: Text(
-                  '32 ads',
+                  (_selectedItem == 'Listed Items'
+                          ? _listedItemsList.length.toString()
+                          : _selectedItem == 'Sold Items'
+                              ? _soldItemsList.length.toString()
+                              : _selectedItem == 'All Items'
+                                  ? (_listedItemsList.length +
+                                          _soldItemsList.length +
+                                          _draftItemsList.length)
+                                      .toString()
+                                  : _draftItemsList.length.toString()) +
+                      " ads",
                   style: TextStyle(
-                    color: Hexcolor("#3DB83A"),
+                    color: MyThemeData.primaryColor,
+                    fontSize: SizeConfig.deviceWidth * 3.2,
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: SizeConfig.deviceWidth * 2),
+          SizedBox(height: SizeConfig.deviceWidth * 1),
           _selectedItem == 'Listed Items'
-              ? Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _listedItemsList.length,
-                    itemBuilder: (context, index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: _listedItemsList[index],
-                          ),
-                          SizedBox(width: SizeConfig.deviceWidth * 6),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              IconButton(
-                                icon: Icon(Icons.edit),
-                                iconSize: 28.0,
-                                onPressed: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => EditProductScreen(
-                                      product: new MyProductModel(
-                                        id: "id1",
-                                        description:
-                                            "This is a very good watch",
-                                        imageUrl: [
-                                          "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
-                                        ],
-                                        price: 800.00,
-                                        title: "Mobile",
-                                        state: "Goa",
-                                        city: "Pune",
-                                        category: "Gadgets",
-                                        subCategory: "Mobiles",
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Text('EDIT'),
-                              IconButton(
-                                  icon: Icon(Icons.share),
-                                  iconSize: 28.0,
-                                  onPressed: () {
-                                    Share.share('Download Jiji now!');
-                                  }),
-                              Text('SHARE'),
-                              IconButton(
-                                  icon: Icon(Icons.send),
-                                  iconSize: 28.0,
-                                  onPressed: () {
-                                    Share.share('Download Jiji now!');
-                                  }),
-                              Text('PROMOTE'),
-                            ],
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                )
-              : _selectedItem == 'Sold Items'
-                  ? Expanded(
+              ? _selectedItem.length <= 0
+                  ? Padding(
+                      padding:
+                          EdgeInsets.only(top: SizeConfig.deviceHeight * 20),
+                      child: Text(
+                        "No Ads Found !",
+                        style: TextStyle(
+                          color: MyThemeData.primaryColor,
+                        ),
+                      ),
+                    )
+                  : Expanded(
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: _soldItemsList.length,
+                        itemCount: _listedItemsList.length,
                         itemBuilder: (context, index) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.7,
-                                child: _soldItemsList[index],
+                                child: MyAdItemWidget(
+                                  itemModel: _listedItemsList[index],
+                                ),
                               ),
                               SizedBox(width: SizeConfig.deviceWidth * 6),
                               Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  IconButton(
-                                    icon: Icon(Icons.edit),
-                                    iconSize: 28.0,
-                                    onPressed: () => Navigator.of(context).push(
+                                  GestureDetector(
+                                    child: Icon(
+                                      Icons.edit,
+                                      size: SizeConfig.deviceWidth * 6,
+                                    ),
+                                    onTap: () => Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (context) => EditProductScreen(
-                                          product: new MyProductModel(
-                                            id: "id1",
-                                            description:
-                                                "This is a very good watch",
-                                            imageUrl: [
-                                              "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
-                                            ],
-                                            price: 800.00,
-                                            title: "Mobile",
-                                            state: "Goa",
-                                            city: "Pune",
-                                            category: "Gadgets",
-                                            subCategory: "Mobiles",
-                                          ),
+                                          product: _listedItemsList[index],
                                         ),
                                       ),
                                     ),
                                   ),
-                                  Text('EDIT'),
-                                  IconButton(
-                                      icon: Icon(Icons.share),
-                                      iconSize: 28.0,
-                                      onPressed: () {
+                                  Text(
+                                    'EDIT',
+                                    style: TextStyle(
+                                        fontSize: SizeConfig.deviceWidth * 2.5),
+                                  ),
+                                  SizedBox(height: SizeConfig.deviceWidth * 5),
+                                  GestureDetector(
+                                      child: Icon(
+                                        Icons.share,
+                                        size: SizeConfig.deviceWidth * 6,
+                                      ),
+                                      onTap: () {
                                         Share.share('Download Jiji now!');
                                       }),
-                                  Text('SHARE'),
-                                  IconButton(
-                                      icon: Icon(Icons.send),
-                                      iconSize: 28.0,
-                                      onPressed: () {
+                                  Text(
+                                    'SHARE',
+                                    style: TextStyle(
+                                        fontSize: SizeConfig.deviceWidth * 2.5),
+                                  ),
+                                  SizedBox(height: SizeConfig.deviceWidth * 5),
+                                  GestureDetector(
+                                      child: Icon(
+                                        Icons.send,
+                                        size: SizeConfig.deviceWidth * 6,
+                                      ),
+                                      onTap: () {
                                         Share.share('Download Jiji now!');
                                       }),
-                                  Text('PROMOTE'),
+                                  Text(
+                                    'PROMOTE',
+                                    style: TextStyle(
+                                        fontSize: SizeConfig.deviceWidth * 2.5),
+                                  ),
                                 ],
                               ),
                             ],
@@ -276,70 +183,90 @@ class _MyAdsPageState extends State<MyAdsPage> {
                         },
                       ),
                     )
-                  : _selectedItem == 'All Items'
-                      ? Expanded(
+              : _selectedItem == 'Sold Items'
+                  ? _soldItemsList.length <= 0
+                      ? Padding(
+                          padding: EdgeInsets.only(
+                              top: SizeConfig.deviceHeight * 20),
+                          child: Text(
+                            "No Ads Found !",
+                            style: TextStyle(
+                              color: MyThemeData.primaryColor,
+                            ),
+                          ),
+                        )
+                      : Expanded(
                           child: ListView.builder(
-                            itemCount: _listedItemsList.length +
-                                _draftItemsList.length +
-                                _soldItemsList.length,
+                            shrinkWrap: true,
+                            itemCount: _soldItemsList.length,
                             itemBuilder: (context, index) {
-                              final _allItemsList = _listedItemsList +
-                                  _draftItemsList +
-                                  _soldItemsList;
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
                                     width:
                                         MediaQuery.of(context).size.width * 0.7,
-                                    child: _allItemsList[index],
+                                    child: MyAdItemWidget(
+                                      itemModel: _soldItemsList[index],
+                                    ),
                                   ),
                                   SizedBox(width: SizeConfig.deviceWidth * 6),
                                   Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      IconButton(
-                                        icon: Icon(Icons.edit),
-                                        iconSize: 28.0,
-                                        onPressed: () =>
-                                            Navigator.of(context).push(
+                                      GestureDetector(
+                                        child: Icon(
+                                          Icons.edit,
+                                          size: SizeConfig.deviceWidth * 6,
+                                        ),
+                                        onTap: () => Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
                                                 EditProductScreen(
-                                              product: new MyProductModel(
-                                                id: "id1",
-                                                description:
-                                                    "This is a very good watch",
-                                                imageUrl: [
-                                                  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
-                                                ],
-                                                price: 800.00,
-                                                title: "Mobile",
-                                                state: "Goa",
-                                                city: "Pune",
-                                                category: "Gadgets",
-                                                subCategory: "Mobiles",
-                                              ),
+                                              product: _soldItemsList[index],
                                             ),
                                           ),
                                         ),
                                       ),
-                                      Text('EDIT'),
-                                      IconButton(
-                                          icon: Icon(Icons.share),
-                                          iconSize: 28.0,
-                                          onPressed: () {
+                                      Text(
+                                        'EDIT',
+                                        style: TextStyle(
+                                            fontSize:
+                                                SizeConfig.deviceWidth * 2.5),
+                                      ),
+                                      SizedBox(
+                                          height: SizeConfig.deviceWidth * 5),
+                                      GestureDetector(
+                                          child: Icon(
+                                            Icons.share,
+                                            size: SizeConfig.deviceWidth * 6,
+                                          ),
+                                          onTap: () {
                                             Share.share('Download Jiji now!');
                                           }),
-                                      Text('SHARE'),
-                                      IconButton(
-                                          icon: Icon(Icons.send),
-                                          iconSize: 28.0,
-                                          onPressed: () {
+                                      Text(
+                                        'SHARE',
+                                        style: TextStyle(
+                                            fontSize:
+                                                SizeConfig.deviceWidth * 2.5),
+                                      ),
+                                      SizedBox(
+                                          height: SizeConfig.deviceWidth * 5),
+                                      GestureDetector(
+                                          child: Icon(
+                                            Icons.send,
+                                            size: SizeConfig.deviceWidth * 6,
+                                          ),
+                                          onTap: () {
                                             Share.share('Download Jiji now!');
                                           }),
-                                      Text('PROMOTE'),
+                                      Text(
+                                        'PROMOTE',
+                                        style: TextStyle(
+                                            fontSize:
+                                                SizeConfig.deviceWidth * 2.5),
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -347,71 +274,232 @@ class _MyAdsPageState extends State<MyAdsPage> {
                             },
                           ),
                         )
-                      : Expanded(
-                          child: ListView.builder(
-                            itemCount: _draftItemsList.length,
-                            itemBuilder: (context, index) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.7,
-                                    child: _draftItemsList[index],
-                                  ),
-                                  SizedBox(width: SizeConfig.deviceWidth * 6),
-                                  Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
+                  : _selectedItem == 'All Items'
+                      ? _selectedItem.length <= 0
+                          ? Padding(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.deviceHeight * 20),
+                              child: Text(
+                                "No Ads Found !",
+                                style: TextStyle(
+                                  color: MyThemeData.primaryColor,
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                itemCount: _listedItemsList.length +
+                                    _draftItemsList.length +
+                                    _soldItemsList.length,
+                                itemBuilder: (context, index) {
+                                  final _allItemsList = _listedItemsList +
+                                      _draftItemsList +
+                                      _soldItemsList;
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      IconButton(
-                                        icon: Icon(Icons.edit),
-                                        iconSize: 28.0,
-                                        onPressed: () =>
-                                            Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditProductScreen(
-                                              product: new MyProductModel(
-                                                id: "id1",
-                                                description:
-                                                    "This is a very good watch",
-                                                imageUrl: [
-                                                  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=989&q=80"
-                                                ],
-                                                price: 800.00,
-                                                title: "Mobile",
-                                                state: "Goa",
-                                                city: "Pune",
-                                                category: "Gadgets",
-                                                subCategory: "Mobiles",
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.7,
+                                        child: MyAdItemWidget(
+                                          itemModel: _allItemsList[index],
+                                          key: Key(_allItemsList[index].id),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          width: SizeConfig.deviceWidth * 6),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          GestureDetector(
+                                            child: Column(
+                                              children: [
+                                                Icon(
+                                                  Icons.edit,
+                                                  size: SizeConfig.deviceWidth *
+                                                      8,
+                                                ),
+                                                Text(
+                                                  'EDIT',
+                                                  style: TextStyle(
+                                                      fontSize: SizeConfig
+                                                              .deviceWidth *
+                                                          2.5),
+                                                ),
+                                              ],
+                                            ),
+                                            onTap: () =>
+                                                Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditProductScreen(
+                                                  product: _allItemsList[index],
+                                                ),
                                               ),
                                             ),
                                           ),
+                                          SizedBox(
+                                              height:
+                                                  SizeConfig.deviceWidth * 5),
+                                          GestureDetector(
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.share,
+                                                    size:
+                                                        SizeConfig.deviceWidth *
+                                                            8,
+                                                  ),
+                                                  Text(
+                                                    'SHARE',
+                                                    style: TextStyle(
+                                                        fontSize: SizeConfig
+                                                                .deviceWidth *
+                                                            2.5),
+                                                  ),
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                Share.share(
+                                                    'Download Jiji now!');
+                                              }),
+                                          SizedBox(
+                                              height:
+                                                  SizeConfig.deviceWidth * 5),
+                                          GestureDetector(
+                                              child: Column(
+                                                children: [
+                                                  Icon(
+                                                    Icons.send,
+                                                    size:
+                                                        SizeConfig.deviceWidth *
+                                                            8,
+                                                  ),
+                                                  Text(
+                                                    'PROMOTE',
+                                                    style: TextStyle(
+                                                        fontSize: SizeConfig
+                                                                .deviceWidth *
+                                                            2.5),
+                                                  ),
+                                                ],
+                                              ),
+                                              onTap: () {
+                                                Share.share(
+                                                    'Download Jiji now!');
+                                              }),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            )
+                      : _draftItemsList.length <= 0
+                          ? Padding(
+                              padding: EdgeInsets.only(
+                                top: SizeConfig.deviceHeight * 20,
+                              ),
+                              child: Text(
+                                "No Ads Found !",
+                                style: TextStyle(
+                                  color: MyThemeData.primaryColor,
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                itemCount: _draftItemsList.length,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.7,
+                                        child: MyAdItemWidget(
+                                          itemModel: _draftItemsList[index],
                                         ),
                                       ),
-                                      Text('EDIT'),
-                                      IconButton(
-                                          icon: Icon(Icons.share),
-                                          iconSize: 28.0,
-                                          onPressed: () {
-                                            Share.share('Download Jiji now!');
-                                          }),
-                                      Text('SHARE'),
-                                      IconButton(
-                                          icon: Icon(Icons.send),
-                                          iconSize: 28.0,
-                                          onPressed: () {
-                                            Share.share('Download Jiji now!');
-                                          }),
-                                      Text('PROMOTE'),
+                                      SizedBox(
+                                          width: SizeConfig.deviceWidth * 6),
+                                      Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          GestureDetector(
+                                            child: Icon(
+                                              Icons.edit,
+                                              size: SizeConfig.deviceWidth * 6,
+                                            ),
+                                            onTap: () =>
+                                                Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditProductScreen(
+                                                  product:
+                                                      _draftItemsList[index],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            'EDIT',
+                                            style: TextStyle(
+                                                fontSize:
+                                                    SizeConfig.deviceWidth *
+                                                        2.5),
+                                          ),
+                                          SizedBox(
+                                              height:
+                                                  SizeConfig.deviceWidth * 5),
+                                          GestureDetector(
+                                              child: Icon(
+                                                Icons.share,
+                                                size:
+                                                    SizeConfig.deviceWidth * 6,
+                                              ),
+                                              onTap: () {
+                                                Share.share(
+                                                    'Download Jiji now!');
+                                              }),
+                                          Text(
+                                            'SHARE',
+                                            style: TextStyle(
+                                                fontSize:
+                                                    SizeConfig.deviceWidth *
+                                                        2.5),
+                                          ),
+                                          SizedBox(
+                                              height:
+                                                  SizeConfig.deviceWidth * 5),
+                                          GestureDetector(
+                                              child: Icon(
+                                                Icons.send,
+                                                size:
+                                                    SizeConfig.deviceWidth * 6,
+                                              ),
+                                              onTap: () {
+                                                Share.share(
+                                                    'Download Jiji now!');
+                                              }),
+                                          Text(
+                                            'PROMOTE',
+                                            style: TextStyle(
+                                                fontSize:
+                                                    SizeConfig.deviceWidth *
+                                                        2.5),
+                                          ),
+                                        ],
+                                      ),
                                     ],
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
+                                  );
+                                },
+                              ),
+                            ),
         ],
       ),
     );

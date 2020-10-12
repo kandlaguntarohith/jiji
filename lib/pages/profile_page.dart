@@ -242,7 +242,10 @@ class TopRowWidget extends StatelessWidget {
                       fontFamily: 'Roboto',
                       fontWeight: FontWeight.w500,
                       fontSize: SizeConfig.deviceHeight * 2,
+
                     ),
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
                   ),
                 ],
               ),

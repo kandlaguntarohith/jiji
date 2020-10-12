@@ -26,6 +26,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   String lastName;
   String location;
   double textSize;
+  bool _isLoading = false;
   // final UserProfile userProfile;
   final _form = GlobalKey<FormState>();
 
@@ -67,6 +68,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
         header,
       );
       widget.updateUser(UserProfile.fromJson(response));
+      setState(() {
+        _isLoading =! _isLoading;
+      });
       await showDialog(
         context: context,
         child: AlertDialog(
@@ -94,6 +98,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ],
         ),
       );
+      
     }
   }
 
@@ -227,21 +232,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           ),
                           Container(
                             decoration: BoxDecoration(
-                                color: Hexcolor("3DB83A"),
+                                color: _isLoading? Colors.white54: Hexcolor("3DB83A"),
                                 borderRadius: BorderRadius.circular(5)),
                             width: availableWidthSpace * 0.45,
                             child: MaterialButton(
-                              onPressed: () => _saveForm(context),
-                              child: Center(
-                                child: Text(
-                                  'SAVE',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: SizeConfig.deviceWidth * 3.75),
-                                ),
-                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isLoading = !_isLoading;
+                                });
+                                 _saveForm(context);},
+                              child: _isLoading
+                                  ? Center(
+                                      child: CircularProgressIndicator(),
+                                    )
+                                  : Center(
+                                      child: Text(
+                                        'SAVE',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'Roboto',
+                                            fontWeight: FontWeight.bold,
+                                            fontSize:
+                                                SizeConfig.deviceWidth * 3.75),
+                                      ),
+                                    ),
                             ),
                           ),
                         ],

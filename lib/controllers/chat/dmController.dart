@@ -14,8 +14,6 @@ class DmController extends GetxController {
   var typingDone = true.obs;
   TextEditingController msgController;
   Future getHistory(String rec) async {
-    typingDone.value = true;
-
     try {
       final Box<UserModel> _userBox =
           await Hive.openBox<UserModel>('userModel');
@@ -33,7 +31,7 @@ class DmController extends GetxController {
       );
       if (response.statusCode == 200) {
         var jsonData = json.decode(response.body);
-
+        typingDone.value = true;
         chatData.value = jsonData;
       }
     } on SocketException {
@@ -48,6 +46,7 @@ class DmController extends GetxController {
   }
 
   Future personalChat(String body, String rec) async {
+    msgController.clear();
     try {
       var data = {"to": rec, "body": body};
 
@@ -67,8 +66,11 @@ class DmController extends GetxController {
         },
         body: jsonEncode(data),
       );
-      msgController.clear();
-      print(response.statusCode);
+
+      if (response.statusCode != 200) {
+        Get.snackbar('Error', 'Failed to send message, please try again');
+        typingDone.value = true;
+      }
     } on SocketException {
       print('No Internet');
     }
