@@ -4,6 +4,11 @@ import 'package:flutter/rendering.dart';
 
 import 'package:hive/hive.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
+import 'package:jiji/data/network/api_helper.dart';
+
+import 'package:url_launcher/url_launcher.dart' as urlLauncher;
+import 'package:hive/hive.dart';
+
 import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/models/user_model.dart';
@@ -36,8 +41,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   List<String> img = [];
   @override
   void initState() {
+     _user = Provider.of<Box<UserModel>>(context, listen: false);
+    _userModel = _user.values.first;
+    isFavourite = _isFavourite(_userModel);
     getSimilarProducts();
-    isFavourite = true; //_isFavourite(_userModel);
     widget.product.photo.forEach((element) {
       img.add(element.id);
     });
@@ -58,29 +65,38 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   void toggleFavourite(UserModel user) async {
     setState(() {
+      print("toggle $isFavourite");
       isFavourite = !isFavourite;
+      print("after toggle $isFavourite");
     });
 
-    Map<String, String> header = {'Authorization': "Bearer ${user.token}"};
+    Map<String, String> header = {
+      'Authorization':
+          "Bearer ${user.token}"
+    };
 
     Map<String, dynamic> body = {'postId': widget.product.id};
+    print("PostID ${widget.product.id}");
 
     dynamic _response;
 
     if (isFavourite) {
       _response = await Impl().putUnlike(header, body, user.uid);
-      /*
-      ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
-      if(succesful){
+// <<<<<<< HEAD
+// =======
+      print("RESS $_response");
+      // ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
         print("Added to Fav");
       }
       else{
         setState(){
           isFavourite = !isFavourite;
         }
-      }*/
+      }
     } else {
       _response = await Impl().putLike(header, body, user.uid);
+      // _response = await Impl().putLike(header, body,  "5f5fc6d051c4e73148ccd17a");
+      print("RESS $_response");
       /*
       ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
       if(succesful){
@@ -98,6 +114,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Widget build(BuildContext context) {
     _user = Provider.of<Box<UserModel>>(context, listen: false);
     _userModel = _user.values.first;
+    
 
     SizeConfig().init(context);
     final deviceHorizontalPadding = SizeConfig.deviceWidth * 4;

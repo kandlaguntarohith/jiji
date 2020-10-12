@@ -420,7 +420,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           onPressed: () {
                             setState(() {
                               _isLoading = !_isLoading;
-                              print("setState triggered");
                             });
                             _saveForm(_userModel);
                           },
