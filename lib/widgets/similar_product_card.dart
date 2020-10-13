@@ -30,6 +30,7 @@ class SimilarProductCard extends StatelessWidget {
     });
     return isLiked;
   }
+
   @override
   Widget build(BuildContext context) {
     Box<UserModel> _user = Provider.of<Box<UserModel>>(context, listen: false);
