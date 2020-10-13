@@ -25,8 +25,9 @@ import '../utilities/theme_data.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
+  final Function notifyParent;
 
-  const ProductDetailScreen({Key key, this.product}) : super(key: key);
+  const ProductDetailScreen({Key key, this.product, this.notifyParent}) : super(key: key);
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
 }
@@ -64,6 +65,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void toggleFavourite(UserModel user) async {
+    widget.notifyParent();
     setState(() {
       print("toggle $isFavourite");
       isFavourite = !isFavourite;
@@ -77,10 +79,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     dynamic _response;
 
-    if (!isFavourite) {
+    if (isFavourite) {
       _response = await Impl().putUnlike(header, body, user.uid);
-// <<<<<<< HEAD
-// =======
+
       print("RESS $_response");
       // ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
       print("Added to Fav");
