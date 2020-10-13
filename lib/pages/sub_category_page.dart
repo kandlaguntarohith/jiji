@@ -47,27 +47,31 @@ class _SubCategoryScreenState extends State<SubCategoryScreen> {
         child: JijiAppBar(),
         preferredSize: Size.fromHeight(SizeConfig.deviceHeight * 10),
       ),
-      body: GridView.count(
-        primary: false,
-        crossAxisSpacing: SizeConfig.deviceWidth,
-        mainAxisSpacing: SizeConfig.deviceHeight,
-        crossAxisCount: 2,
-        children: subCategories
-            .map(
-              (subCategory) => CategoryCard(
-                label: subCategory.name,
-                categoryId: subCategory.id,
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ShowSelectedSubCategoryProducts(
-                      subCategoryId: subCategory.id,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 4),
+        child: GridView.count(
+          primary: false,
+          crossAxisSpacing: SizeConfig.deviceWidth * 2,
+          mainAxisSpacing: SizeConfig.deviceWidth * 3,
+          crossAxisCount: 2,
+          children: subCategories
+              .map(
+                (subCategory) => CategoryCard(
+                  isSubCategory: true,
+                  label: subCategory.name,
+                  categoryId: subCategory.id,
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ShowSelectedSubCategoryProducts(
+                        subCategoryId: subCategory.id,
+                      ),
                     ),
                   ),
+                  subText: "(${subCategories[0].view} ads)",
                 ),
-                subText: "(${subCategories[0].view} ads)",
-              ),
-            )
-            .toList(),
+              )
+              .toList(),
+        ),
       ),
     );
   }

@@ -194,19 +194,33 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 children: [
                   AspectRatio(
                     aspectRatio: imageAspectRatio,
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
                         color: MyThemeData.inputPlaceHolder,
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(
-                            widget.product.photo.length > 0
-                                ? "https://olx-app-jiji.herokuapp.com/api/post/photo/${widget.product.id}?photoId=${widget.product.photo[selectedImageIndex].id}"
-                                : "",
-                          ),
+                        width: double.infinity,
+                        child: CachedNetworkImage(
                           fit: BoxFit.cover,
+                          imageUrl: widget.product.photo.length > 0
+                              ? "https://olx-app-jiji.herokuapp.com/api/post/photo/${widget.product.id}?photoId=${widget.product.photo[selectedImageIndex].id}"
+                              : "https://olx-app-jiji.herokuapp.com/api/post/photo",
+                          errorWidget: (context, url, error) => SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: Center(
+                              child: Text(
+                                "Image \nNot \nAvailable !",
+                                style: TextStyle(
+                                  fontSize: 5,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                              ),
+                            ),
+                          ),
+                          filterQuality: FilterQuality.low,
                         ),
-                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),

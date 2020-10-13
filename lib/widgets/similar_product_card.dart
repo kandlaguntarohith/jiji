@@ -21,15 +21,15 @@ class SimilarProductCard extends StatelessWidget {
   }) : super(key: key);
 
   bool _isFavourite(UserModel user) {
-    List likedPost = product.postedBy.likedPost;
+    bool isLiked = false;
+    List likedPost = product.likes;
     likedPost.forEach((element) {
-      if (element == user.uid) {
-        return true;
+      if (element.toString().trim() == user.uid.toString().trim()) {
+        isLiked = true;
       }
     });
-    return false;
+    return isLiked;
   }
-
   @override
   Widget build(BuildContext context) {
     Box<UserModel> _user = Provider.of<Box<UserModel>>(context, listen: false);
@@ -63,8 +63,24 @@ class SimilarProductCard extends StatelessWidget {
                   child: img == ""
                       ? SizedBox()
                       : CachedNetworkImage(
+                          filterQuality: FilterQuality.low,
                           imageUrl: img,
                           fit: BoxFit.cover,
+                          errorWidget: (context, url, error) => SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: Center(
+                              child: Text(
+                                "Image \nNot \nAvailable !",
+                                style: TextStyle(
+                                  fontSize: 5,
+                                  color: MyThemeData.inputPlaceHolder,
+                                ),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                              ),
+                            ),
+                          ),
                         ),
                 ),
               ),

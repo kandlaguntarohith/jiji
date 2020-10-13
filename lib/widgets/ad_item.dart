@@ -36,6 +36,21 @@ class MyAdItemWidget extends StatelessWidget {
                       ? "https://olx-app-jiji.herokuapp.com/api/post/photo/${itemModel.id}?photoId=${itemModel.photo[0].id}"
                       : "",
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Center(
+                      child: Text(
+                        "Image \nNot \nAvailable !",
+                        style: TextStyle(
+                          fontSize: 5,
+                          color: MyThemeData.inputPlaceHolder,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),

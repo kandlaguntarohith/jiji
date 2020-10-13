@@ -34,20 +34,39 @@ class ProductImages extends StatelessWidget {
               height: 70,
               width: 70,
               decoration: BoxDecoration(
-                  color: MyThemeData.inputPlaceHolder,
-                  image: DecorationImage(
-                    image: CachedNetworkImageProvider(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: selectedImageIndex == index
+                      ? MyThemeData.primaryColor
+                      : Colors.transparent,
+                  width: 2,
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  filterQuality: FilterQuality.low,
+                  imageUrl:
                       "https://olx-app-jiji.herokuapp.com/api/post/photo/$categoryId?photoId=${img[index]}",
+                  errorWidget: (context, url, error) => SizedBox(
+                    width: double.infinity,
+                    height: double.infinity,
+                    child: Center(
+                      child: Text(
+                        "Image \nNot \nAvailable !",
+                        style: TextStyle(
+                          fontSize: 5,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.fade,
+                      ),
                     ),
-                    fit: BoxFit.cover,
                   ),
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: selectedImageIndex == index
-                        ? MyThemeData.primaryColor
-                        : Colors.transparent,
-                    width: 2,
-                  )),
+                ),
+              ),
             ),
           ),
         ),

@@ -101,16 +101,16 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         Provider<Box<UserModel>>(create: (context) => widget.userBox),
-        Provider<User>(
+        ChangeNotifierProvider(
           create: (context) => User()..updateUser(widget.userBox.values.first),
         ),
-        Provider<Categories>(
+        ChangeNotifierProvider<Categories>(
           create: (context) => Categories()..initialiseData(),
         ),
-        Provider<SubCategories>(
+        ChangeNotifierProvider<SubCategories>(
           create: (context) => SubCategories()..initialiseData(),
         ),
-        Provider<UserPosts>(
+        ChangeNotifierProvider<UserPosts>(
           create: (context) => UserPosts(),
         ),
       ],

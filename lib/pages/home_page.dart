@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,29 +42,10 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
-    // getCategoriesList();
     getPopularProductList();
     _dropdownMenuItems = buildDropDownMenuItems(_dropdownItems);
     _selectedItem = _dropdownMenuItems[0].value;
   }
-
-  // getUserProfile() async {
-  //   final Box<UserModel> _userBox = Provider.of<Box<UserModel>>(
-  //     context,
-  //     listen: false,
-  //   );
-  //   final UserModel _userModel = _userBox.values.first;
-  //   // print("name : " + _userModel.name);
-  //   userProfile = UserProfile.fromJson(
-  //     await ApiHelper().get("${Endpoints.getUserProfile}/${_userModel.uid}"),
-  //   );
-  //   // print(userProfile.name);
-  // }
-
-  // getCategoriesList() async {
-  //   categories = await Impl().getCategoriesList();
-  //   setState(() {});
-  // }
 
   getPopularProductList() async {
     popularProducts = await Impl().getPopularProductsList();
@@ -232,9 +215,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MyViewAllPage(
-                                categories: categories,
-                              ),
+                              builder: (context) => MyViewAllPage(),
                             ),
                           ),
                         ),
@@ -251,35 +232,43 @@ class _HomePageState extends State<HomePage> {
                   height: SizeConfig.deviceHeight * 2,
                 ),
                 if (categories.length > 1)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      CategoryCard(
-                        label: categories[0].name,
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SubCategoryScreen(
-                              categoryId: categories[0].id,
+                  AspectRatio(
+                    aspectRatio: 2,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Expanded(
+                          child: CategoryCard(
+                            label: categories[0].name,
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => SubCategoryScreen(
+                                  categoryId: categories[0].id,
+                                ),
+                              ),
                             ),
+                            // image: categories[0].photo[0],
+                            categoryId: categories[0].id,
+                            subText: "(${categories[0].view} ads)",
                           ),
                         ),
-                        // image: categories[0].photo[0],
-                        categoryId: categories[0].id,
-                        subText: "(${categories[0].view} ads)",
-                      ),
-                      CategoryCard(
-                        label: categories[1].name,
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => SubCategoryScreen(
-                              categoryId: categories[1].id,
+                        SizedBox(width: SizeConfig.deviceWidth * 2),
+                        Expanded(
+                          child: CategoryCard(
+                            label: categories[1].name,
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => SubCategoryScreen(
+                                  categoryId: categories[1].id,
+                                ),
+                              ),
                             ),
+                            categoryId: categories[1].id,
+                            subText: "(${categories[1].view} ads)",
                           ),
                         ),
-                        categoryId: categories[1].id,
-                        subText: "(${categories[1].view} ads)",
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 SizedBox(
                   height: SizeConfig.deviceHeight * 3,
@@ -354,76 +343,92 @@ class CategoryCard extends StatelessWidget {
   final String subText;
   final Function onPressed;
   final String categoryId;
-  const CategoryCard({
+  bool isSubCategory;
+  CategoryCard({
     this.label,
     this.onPressed,
     this.subText,
     this.categoryId,
+    this.isSubCategory = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: SizeConfig.deviceWidth * 1),
-        child: GestureDetector(
-          onTap: onPressed,
-          child: Card(
-            elevation: 0.8,
-            margin: EdgeInsets.zero,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: Padding(
-              padding:
-                  EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 2),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: SizeConfig.deviceWidth * 10,
-                    ),
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: SizedBox(
-                        height: SizeConfig.deviceWidth * 35,
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl:
-                              "https://olx-app-jiji.herokuapp.com/api/category/photo/$categoryId?photoId=$categoryId",
-                        ),
-                      ),
+    return SizedBox(
+      child: GestureDetector(
+        onTap: onPressed,
+        child: Card(
+          elevation: 0.8,
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Padding(
+            padding:
+                EdgeInsets.symmetric(vertical: SizeConfig.deviceHeight * 2),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.deviceWidth * 10,
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: SizedBox(
+                      height: SizeConfig.deviceWidth * 35,
+                      child: isSubCategory
+                          ? SizedBox()
+                          : CachedNetworkImage(
+                              filterQuality: FilterQuality.low,
+                              fit: BoxFit.cover,
+                              imageUrl:
+                                  "https://olx-app-jiji.herokuapp.com/api/category/photo/$categoryId?photoId=$categoryId",
+                              errorWidget: (context, url, error) => SizedBox(
+                                width: double.infinity,
+                                child: Center(
+                                  child: Text(
+                                    "Image\nNot\nAvailable !",
+                                    style: TextStyle(
+                                      fontSize: 5,
+                                      color: MyThemeData.inputPlaceHolder,
+                                    ),
+                                    overflow: TextOverflow.fade,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ),
+                            ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 1),
-                    child: Text(
-                      label,
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.deviceHeight * 1.35,
-                      ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: SizeConfig.deviceHeight * 1),
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizeConfig.deviceHeight * 1.35,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: SizeConfig.deviceHeight * 0.5,
-                    ),
-                    child: Text(
-                      subText,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.bold,
-                        fontSize: SizeConfig.deviceHeight * 1.00,
-                      ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: SizeConfig.deviceHeight * 0.5,
+                  ),
+                  child: Text(
+                    subText,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.bold,
+                      fontSize: SizeConfig.deviceHeight * 1.00,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
