@@ -79,10 +79,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     dynamic _response;
 
-    if (!isFavourite) {
+    if (isFavourite) {
       _response = await Impl().putUnlike(header, body, user.uid);
-// <<<<<<< HEAD
-// =======
+
       print("RESS $_response");
       // ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
       print("Added to Fav");

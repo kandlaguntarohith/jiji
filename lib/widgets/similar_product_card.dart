@@ -62,7 +62,7 @@ class _SimilarProductCardState extends State<SimilarProductCard> {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => ProductDetailScreen(product: widget.product, notifyParent: toggleFav(),),
+          builder: (context) => ProductDetailScreen(product: widget.product, notifyParent: toggleFav,),
         ),
       ),
       child: LayoutBuilder(
