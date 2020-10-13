@@ -4,21 +4,15 @@ import 'package:hive/hive.dart';
 import 'package:jiji/pages/search_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:provider/provider.dart';
-
-import '../impl/impl.dart';
-import '../models/product.dart';
-import '../models/user_model.dart';
 import '../models/user_model.dart';
 
 class JijiAppBar extends StatelessWidget {
-
-
   Widget build(BuildContext context) {
     final Box<UserModel> _user =
         Provider.of<Box<UserModel>>(context, listen: false);
     final UserModel _userModel = _user.values.first;
     SizeConfig().init(context);
-    
+
     double appBarHeight = SizeConfig.deviceHeight * 10;
     return AppBar(
         automaticallyImplyLeading: false,

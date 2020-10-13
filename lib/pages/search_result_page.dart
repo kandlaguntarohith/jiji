@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/utilities/size_config.dart';
-import 'package:jiji/widgets/bottom_nav.dart';
 import 'package:jiji/widgets/jiji_app_bar.dart';
-import 'package:jiji/widgets/jiji_search_app_bar.dart';
 import 'package:jiji/widgets/show_products_gridview.dart';
-
 
 class SearchResultPage extends StatefulWidget {
   final List<Product> results;
-
 
   const SearchResultPage({Key key, @required this.results}) : super(key: key);
 
@@ -20,7 +15,6 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
-  
   @override
   Widget build(BuildContext context) {
     bool resultFound = widget.results.length > 0;
@@ -36,9 +30,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
             ? Container(
                 padding: EdgeInsets.all(10),
                 child: ShowProductsGridView(
-
                   products: widget.results,
-
                 ),
               )
             : NoResultsFound(),

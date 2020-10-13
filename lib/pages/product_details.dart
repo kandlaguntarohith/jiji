@@ -1,14 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
 import 'package:hive/hive.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
-import 'package:jiji/data/network/api_helper.dart';
-
-import 'package:url_launcher/url_launcher.dart' as urlLauncher;
-import 'package:hive/hive.dart';
-
 import 'package:jiji/impl/impl.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/models/user_model.dart';

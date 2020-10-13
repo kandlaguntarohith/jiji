@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:jiji/utilities/size_config.dart';
-import 'package:jiji/widgets/bottom_nav.dart';
-import 'package:jiji/widgets/jiji_app_bar.dart';
+
 import 'package:jiji/widgets/jiji_search_app_bar.dart';
 
 class SearchPage extends StatefulWidget {

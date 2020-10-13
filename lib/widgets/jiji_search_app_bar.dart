@@ -1,9 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
-import 'package:jiji/pages/search_page.dart';
 import 'package:jiji/pages/search_result_page.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:provider/provider.dart';
@@ -11,13 +8,12 @@ import 'package:provider/provider.dart';
 import '../impl/impl.dart';
 import '../models/product.dart';
 import '../models/user_model.dart';
-import '../models/user_model.dart';
 
 class JijiSearchAppBar extends StatelessWidget {
-
   final Function showIsLoading;
 
-  const JijiSearchAppBar({Key key, @required this.showIsLoading}) : super(key: key);
+  const JijiSearchAppBar({Key key, @required this.showIsLoading})
+      : super(key: key);
   Future<List<Product>> _search(UserModel user, String query) async {
     showIsLoading();
 

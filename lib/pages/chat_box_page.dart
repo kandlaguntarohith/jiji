@@ -18,37 +18,23 @@ class ChatBoxPage extends StatefulWidget {
 }
 
 class _ChatBoxPageState extends State<ChatBoxPage> {
-  ScrollController _scrollController = new ScrollController();
+  // ScrollController _scrollController = ScrollController();
   final DmController _dmController = Get.put(DmController());
   Timer timer;
   @override
   void initState() {
     super.initState();
-    // _scrollController.animateTo(
-    //   0.0,
-    //   curve: Curves.easeOut,
-    //   duration: const Duration(milliseconds: 300),
-    // );
+    _dmController.loadDetails(widget.recId);
+    _dmController.scroll = ScrollController();
     _dmController.msgController = TextEditingController();
-    _dmController.getHistory(widget.recId);
-    timer = Timer.periodic(Duration(seconds: 5),
-        (Timer t) => _dmController.getHistory(widget.recId));
-    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+    timer = Timer.periodic(Duration(seconds: 15),
+        (Timer t) => _dmController.getHistory(widget.recId, true));
   }
 
   @override
   void dispose() {
     timer?.cancel();
     super.dispose();
-  }
-
-  void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-          duration: Duration(milliseconds: 300), curve: Curves.elasticOut);
-    } else {
-      Timer(Duration(milliseconds: 400), () => _scrollToBottom());
-    }
   }
 
   @override
@@ -132,7 +118,7 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ListView.builder(
-                    controller: _scrollController,
+                    controller: _dmController.scroll,
                     shrinkWrap: true,
                     itemCount: _dmController.chatData == null
                         ? 0
@@ -160,7 +146,7 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
               () => _dmController.typingDone.value
                   ? SizedBox()
                   : MessageWidget(
-                      message: _dmController.msgController.text,
+                      message: _dmController.newMsg.value,
                       clientMessage: true,
                       time: '',
                     ),
@@ -196,6 +182,13 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                 Container(
                   width: SizeConfig.deviceWidth * 70,
                   child: TextField(
+                    onTap: () {
+                      Timer(
+                        Duration(milliseconds: 500),
+                        () => _dmController.scroll.jumpTo(
+                            _dmController.scroll.position.maxScrollExtent),
+                      );
+                    },
                     controller: _dmController.msgController,
                     decoration: InputDecoration(
                         border: InputBorder.none,
@@ -224,15 +217,14 @@ class _ChatBoxPageState extends State<ChatBoxPage> {
                   size: SizeConfig.deviceWidth * 5,
                 ),
                 onPressed: () {
-                  if (_dmController.msgController.text != null) {
-                    // print(_dmController.msgController.text);
-                    _dmController.typingDone.value = false;
+                  if (_dmController.msgController.text != '') {
+                    _dmController.newMsg.value =
+                        _dmController.msgController.text;
                     _dmController.personalChat(
                       _dmController.msgController.text,
                       widget.recId,
                     );
                     FocusScope.of(context).unfocus();
-                    // _dmController.typingDone.value = true;
                   }
                 },
               ),

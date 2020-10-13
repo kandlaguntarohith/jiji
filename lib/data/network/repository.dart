@@ -3,7 +3,6 @@ import 'package:jiji/data/network/api_helper.dart';
 import 'package:jiji/models/category.dart';
 import 'package:jiji/models/product.dart';
 import 'package:jiji/models/sub_category.dart';
-import 'dart:convert';
 
 class Repository {
   ApiHelper _helper = ApiHelper();
@@ -21,15 +20,12 @@ class Repository {
   }
 
   Future<String> savePost(
-
       Map<String, dynamic> body, Map<String, String> header, String uid) async {
     String url = Endpoints.savePost + uid;
     String response = await _helper.postWithHeadersInputs(url, body, header);
 
     return response;
   }
-
-  
 
   Future<List<Category>> getCategoriesList() async {
     List<Category> categories = [];
@@ -66,13 +62,11 @@ class Repository {
     final response =
         await _helper.getWithHeadersInputs(Endpoints.search, header, param);
 
-
     response.toList().forEach((element) {
       products.add(Product.fromJson(element));
     });
     return products;
   }
-
 
   Future putLike(Map<String, String> header, Map<String, dynamic> mappedJson,
       String uid) async {
