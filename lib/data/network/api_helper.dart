@@ -110,7 +110,9 @@ class ApiHelper {
 
   Future<dynamic> putWithHeadersInputs(String url,
       Map<String, dynamic> mappedJson, Map<String, String> header) async {
-    // print(url);
+    print(url);
+    print(mappedJson);
+    print(header);
     var responseJson;
 
     try {
@@ -119,7 +121,7 @@ class ApiHelper {
         body: jsonEncode(mappedJson),
         headers: header,
       );
-      print("aftr");
+      // print("aftr");
       responseJson = _returnResponse(response);
       // print(responseJson);
     } catch (e) {
@@ -127,6 +129,27 @@ class ApiHelper {
     }
     return responseJson;
   }
+
+  // Future<dynamic> putWithHeadersInputsDio(String url,
+  //     Map<String, dynamic> header, Map<String, dynamic> parameters) async {
+  //   var responseJson;
+  //   _dio.Dio dio = new _dio.Dio();
+  //   print(url);
+  //   try {
+  //     var response = await dio.put(
+  //       url,
+  //       queryParameters: parameters,
+  //       options: _dio.Options(
+  //         headers: header,
+  //       ),
+  //     );
+  //     // print(response);
+  //     responseJson = _returnDioResponse(response);
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return responseJson;
+  // }
 
   // Future<String> multipartRequest(
   //     {var url,
@@ -151,7 +174,7 @@ class ApiHelper {
     // print('status code - ${response.statusCode}');
     switch (response.statusCode) {
       case 200:
-        // print(responseJson);
+        print(response.data);
         return response.data;
 
       case 400:
@@ -177,9 +200,8 @@ class ApiHelper {
 
     switch (response.statusCode) {
       case 200:
-        // print(response.body);
         var responseJson = json.decode(response.body.toString());
-
+        print("Response    : " + responseJson.toString());
         return responseJson;
 
       case 400:

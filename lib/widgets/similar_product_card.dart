@@ -8,7 +8,7 @@ import 'package:jiji/pages/product_details.dart';
 import 'package:jiji/utilities/size_config.dart';
 import 'package:provider/provider.dart';
 
-class SimilarProductCard extends StatelessWidget {
+class SimilarProductCard extends StatefulWidget {
   // final String productImgUrl;
   // final String productName;
   // final bool isFav;
@@ -20,11 +20,19 @@ class SimilarProductCard extends StatelessWidget {
     this.product,
   }) : super(key: key);
 
+  @override
+  _SimilarProductCardState createState() => _SimilarProductCardState();
+}
+
+class _SimilarProductCardState extends State<SimilarProductCard> {
+  bool isFav;
+  Box<UserModel> _user;
+  UserModel _userModel;
   bool _isFavourite(UserModel user) {
+    List likedPost = widget.product.likes;
     bool isLiked = false;
-    List likedPost = product.likes;
     likedPost.forEach((element) {
-      if (element.toString().trim() == user.uid.toString().trim()) {
+      if (element == user.uid) {
         isLiked = true;
       }
     });
@@ -32,18 +40,35 @@ class SimilarProductCard extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    _user = Provider.of<Box<UserModel>>(context, listen: false);
+    _userModel = _user.values.first;
+    isFav = _isFavourite(_userModel);
+    super.initState();
+  }
+
+  toggleFav() {
+    setState(() {
+      isFav = !isFav;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    Box<UserModel> _user = Provider.of<Box<UserModel>>(context, listen: false);
-    UserModel _userModel = _user.values.first;
-    bool isFav = _isFavourite(_userModel);
-    String img = product.photo.length > 0
-        ? "https://olx-app-jiji.herokuapp.com/api/post/photo/${product.id}?photoId=${product.photo[0].id}"
+    // Box<UserModel> _user = Provider.of<Box<UserModel>>(context, listen: false);
+    // UserModel _userModel = _user.values.first;
+    // bool isFav = _isFavourite(_userModel);
+    String img = widget.product.photo.length > 0
+        ? "https://olx-app-jiji.herokuapp.com/api/post/photo/${widget.product.id}?photoId=${widget.product.photo[0].id}"
         : "";
     SizeConfig().init(context);
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => ProductDetailScreen(product: product),
+          builder: (context) => ProductDetailScreen(
+            product: widget.product,
+            notifyParent: toggleFav,
+          ),
         ),
       ),
       child: LayoutBuilder(
@@ -99,7 +124,7 @@ class SimilarProductCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            product.name,
+                            widget.product.name,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: constraints.maxWidth * 0.05,
@@ -119,14 +144,14 @@ class SimilarProductCard extends StatelessWidget {
                         // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            "₹ " + product.price.toString(),
+                            "₹ " + widget.product.price.toString(),
                             style: TextStyle(
                               fontSize: constraints.maxWidth * 0.045,
                               color: MyThemeData.primaryColor,
                             ),
                           ),
                           Text(
-                            product.city,
+                            widget.product.city,
                             style: TextStyle(
                               fontSize: constraints.maxWidth * 0.045,
                               color: MyThemeData.inputPlaceHolder,

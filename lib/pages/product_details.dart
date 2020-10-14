@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:hive/hive.dart';
+import 'package:jiji/constants/endpoints.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
 import 'package:jiji/data/network/api_helper.dart';
 
@@ -25,8 +26,10 @@ import '../utilities/theme_data.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
+  final Function notifyParent;
 
-  const ProductDetailScreen({Key key, this.product}) : super(key: key);
+  const ProductDetailScreen({Key key, this.product, this.notifyParent})
+      : super(key: key);
   @override
   _ProductDetailScreenState createState() => _ProductDetailScreenState();
 }
@@ -53,7 +56,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   getSimilarProducts() async {
     similarProducts = await Impl().getSimilarProductsList(
-        {}, {"subCategory": "5f61ba5da12dce2918eacc62"});
+        {}, {"subCategory": widget.product.subCategory});
     setState(() {});
   }
 
@@ -64,13 +67,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void toggleFavourite(UserModel user) async {
+    widget.notifyParent();
     setState(() {
       print("toggle $isFavourite");
       isFavourite = !isFavourite;
       print("after toggle $isFavourite");
     });
 
-    Map<String, String> header = {'Authorization': "Bearer ${user.token}"};
+    Map<String, String> header = {
+      'Authorization': "Bearer ${user.token}",
+      "Content-Type": "application/json",
+    };
 
     Map<String, dynamic> body = {'postId': widget.product.id};
     print("PostID ${widget.product.id}");
@@ -83,7 +90,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 // =======
       print("RESS $_response");
       // ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
-      print("Added to Fav");
+      print("removed from Fav");
       // }
       // else{
       //   setState(){
@@ -91,10 +98,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       //   }
       // }
     } else {
-      // _response = await Impl().putLike(header, body, user.uid);
-      _response =
-          await Impl().putLike(header, body, "5f77248ac6a47800173d02ae");
+      _response = await Impl().putLike(header, body, user.uid);
+      // final _response = await ApiHelper()
+      //     .putWithHeadersInputs(Endpoints.like + user.uid, body, header);
       print("RESS $_response");
+      print("Added to Fav");
       /*
       ***MUST BE IMPLEMENTED AFTERWARDS DEPENDING UPON RESULT***
       if(succesful){
